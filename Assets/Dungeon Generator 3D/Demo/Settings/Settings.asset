@@ -15,7 +15,7 @@ MonoBehaviour:
   generation:
     minRooms: 5
     maxRooms: 8
-    amountOfAdjacentRoomsToConnect: 1
+    amountOfAdjacentRoomsToConnect: 3
     minRoomWidth: 8
     maxRoomWidth: 12
     minRoomHeight: 8
