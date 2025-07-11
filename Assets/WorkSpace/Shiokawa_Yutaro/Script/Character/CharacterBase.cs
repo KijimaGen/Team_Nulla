@@ -35,33 +35,33 @@ public abstract class CharacterBase
     /// <param name="setID"></param>
     /// <param name="squareData"></param>
     /// <param name="setMasterID"></param>
-    //public virtual void Setup(int setID,int setMasterID)
-    //{
-    //    ID = setID;
-    //    masterID = setMasterID;
-    //    var characterMaster = CharacterMasterUtility.GetCharacterMaster(masterID);
-    //    SetupMaster(characterMaster);
-    //    // オブジェクトの準備
-    //    GetObject()?.Setup(characterMaster.spriteName);
-    //    // とりあえず下を向かせる
-    //    SetDirection(eDirectionEight.Down);
-    //    possessItemList = new List<int>(_POSSESS_ITEM_MAX);
-    //}
+    public virtual void Setup(int setID, int setMasterID)
+    {
+        ID = setID;
+        masterID = setMasterID;
+        var characterMaster = CharacterMasterUtility.GetCharacterMaster(masterID);
+        SetupMaster(characterMaster);
+        // オブジェクトの準備
+        GetObject()?.Setup(characterMaster.nameList);
+        // とりあえず下を向かせる
+       // SetDirection(eDirectionEight.Down);
+        possessItemList = new List<int>(_POSSESS_ITEM_MAX);
+    }
 
     /// <summary>
     /// マスターデータ関連の準備
     /// </summary>
     /// <param name="setMasterID"></param>
-    //protected virtual void SetupMaster(Entity_CharacterData.Param characterMaster)
-    //{
-    //    if (characterMaster == null) return;
+    protected virtual void SetupMaster(Entity_CharacterData.Param characterMaster)
+    {
+        if (characterMaster == null) return;
 
-    //    nameID = characterMaster.nameID;
-    //    SetMaxHP(characterMaster.HP);
-    //    SetHP(maxHP);
-    //    SetRawAttack(characterMaster.Attack);
-    //    SetRawDefense(characterMaster.Defense);
-    //}
+        nameID = characterMaster.nameID;
+        SetMaxHP(characterMaster.HP);
+        SetHP(maxHP);
+        SetRawAttack(characterMaster.Attack);
+        SetRawDefense(characterMaster.Defense);
+    }
 
     /// <summary>
     /// 使用後の片付け
@@ -80,10 +80,10 @@ public abstract class CharacterBase
     /// オブジェクトの取得
     /// </summary>
     /// <returns></returns>
-    //protected CharacterObject GetObject()
-    //{
-    //    return CharacterManager.instance.GetCharacterObject(ID);
-    //}
+    protected CharacterObject GetObject()
+    {
+        return CharacterManager.instance.GetCharacterObject(ID);
+    }
     /// <summary>
     /// 見た目のみの位置変更
     /// </summary>
