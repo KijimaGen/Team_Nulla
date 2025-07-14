@@ -13,7 +13,7 @@ public class DamageUIAction : MonoBehaviour
     {
         cloneDamageUI = Instantiate(damageUI, transform.position, Quaternion.identity);
         // 非アクティブにしておく
-        //cloneDamageUI.SetActive(false);
+        cloneDamageUI.SetActive(false);
     }
 
     // Update is called once per frame
@@ -24,6 +24,6 @@ public class DamageUIAction : MonoBehaviour
 
     // 攻撃が当たったらアクティブにする
     private void OnCollisionEnter(Collision collision) {
-        //cloneDamageUI.SetActive(true);
+        cloneDamageUI.SetActive(true);
     }
 }
