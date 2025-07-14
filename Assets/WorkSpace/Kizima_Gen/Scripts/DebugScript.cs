@@ -11,5 +11,18 @@ using UnityEngine;
 using static ItemUtility;
 
 public class DebugScript : MonoBehaviour{
-   
+
+    private void Update() {
+        if (Input.GetMouseButtonDown(0)) {
+            UseItem();
+        }
+        if(Input.GetMouseButtonDown(1)) {
+            UnuseItem(0);
+        }
+    }
+
+    public static void ActionTrigger() {
+        UseItem();
+
+    }
 }

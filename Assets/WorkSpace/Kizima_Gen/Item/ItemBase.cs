@@ -14,6 +14,8 @@ public abstract class ItemBase : MonoBehaviour{
     protected const float fallSpeed = 0.001f;
     //ínñ Ç…Ç¢ÇÈÇ©Ç«Ç§Ç©
     public bool isGround = false;
+    //é©êgÇÃID
+    private int ID = -1;
 
 
 

@@ -79,7 +79,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _useRoot: {fileID: 2389876268108705823}
   _unuseRoot: {fileID: 282061247104508779}
-  originItem: {fileID: 889336967553201985, guid: cc1c93c8b64abc74d964986189b9ef17, type: 3}
+  originItem: {fileID: 6067156924169744747, guid: cc1c93c8b64abc74d964986189b9ef17, type: 3}
   items:
   - {fileID: 6570008700891121470, guid: 7224547ceee1a644bb7a99254f09905d, type: 3}
 --- !u!1 &9219269194457911837

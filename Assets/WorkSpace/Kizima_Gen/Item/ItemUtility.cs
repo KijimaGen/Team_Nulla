@@ -14,7 +14,7 @@ public class ItemUtility{
         ItemManager.instance.UseItem();
     }
 
-    public static void UnuseItem(ItemBase item) {
-        ItemManager.instance.UnuseItem(item);
+    public static void UnuseItem(int ID) {
+        ItemManager.instance.UnuseItem(ID);
     }
 }

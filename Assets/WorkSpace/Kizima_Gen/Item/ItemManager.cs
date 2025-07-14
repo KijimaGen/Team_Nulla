@@ -41,6 +41,7 @@ public class ItemManager : MonoBehaviour{
             Instantiate(originItem, _unuseRoot);
             _useList.Add(originItem);
         }
+        DebugScript.ActionTrigger();
     }
 
     /// <summary>
@@ -48,15 +49,20 @@ public class ItemManager : MonoBehaviour{
     /// </summary>
     /// <param name="item"></param>
     public void UseItem() {
-        var item = GetUsableItem();
-        item.transform.SetParent(_useRoot);
+        ItemBase item = GetUsableItem();
+        if (item != null) {
+            //いちばん先頭にある使えるアイテムを使用する
+            ItemBase instance = Instantiate(item); // ← ここが超大事！！
+            instance.gameObject.transform.SetParent(_useRoot);
+        }
     }
 
     /// <summary>
     /// アイテムを未使用状態にする
     /// </summary>
     /// <param name="item"></param>
-    public void UnuseItem(ItemBase item) {
+    public void UnuseItem(int ID) {
+        ItemBase item = _useList[ID];
         item.transform.SetParent(_unuseRoot);
     }
 
@@ -65,11 +71,12 @@ public class ItemManager : MonoBehaviour{
     /// </summary>
     /// <returns></returns>
     private ItemBase GetUsableItem() {
-        ItemBase result = null;
         for(int i = 0,max =_useList.Count; i< max; i++) {
-            if (_useList[i] == null) result = _useList[i];
-            break;
+            if (_useList[i] != null) 
+                return _useList[i];
+            
         }
-        return result;
-    } 
+        return null;
+    }
+
 }
