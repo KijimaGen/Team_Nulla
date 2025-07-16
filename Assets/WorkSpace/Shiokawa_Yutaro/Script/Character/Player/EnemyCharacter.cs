@@ -180,6 +180,9 @@ public class EnemyCharacter : CharacterBase
         //アクションが終わったら
         onAction = false;
 
+
+        //必要なこと状態を意識したステートベース繰り返す
+        //
     }
     /// <summary>
     /// アクションを実行する時間
