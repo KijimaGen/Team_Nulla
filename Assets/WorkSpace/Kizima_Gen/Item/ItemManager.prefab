@@ -79,9 +79,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _useRoot: {fileID: 2389876268108705823}
   _unuseRoot: {fileID: 282061247104508779}
-  originItem: {fileID: 6067156924169744747, guid: cc1c93c8b64abc74d964986189b9ef17, type: 3}
+  originItem: {fileID: 6067156924169744747, guid: 10d4ea970afa43244b2f89b7f00c36ff, type: 3}
   items:
-  - {fileID: 6570008700891121470, guid: 7224547ceee1a644bb7a99254f09905d, type: 3}
+  - {fileID: 2304901711259713005, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
 --- !u!1 &9219269194457911837
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +97,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &282061247104508779
 Transform:
   m_ObjectHideFlags: 0

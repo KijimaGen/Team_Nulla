@@ -9,63 +9,68 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemManager : SystemObject{
-    
     public static ItemManager instance;
-    //使用中のアイテム
-    [SerializeField]
-    Transform _useRoot;
-    //未使用状態のアイテム
-    [SerializeField]
-    Transform _unuseRoot;
-    //アイテムの枠
-    [SerializeField]
-    ItemBase originItem;
 
-    //使用中のアイテム
+    //アイテムを呼び出す先の参照
+    [SerializeField] Transform _useRoot;
+    [SerializeField] Transform _unuseRoot;
+    [SerializeField] ItemBase originItem;
+
+    [SerializeField] List<GameObject> items;
+
+    //使用、不使用リスト
     List<ItemBase> _useList = new List<ItemBase>();
-    //未使用状態のアイテム
     List<ItemBase> _unuseList = new List<ItemBase>();
 
+    //アイテムの最大数
     const int _ITEM_MAX = 256;
 
-    [SerializeField] List<GameObject> items = new List<GameObject>();
-
-    private void Start() {
-        Initialize();
-    }
-
     /// <summary>
-    /// 初期化処理
+    /// 初期化
     /// </summary>
     public override void Initialize() {
         instance = this;
         for (int i = 0; i < _ITEM_MAX; i++) {
-            Instantiate(originItem, _unuseRoot);
-            _useList.Add(originItem);
+            ItemBase item = Instantiate(originItem, _unuseRoot);
+            item.Initialize();
+            
+            _unuseList.Add(item);
         }
-        DebugScript.ActionTrigger();
     }
 
     /// <summary>
-    /// アイテムの使用
+    /// アイテムを使える状態にする
     /// </summary>
-    /// <param name="item"></param>
     public void UseItem() {
         ItemBase item = GetUsableItem();
         if (item != null) {
-            //いちばん先頭にある使えるアイテムを使用する
-            ItemBase instance = Instantiate(item); // ← ここが超大事！！
-            instance.gameObject.transform.SetParent(_useRoot);
+            _unuseList.Remove(item);
+            _useList.Add(item);
+
+            
+            item.transform.SetParent(_useRoot);
+           
+        }
+        else {
+            Debug.LogWarning("使用可能なアイテムがありません！");
         }
     }
 
     /// <summary>
     /// アイテムを未使用状態にする
     /// </summary>
-    /// <param name="item"></param>
+    /// <param name="ID"></param>
     public void UnuseItem(int ID) {
+        if (_useList[0] ==  null) return;
         ItemBase item = _useList[ID];
-        item.transform.SetParent(_unuseRoot);
+
+        if (_useList.Contains(item)) {
+            _useList.Remove(item);
+            _unuseList.Add(item);
+
+            item.transform.SetParent(_unuseRoot);
+            
+        }
     }
 
     /// <summary>
@@ -73,13 +78,11 @@ public class ItemManager : SystemObject{
     /// </summary>
     /// <returns></returns>
     private ItemBase GetUsableItem() {
-        for(int i = 0,max =_useList.Count; i< max; i++) {
-            if (_useList[i] != null) 
-                return _useList[i];
-            
+        if (_unuseList.Count > 0) {
+            return _unuseList[0]; // 先頭の未使用アイテムを返す
         }
         return null;
     }
 
-    
+    public void 
 }

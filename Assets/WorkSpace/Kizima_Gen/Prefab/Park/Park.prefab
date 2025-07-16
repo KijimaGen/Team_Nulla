@@ -474,3 +474,4 @@ MonoBehaviour:
   _iconRoot: {fileID: 7753203173585162539}
   _nameText: {fileID: 9132452087574753055}
   _descriptionText: {fileID: 2106082467931506952}
+  _outline: {fileID: 7109672817164455102}

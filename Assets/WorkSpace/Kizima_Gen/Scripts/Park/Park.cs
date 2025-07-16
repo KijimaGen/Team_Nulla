@@ -11,7 +11,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using static ParkMasterUtility;
-using static ParkIconSender;
 
 public class Park : MonoBehaviour{
     //自身への参照
@@ -21,10 +20,13 @@ public class Park : MonoBehaviour{
     private TextMeshProUGUI _nameText = null;
     [SerializeField]
     private TextMeshProUGUI _descriptionText = null;
+    [SerializeField]
+    private Outline _outline = null;
     //自身のマスターID
     private int ID = -1;
     //自身のパークマスター
     Entity_Park.Param parkMaster = null;    
+    
 
     public void Initialize(int ID) {
         this.ID = ID;
@@ -46,4 +48,13 @@ public class Park : MonoBehaviour{
     public void TearDown() {
         ID = -1;
     }
+
+    public void ChangeOutline(bool isEnabled) {
+        _outline.enabled = isEnabled;
+    }
+
+    public void SelectPark() {
+        Debug.Log(_nameText.text+ "を選択しました");
+    }
+
 }
