@@ -8,6 +8,8 @@ public class DamageUIAction : MonoBehaviour
     public GameObject damageUI;
     // ƒNƒ[ƒ“UI
     public static GameObject cloneDamageUI;
+    // ©•ª©g
+    public GameObject enemy;
     // Start is called before the first frame update
     void Start()
     {
