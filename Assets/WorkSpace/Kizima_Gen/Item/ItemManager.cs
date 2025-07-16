@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemManager : MonoBehaviour{
+public class ItemManager : SystemObject{
     
     public static ItemManager instance;
     //使用中のアイテム
@@ -34,10 +34,12 @@ public class ItemManager : MonoBehaviour{
         Initialize();
     }
 
-
-    private void Initialize() {
+    /// <summary>
+    /// 初期化処理
+    /// </summary>
+    public override void Initialize() {
         instance = this;
-        for(int i = 0; i < _ITEM_MAX; i++) {
+        for (int i = 0; i < _ITEM_MAX; i++) {
             Instantiate(originItem, _unuseRoot);
             _useList.Add(originItem);
         }
@@ -79,4 +81,5 @@ public class ItemManager : MonoBehaviour{
         return null;
     }
 
+    
 }

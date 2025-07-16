@@ -12,6 +12,10 @@ using static ItemUtility;
 
 public class DebugScript : MonoBehaviour{
 
+    private void Awake() {
+        MasterdataManager.LoadAllData();
+    }
+
     private void Update() {
         if (Input.GetMouseButtonDown(0)) {
             UseItem();
