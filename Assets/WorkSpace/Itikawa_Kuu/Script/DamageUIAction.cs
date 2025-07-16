@@ -9,13 +9,15 @@ public class DamageUIAction : MonoBehaviour
     // クローンUI
     public static GameObject cloneDamageUI;
     // 自分自身
-    public GameObject enemy;
+    public static GameObject enemy;
     // Start is called before the first frame update
     void Start()
     {
+        enemy = gameObject;
+
         cloneDamageUI = Instantiate(damageUI, transform.position, Quaternion.identity);
         // 非アクティブにしておく
-        cloneDamageUI.SetActive(false);
+        //cloneDamageUI.SetActive(false);
     }
 
     // Update is called once per frame

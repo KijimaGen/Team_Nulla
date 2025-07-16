@@ -34,7 +34,7 @@ public class DamageUI : MonoBehaviour
         timeCount += Time.deltaTime;
         if (timeCount > activeTime) {
             timeCount = 0;
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
         }
     }
 }
