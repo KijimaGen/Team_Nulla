@@ -24,66 +24,38 @@ public class CharacterManager : MonoBehaviour
     private Transform _unuseObjectRoot = null;
     /// キャラクターオブジェクトのオリジナル
     [SerializeField]
-    private CharacterObject _originObject = null;
+    private CharacterBase _originObject = null;
 
-    // 使用中のキャラクターリスト
-    private List<CharacterBase> _useList = null;
-    // 未使用状態のプレイヤーリスト
-    //private List<PlayerCharacter> _unusePlayerList = null;
-    //// 未使用状態のエネミーリスト
+    // 未使用状態のエネミーリスト
     //private List<EnemyCharacter> _unuseEnemyList = null;
 
     // 使用中のキャラクターオブジェクトリスト
-    private List<CharacterObject> _useObjectList = null;
+    private List<CharacterBase> _useObjectList = null;
     // 未使用状態のキャラクターオブジェクトリスト
-    private List<CharacterObject> _unuseObjectList = null;
+    private List<CharacterBase> _unuseObjectList = null;
+
+    private const int FLOOR_ENEMY_MAX = 5;
 
     public void Start()
     {
         instance = this;
-        //// キャラクター情報を必要数生成して未使用状態にしておく
-        //_useList = new List<CharacterBase>(FLOOR_ENEMY_MAX + 1);
 
-        //_unusePlayerList = new List<PlayerCharacter>(1);
-        //_unusePlayerList.Add(new PlayerCharacter());
+
 
         //_unuseEnemyList = new List<EnemyCharacter>(FLOOR_ENEMY_MAX);
         //for (int i = 0; i < FLOOR_ENEMY_MAX; i++)
         //{
         //    _unuseEnemyList.Add(new EnemyCharacter());
         //}
-        //// キャラクターオブジェクトを必要数生成して未使用状態にしておく
-        //_useObjectList = new List<CharacterObject>(FLOOR_ENEMY_MAX + 1);
-        //_unuseObjectList = new List<CharacterObject>(FLOOR_ENEMY_MAX + 1);
-        //for (int i = 0; i < FLOOR_ENEMY_MAX + 1; i++)
-        //{
-        //    _unuseObjectList.Add(Instantiate(_originObject, _unuseObjectRoot));
-        //}
-    }
+        // キャラクターオブジェクトを必要数生成して未使用状態にしておく
+        _useObjectList = new List<CharacterBase>(FLOOR_ENEMY_MAX + 1);
+        _unuseObjectList = new List<CharacterBase>(FLOOR_ENEMY_MAX + 1);
+        for (int i = 0; i < FLOOR_ENEMY_MAX + 1; i++)
+        {
+            _unuseObjectList.Add(Instantiate(_originObject, _unuseObjectRoot));
+        }
 
-    ///// <summary>
-    ///// プレイヤーキャラクター生成
-    ///// </summary>
-    ///// <param name="squareData"></param>
-    ///// <param name="masterID"></param>
-    //public void UsePlayer(MapSquareData squareData, int masterID)
-    //{
-    //    // キャラクター情報のインスタンスの取得
-    //    PlayerCharacter usePlayer;
-    //    if (IsEmpty(_unusePlayerList))
-    //    {
-    //        // 未使用がないので生成
-    //        usePlayer = new PlayerCharacter();
-    //    }
-    //    else
-    //    {
-    //        // 未使用リストから使う
-    //        usePlayer = _unusePlayerList[0];
-    //        _unusePlayerList.RemoveAt(0);
-    //    }
-    //    // 使用可能なIDを割り当て使用状態にする
-    //    UseCharacter(usePlayer, squareData, masterID);
-    //}
+    }
 
     ///// <summary>
     ///// エネミーキャラクターの生成
@@ -155,30 +127,6 @@ public class CharacterManager : MonoBehaviour
     //    useCharacter.Setup(useID, squareData, masterID);
     //}
 
-    /// <summary>
-    /// ID指定のキャラクターデータ取得
-    /// </summary>
-    /// <param name="ID"></param>
-    /// <returns></returns>
-    public CharacterBase GetCharacterData(int ID)
-    {
-        if (!IsEnableIndex(_useList, ID)) return null;
-
-        return _useList[ID];
-    }
-
-    /// <summary>
-    /// ID指定のキャラクターオブジェクト取得
-    /// </summary>
-    /// <param name="ID"></param>
-    /// <returns></returns>
-    public CharacterObject GetCharacterObject(int ID)
-    {
-        if (!IsEnableIndex(_useObjectList, ID)) return null;
-
-        return _useObjectList[ID];
-    }
-
     ///// <summary>
     ///// プレイヤーを未使用状態にする
     ///// </summary>
@@ -219,25 +167,6 @@ public class CharacterManager : MonoBehaviour
     //    _useObjectList[unuseID] = null;
     //    _unuseObjectList.Add(unuseObject);
     //    unuseObject.transform.SetParent(_unuseObjectRoot);
-    //}
-
-    /// <summary>
-    /// プレイヤー取得
-    /// </summary>
-    /// <returns></returns>
-    //public CharacterBase GetPlayer()
-    //{
-    //    if (IsEmpty(_useList)) return null;
-
-    //    for (int i = 0, max = _useList.Count; i < max; i++)
-    //    {
-    //        // プレイヤーか否か判定
-    //        if (_useList[i] == null ||
-    //            !_useList[i].IsPlayer()) continue;
-
-    //        return _useList[i];
-    //    }
-    //    return null;
     //}
 
     /// <summary>

@@ -1,23 +1,29 @@
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerAction
-{
+using static CharacterManager;
+using static CharacterUtility;
 
-    //public void AcceptInput()
-    //{
-    //    while (true)
-    //    {
-    //        // 移動の受付
-    //        if (AcceptMove()) break;
-    //        // 攻撃の受付
-    //        if (await AcceptAttack()) break;
-    //        //方向転換入力の受付処理
-    //        await AcceptDirChange();
-    //    }
-    //}
+public class PlayerAction : MonoBehaviour
+{
+    Rigidbody rb;
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    public void AcceptInput()
+    {
+        // 移動の受付
+        if (AcceptMove()) return;
+        // 攻撃の受付
+        if (AcceptAttack()) return;
+        
+    }
 
     /// <summary>
     /// 移動の受付、内部処理
@@ -25,40 +31,56 @@ public class PlayerAction
     /// <returns>移動したらTrue</returns>
     public bool AcceptMove()
     {
+        if (AcceptJump()) return false;
         // 8方向の入力を受け付ける
         Vector3 inputDir = AcceptDirInput().normalized;
         if (inputDir.magnitude <= 0.0f) return false;
-        // 移動可否の判定
-        CharacterBase player = GetPlayer();
 
-        // 受け付けた入力に応じて移動
-        player.SetPosition();
+        //視点入力の受付処理
+        AcceptDirChange(inputDir);
+
+        // 移動可否の判定
+        PlayerCharacter player = GetComponent<PlayerCharacter>();
+        transform.position += inputDir * player.speed * Time.deltaTime;
+
+        return true;
+    }
+
+    private bool AcceptJump()
+    {
+        if (!Input.GetKey(KeyCode.Space)) return false;
+
+        rb.DOMove(Vector3.up * 3, 0.5f);
+
         return true;
     }
 
     private Vector3 AcceptDirInput()
     {
-        if (Input.GetKey(KeyCode.W))
-        {
+        float moveX = Input.GetAxisRaw("Horizontal"); // ←→
+        float moveZ = Input.GetAxisRaw("Vertical");   // ↑↓
 
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
+        Vector3 input = new Vector3(moveX, 0, moveZ);
+        input = Vector3.ClampMagnitude(input, 1f); // 斜め移動を補正
 
-        }
-        else
-        {
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
+        // カメラの向きに合わせて入力を回転させる
+        Transform cam = Camera.main.transform;
 
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow))
-            {
+        // カメラのY軸方向の回転だけ取り出す
+        Vector3 camForward = cam.forward;
+        camForward.y = 0;
+        camForward.Normalize();
 
-            }
-        }
-        return Vector3.zero;
+        Vector3 camRight = cam.right;
+        camRight.y = 0;
+        camRight.Normalize();
+
+        // カメラ基準の入力方向を返す
+        Vector3 moveDir = camForward * input.z + camRight * input.x;
+
+        return moveDir;
     }
+
     /// <summary>
     /// 通常攻撃入力受付、処理
     /// </summary>
@@ -67,25 +89,33 @@ public class PlayerAction
     {
         if (!Input.GetMouseButton(0)) return false;
 
-        ExecuteAction(GetPlayer(), NORMAL_ATTACK_ACTION_ID);
+        //ExecuteAction(GetPlayer(), NORMAL_ATTACK_ACTION_ID);
+        //今持ってる武器を参照したい
+
+
         return true;
     }
 
-    private void AcceptDirChange()
+    /// <summary>
+    /// 視点操作
+    /// </summary>
+    private void AcceptDirChange(Vector3 dir)
     {
-        if (!Input.GetKey(KeyCode.Space)) return;
+        if (dir == Vector3.zero) return;
 
-        CharacterBase player = GetPlayer();
-        //方向転換入力のトリガーを受け付け、隣接エネミーの方向を自動敵に向く
-        //ジャンプ
+        float rotationSpeed = 720f;
+        // 入力方向を向くQuaternionを作成（Y軸のみ）
+        Quaternion targetRotation = Quaternion.LookRotation(dir);
+        Vector3 euler = targetRotation.eulerAngles;
+        targetRotation = Quaternion.Euler(0, euler.y, 0);
+
+        // 現在の回転から、targetRotationへ、rotationSpeed度/秒で回転
+        transform.rotation = Quaternion.RotateTowards(
+            transform.rotation,
+            targetRotation,
+            rotationSpeed * Time.deltaTime
+        );
     }
 
-    private void ChangeDirToEnemy(CharacterBase character)
-    {
-        //スタートの向き
-        int startIndex = (int)character.direction + 1;
-        int basePosX = character.posX, basePosY = character.posY;
-        //８方向の隣接マスで走査、エネミーを探し、向きを変えマスの色を変える
-        Vector3.Dot()
-    }
+
 }

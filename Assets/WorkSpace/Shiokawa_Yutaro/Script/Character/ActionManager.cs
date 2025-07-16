@@ -28,24 +28,10 @@ public class ActionManager
     /// 行動の実行
     /// </summary>
     /// <param name="sourceCharacter"></param>
-    /// <param name="actionID"></param>
     /// <returns></returns>
-    public static void ExecuteAction(CharacterBase sourceCharacter, int actionID)
+    public static void ExecuteAction(CharacterBase sourceCharacter)
     {
-        // 行動のマスター取得
-        //Entity_ActionData.Param actionMaster = GetActionMaster(actionID);
-        //if (actionMaster == null) return;
-        //// 射程クラス取得、実行
-        //ActionRangeBase range = GetRange(actionMaster.rangeType);
-        //range.Execute(sourceCharacter);
-        //// アクションの効果処理
-        //int[] effectIDList = actionMaster.effectID;
-        //for (int i = 0, max = effectIDList.Length; i < max; i++)
-        //{
-        //    if (effectIDList[i] < 0) continue;
-
-        //   // await ExecuteActionEffect(effectIDList[i], sourceCharacter, range);
-        //};
+        
     }
 
     /// <summary>

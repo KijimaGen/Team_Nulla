@@ -10,89 +10,54 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 
-public abstract class CharacterBase
+public abstract class CharacterBase : MonoBehaviour
 {
     public int ID { get; private set; } = -1;
-    public int masterID { get; protected set; } = -1;
-    public int posX { get; protected set; } = -1;
-    public int posY { get; protected set; } = -1;
+
     // マスターデータ依存の変数
     public int nameID { get; protected set; } = -1;
-    public int maxHP { get; protected set; } = -1;
-    public int HP { get; protected set; } = -1;
+    public float maxHP { get; protected set; } = -1;
+    public float HP { get; protected set; } = -1;
     // 死亡しているか
     public bool isDead { get { return HP <= 0; } }
-    public int rawAttack { get; protected set; } = -1;
-    public int rawDefense { get; protected set; } = -1;
+    public float rawAttack { get; protected set; } = -1;
+    public float rawDefense { get; protected set; } = -1;
+    public float speed { get; protected set; } = -1;
 
     public List<int> possessItemList { get; protected set; } = null;
     //所持アイテムの最大数
-    private static readonly int _POSSESS_ITEM_MAX = 10;
+    private static readonly int _POSSESS_ITEM_MAX = 6;
+
+    protected Animator animator;
+    protected Rigidbody rb;
+
+    protected bool isAttacking = false;
+
+    private void Start()
+    {
+        Setup();
+    }
 
     /// <summary>
     /// 使用前の準備
     /// </summary>
-    /// <param name="setID"></param>
-    /// <param name="squareData"></param>
-    /// <param name="setMasterID"></param>
-    public virtual void Setup(int setID, int setMasterID)
-    {
-        ID = setID;
-        masterID = setMasterID;
-        var characterMaster = CharacterMasterUtility.GetCharacterMaster(masterID);
-        SetupMaster(characterMaster);
-        // オブジェクトの準備
-        GetObject()?.Setup(characterMaster.nameList);
-        // とりあえず下を向かせる
-       // SetDirection(eDirectionEight.Down);
-        possessItemList = new List<int>(_POSSESS_ITEM_MAX);
-    }
+    public abstract void Setup();
 
     /// <summary>
     /// マスターデータ関連の準備
     /// </summary>
     /// <param name="setMasterID"></param>
-    protected virtual void SetupMaster(Entity_CharacterData.Param characterMaster)
+    protected void SetStatus()
     {
-        if (characterMaster == null) return;
-
-        nameID = characterMaster.nameID;
-        SetMaxHP(characterMaster.HP);
-        SetHP(maxHP);
-        SetRawAttack(characterMaster.Attack);
-        SetRawDefense(characterMaster.Defense);
+        SetMaxHP(maxHP);
+        SetHP(HP);
+        SetRawAttack(rawAttack);
+        SetRawDefense(rawDefense);
+        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
     }
 
-    /// <summary>
-    /// 使用後の片付け
-    /// </summary>
-    public virtual void Teardown()
-    {
-        // 今いるマスから取り除く
-       // GetSquareData(posX, posY)?.RemoveCharacter();
-        posX = -1;
-        posY = -1;
-        // オブジェクトの片付け
-       // GetObject()?.Teardown();
-    }
 
-    /// <summary>
-    /// オブジェクトの取得
-    /// </summary>
-    /// <returns></returns>
-    protected CharacterObject GetObject()
-    {
-        return CharacterManager.instance.GetCharacterObject(ID);
-    }
-    /// <summary>
-    /// 見た目のみの位置変更
-    /// </summary>
-    /// <param name="position"></param>
-    public virtual void SetPosition(Vector3 position)
-    {
-        // キャラクターオブジェクトを取得し位置変更する
-       // GetObject()?.SetPosition(position);
-    }
 
     /// <summary>
     /// プレイヤーか否か
@@ -100,13 +65,6 @@ public abstract class CharacterBase
     /// <returns></returns>
     public abstract bool IsPlayer();
 
-    /// <summary>
-    /// 行動の思考
-    /// </summary>
-    public virtual void ThinkAction()
-    {
-
-    }
 
     /// <summary>
     /// フロア終了時処理
@@ -117,32 +75,10 @@ public abstract class CharacterBase
     //}
 
     /// <summary>
-    /// 移動の軌跡に含まれているか
-    /// </summary>
-    /// <param name="squareID"></param>
-    /// <returns></returns>
-    public virtual bool ExistMoveTrail(int squareID)
-    {
-        return false;
-    }
-
-    /// <summary>
-    /// キャラの向き設定
-    /// </summary>
-    /// <param name="setDir"></param>
-    //public void SetDirection(eDirectionEight setDir)
-    //{
-    //    if (direction == setDir) return;
-
-    //    direction = setDir;
-    //    GetObject()?.SetDirection(direction);
-    //}
-
-    /// <summary>
     /// 攻撃力取得
     /// </summary>
     /// <returns></returns>
-    public int GetAttack()
+    public float GetAttack()
     {
         return rawAttack;
     }
@@ -151,7 +87,7 @@ public abstract class CharacterBase
     /// 素の攻撃力設定
     /// </summary>
     /// <param name="setValue"></param>
-    public virtual void SetRawAttack(int setValue)
+    public virtual void SetRawAttack(float setValue)
     {
         rawAttack = setValue;
     }
@@ -160,7 +96,7 @@ public abstract class CharacterBase
     /// 防御力取得
     /// </summary>
     /// <returns></returns>
-    public int GetDefense()
+    public float GetDefense()
     {
         return rawDefense;
     }
@@ -169,7 +105,7 @@ public abstract class CharacterBase
     /// 素の防御力設定
     /// </summary>
     /// <param name="setValue"></param>
-    public virtual void SetRawDefense(int setValue)
+    public virtual void SetRawDefense(float setValue)
     {
         rawDefense = setValue;
     }
@@ -178,7 +114,7 @@ public abstract class CharacterBase
     /// 最大HP設定
     /// </summary>
     /// <param name="setValue"></param>
-    public virtual void SetMaxHP(int setValue)
+    public virtual void SetMaxHP(float setValue)
     {
         maxHP = setValue;
     }
@@ -187,7 +123,7 @@ public abstract class CharacterBase
     /// 現在HP設定
     /// </summary>
     /// <param name="setValue"></param>
-    public virtual void SetHP(int setValue)
+    public virtual void SetHP(float setValue)
     {
         // 0～最大値に丸める
         HP = Mathf.Clamp(setValue, 0, maxHP);
@@ -197,7 +133,7 @@ public abstract class CharacterBase
     /// HP回復
     /// </summary>
     /// <param name="addValue"></param>
-    public void AddHP(int addValue)
+    public void AddHP(float addValue)
     {
         SetHP(HP + addValue);
     }
@@ -206,7 +142,7 @@ public abstract class CharacterBase
     /// HP減少
     /// </summary>
     /// <param name="removeValue"></param>
-    public void RemoveHP(int removeValue)
+    public void RemoveHP(float removeValue)
     {
         SetHP(HP - removeValue);
     }
@@ -215,51 +151,6 @@ public abstract class CharacterBase
     /// キャラクターの死亡
     /// </summary>
     public abstract void Dead();
-
-    /// <summary>
-    /// 表示用満腹度取得
-    /// </summary>
-    /// <returns></returns>
-    public virtual int GetShowStamina()
-    {
-        return 0;
-    }
-
-    /// <summary>
-    /// 満腹度取得
-    /// </summary>
-    /// <returns></returns>
-    public virtual int GetStamina()
-    {
-        return 0;
-    }
-
-    /// <summary>
-    /// 満腹度設定
-    /// </summary>
-    /// <param name="setValue"></param>
-    public virtual void SetStamina(int setValue)
-    {
-
-    }
-
-    /// <summary>
-    /// 満腹度増加
-    /// </summary>
-    /// <param name="addValue"></param>
-    public void AddStamina(int addValue)
-    {
-        SetStamina(GetStamina() + addValue);
-    }
-
-    /// <summary>
-    /// 満腹度減少
-    /// </summary>
-    /// <param name="removeValue"></param>
-    public void RemoveStamina(int removeValue)
-    {
-        SetStamina(GetStamina() - removeValue);
-    }
 
     /// <summary>
     /// アニメーションの再生
@@ -316,6 +207,47 @@ public abstract class CharacterBase
     public void RemoveItem(int removeItemID)
     {
         possessItemList.Remove(removeItemID);
+    }
+
+    protected bool CheckGrounded(Vector3 dir)
+    {
+        Vector3 origin1 = (transform.position + dir * 2f);
+        Vector3 origin2 = (transform.position + dir * 1.5f);
+        Vector3 origin3 = (transform.position + dir * 1f);
+        Vector3 origin4 = (transform.position + dir * 0.5f);
+        Vector3 direction = Vector3.down;
+        float rayLength = 2f;
+        //int rayCount = 3;
+        int groundLayer = LayerMask.GetMask("Ground");
+
+        //for (int i = 0; i < rayCount; i++)
+        //{
+        //    Debug.DrawRay(origin, direction * rayLength, Color.red);
+        //    return Physics.Raycast(origin , direction, rayLength, groundLayer);
+        //}
+
+        Debug.DrawRay(origin1, direction * rayLength, Color.red);
+        Debug.DrawRay(origin2, direction * rayLength, Color.red);
+        Debug.DrawRay(origin3, direction * rayLength, Color.red);
+
+        return Physics.Raycast(origin1, direction, rayLength, groundLayer)
+                 && Physics.Raycast(origin2, direction, rayLength, groundLayer)
+                     && Physics.Raycast(origin3, direction, rayLength, groundLayer)
+                         && Physics.Raycast(origin4, direction, rayLength, groundLayer);
+    }
+
+    protected void Attack(string attackName)
+    {
+       // rb.velocity = Vector3.zero;
+        //animator.SetBool("run", false);
+        //animator.SetTrigger("attack");
+        //isAttacking = true;
+        //playAnim = true;
+    }
+
+    public void IsAttackingOFF()
+    {
+        isAttacking = false;
     }
 }
 
