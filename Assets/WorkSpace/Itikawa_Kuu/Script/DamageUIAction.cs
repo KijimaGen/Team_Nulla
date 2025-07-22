@@ -13,11 +13,13 @@ public class DamageUIAction : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        /*
         enemy = gameObject;
 
         cloneDamageUI = Instantiate(damageUI, transform.position, Quaternion.identity);
         // 非アクティブにしておく
         //cloneDamageUI.SetActive(false);
+        */
     }
 
     // Update is called once per frame
@@ -28,6 +30,11 @@ public class DamageUIAction : MonoBehaviour
 
     // 攻撃が当たったらアクティブにする
     private void OnCollisionEnter(Collision collision) {
-        cloneDamageUI.SetActive(true);
+        //cloneDamageUI.SetActive(true);
+    }
+
+    public void Damage(Collider collider) {
+        //　DamageUIを中心からカメラの方向に少し寄せた位置にインスタンス化
+        var obj = Instantiate(damageUI, collider.bounds.center - Camera.main.transform.forward * 0.2f, Quaternion.identity);
     }
 }
