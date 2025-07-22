@@ -16,17 +16,18 @@ public class DamageUI : MonoBehaviour
     private float activeTime = 1.0f;
     // 秒数カウント
     private float timeCount;
-
-    private Text damageText;
+    [SerializeField]
+    private TextMeshProUGUI damageText;
     //　フェードアウトするスピード
-    private float fadeOutSpeed = 1f;
+    private float fadeOutSpeed = 5f;
     //　移動のスピード
     private float moveSpeed = 0.4f;
+    float alpha = 10f;
 
     // Start is called before the first frame update
     void Start()
     {
-        damageText = GetComponentInChildren<Text>();
+        //damageText = GetComponentInChildren<Text>();
     }
 
     // Update is called once per frame
@@ -50,7 +51,11 @@ public class DamageUI : MonoBehaviour
         transform.rotation = Camera.main.transform.rotation;
         transform.position += Vector3.up * moveSpeed * Time.deltaTime;
 
-        damageText.color = Color.Lerp(damageText.color, new Color(1f, 0f, 0f, 0f), fadeOutSpeed * Time.deltaTime);
+        //damageText.color = Color.Lerp(damageText.color, new Color(1f, 0f, 0f, 0f), fadeOutSpeed * Time.deltaTime);
+        //　少しづつ透明にしていく
+        alpha -= fadeOutSpeed * Time.deltaTime;
+        //　テキストのcolorを設定
+        damageText.color = new Color(1f, 0f, 0f, alpha);
 
         if (damageText.color.a <= 0.1f) {
             Destroy(gameObject);

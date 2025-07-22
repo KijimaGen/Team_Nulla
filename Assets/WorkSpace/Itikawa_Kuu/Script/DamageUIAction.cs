@@ -27,12 +27,14 @@ public class DamageUIAction : MonoBehaviour
     {
         //Debug.Log(damageUI.activeSelf);
     }
-
+    
     // 攻撃が当たったらアクティブにする
-    private void OnCollisionEnter(Collision collision) {
+    private void OnTriggerEnter(Collider collider) {
         //cloneDamageUI.SetActive(true);
+        Damage(collider);
     }
-
+    
+    // プロトの仮実装
     public void Damage(Collider collider) {
         //　DamageUIを中心からカメラの方向に少し寄せた位置にインスタンス化
         var obj = Instantiate(damageUI, collider.bounds.center - Camera.main.transform.forward * 0.2f, Quaternion.identity);

@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: {fileID: 8781093604320811554}
   damageUI: {fileID: 2365297348395106395}
-  target: {fileID: 3072922103955903344, guid: f1b0874829f54cf45a897cf01fb219f0, type: 3}
+  damageText: {fileID: 8781093604320811554}
 --- !u!1 &5033876212148943631
 GameObject:
   m_ObjectHideFlags: 0
