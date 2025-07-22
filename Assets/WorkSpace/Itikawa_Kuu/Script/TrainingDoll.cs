@@ -4,7 +4,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class TrainingDoll : MonoBehaviour
 {
     // モード切替のフラグ
     private bool attackMode = false;
@@ -20,16 +20,16 @@ public class NewBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
+        
         count += Time.deltaTime;
         if (attackMode)
         {
-            if (int i = 0; attackTime > count; int++) {
+            for (int i = 0; attackTime > count; i++) {
                 count = 0;
                 // 攻撃の処理
             }
 
         }
-        */
+        
     }
 }

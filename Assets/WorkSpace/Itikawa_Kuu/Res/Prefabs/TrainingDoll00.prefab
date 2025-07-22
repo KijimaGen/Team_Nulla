@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 5011267293686159321}
   - component: {fileID: 6978280866849834363}
   - component: {fileID: 5343501067247904746}
+  - component: {fileID: 6115345840809561096}
   m_Layer: 0
-  m_Name: enemy00
+  m_Name: TrainingDoll00
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,3 +150,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageUI: {fileID: 3808801041788919963, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
+--- !u!114 &6115345840809561096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673022261182330704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b984d77496f24144da52fd1ae567c769, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
