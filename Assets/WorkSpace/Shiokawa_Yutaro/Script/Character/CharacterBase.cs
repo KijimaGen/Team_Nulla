@@ -5,6 +5,7 @@
  * @date 2025/5/8
  */
 
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -73,7 +74,10 @@ public abstract class CharacterBase : MonoBehaviour
     //{
     //    return UniTask.CompletedTask;
     //}
-
+    public virtual void SetSpeed(float setValue)
+    {
+        speed = setValue;
+    }
     /// <summary>
     /// 攻撃力取得
     /// </summary>
@@ -238,11 +242,29 @@ public abstract class CharacterBase : MonoBehaviour
 
     protected void Attack(string attackName)
     {
-       // rb.velocity = Vector3.zero;
-        //animator.SetBool("run", false);
-        //animator.SetTrigger("attack");
-        //isAttacking = true;
-        //playAnim = true;
+        rb.velocity = Vector3.zero;
+        animator.SetTrigger(attackName);
+        isAttacking = true;
+    }
+
+    /// <summary>
+    /// アニメーションの終了待ち
+    /// </summary>
+    /// <param name="stateName"></param>
+    /// <returns></returns>
+    protected async UniTask WaitUntilAnimationStateExits(string stateName)
+    {
+        // "Attack"ステートに入るまで待機
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+        {
+            await UniTask.Yield();
+        }
+
+        // "Attack"ステートを抜けるまで待機
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+        {
+            await UniTask.Yield();
+        }
     }
 
     public void IsAttackingOFF()

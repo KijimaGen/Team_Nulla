@@ -3,32 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using static EnemyState;
+using Unity.VisualScripting;
+using UnityEditor;
+using System.Linq;
 
 public class EnemyCharacter : CharacterBase
 {
-    enum Action
-    {
-        Invalid = -1,
-        /// <summary>
-        /// 待機
-        /// </summary>
-        Idel,
-        /// <summary>
-        /// 索敵
-        /// </summary>
-        Search,
-        
-        /// <summary>
-        /// 追う
-        /// </summary>
-        Chase,
-        /// <summary>
-        /// 攻撃する
-        /// </summary>
-        Attack,
-
-        Max
-    }
 
     Action actionCategory;
     bool onAction;
@@ -38,30 +19,35 @@ public class EnemyCharacter : CharacterBase
 
     PlayerCharacter player;
 
-    enum AttackType
-    {
-        /// <summary>
-        /// 攻撃を当てに行く
-        /// </summary>
-        Going,
-        /// <summary>
-        /// 遠距離攻撃
-        /// </summary>
-        LongRange,
-        /// <summary>
-        /// 差し返し(通常エネミーはいらないBossだけ)
-        /// </summary>
-        Counter,
-        /// <summary>
-        /// 間合いを取る
-        /// </summary>
-        TakeDistance,
+    float attackArea = 0.5f;
+    bool action;
 
-        Max
-    }
+    private StateBase<EnemyCharacter> currentState;
+    private StateBase<EnemyCharacter> nextState;
+
+    private Dictionary<Action, StateBase<EnemyCharacter>> stateMap;
+    private Dictionary<AttackType, AttackStrategy> attackStrategies;
 
     public override void Setup()
     {
+        // ステート登録
+        stateMap = new Dictionary<Action, StateBase<EnemyCharacter>>
+        {
+            { Action.Idel, new IdelState() },
+            { Action.Chase, new ChaseState() },
+            { Action.Attack, new AttackState() },
+        };
+
+        currentState = stateMap[Action.Idel];
+
+        attackStrategies = new Dictionary<AttackType, AttackStrategy>
+        {
+            { AttackType.Going, new GoingAttack() },
+            { AttackType.LongRange, new LongRangeAttack() },
+            { AttackType.Counter, new CounterAttack() },
+            { AttackType.TakeDistance, new TakeDistanceState() }
+        };
+
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCharacter>();
         speed = 1;
         maxHP = 10;
@@ -71,17 +57,121 @@ public class EnemyCharacter : CharacterBase
         SetStatus();
     }
     // Update is called once per frame
-    async void Update()
+    void Update()
     {
-        ActionProcess(ViewAction());
-        
-        if(actionCategory == Action.Chase)
-        {
-            await TargetChase();
-        }
+        //死んでたらリターン
+        if (isDead) return;
+        if (!ViewAction()) return;
+
+        StateTick().Forget();
+
+        //HPバー追加
     }
 
-    private Transform ViewAction()
+    private Action previousAction = Action.Max;
+
+    private async UniTask StateTick()
+    {
+        RotateTowardsPlayer();
+
+        if (!ExecuteAction()) return;
+
+        float playerDistance = Vector3.Distance(transform.position, player.transform.position);
+
+        Dictionary<Action, float> actionWeights = new();
+
+        if (playerDistance < 6f)
+        {
+            // プレイヤーが近い：攻撃っぽい行動を強調
+            actionWeights[Action.Attack] = 50f;
+            actionWeights[Action.Chase] = 30f;
+        }
+        else
+        {
+            // プレイヤーが遠い：様子見や接近系が中心
+            actionWeights[Action.Idel] = 50f;
+            actionWeights[Action.Chase] = 40f;
+        }
+
+        // 同じ行動を避けながらランダム選出（重み付き）
+        //Action nextAction = GetRandomWeightedAction(actionWeights, previousAction);
+        Action nextAction = Action.Chase;
+
+        previousAction = nextAction;
+        nextState = stateMap[nextAction];
+        await SetNextState(nextState);
+    }
+
+    public async UniTask SetNextState(StateBase<EnemyCharacter> nextState)
+    {
+        if (currentState != null)
+        {
+            await currentState.Exit(this);
+        }
+
+        currentState = nextState;
+
+        if (currentState != null)
+        {
+            await currentState.Enter(this);
+            await currentState.Execute(this);
+        }
+
+        action = false;
+    }
+
+    private Action GetRandomWeightedAction(Dictionary<Action, float> weights, Action exclude)
+    {
+        // 1. 前回と同じ行動は除く
+        var filteredWeights = weights
+            .Where(kvp => kvp.Key != exclude)
+            .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+        // 2. 重みの合計を出す
+        float totalWeight = filteredWeights.Values.Sum();
+
+        // 3. 0〜合計の間でランダムな数を生成
+        float rand = UnityEngine.Random.Range(0f, totalWeight);
+        Debug.Log(rand + "F");
+        // 4. ランダム値を超えるまで累計していって、一致したところを選ぶ
+        float cumulative = 0f;
+
+        foreach (var kvp in filteredWeights)
+        {
+            cumulative += kvp.Value;
+            if (rand <= cumulative)
+                return kvp.Key;
+        }
+
+        // 念のため（通常ここに来ることはない）
+        return filteredWeights.Keys.First();
+    }
+
+
+    /// <summary>
+    /// アクションを実行する時間
+    /// </summary>
+    /// <returns></returns>
+    private bool ExecuteAction()
+    {
+
+        if (action) return false;
+
+        actionTime += Time.deltaTime;
+        float actionInterval = UnityEngine.Random.Range(3, 6);
+        if (actionTime >= actionInterval)
+        {
+            actionTime = 0;
+            action = true;
+            return true;
+        }
+        return false;
+    }
+    /// <summary>
+    /// プレイヤーを見つけるかの処理
+    /// </summary>
+    /// <returns></returns>
+    private bool ViewAction()
     {
         Vector3 neckPos = neck.position;
         Vector3 viewPos = new Vector3(neckPos.x, neckPos.y, neckPos.z);
@@ -108,203 +198,131 @@ public class EnemyCharacter : CharacterBase
                     float dist = Vector3.Distance(neckPos, hit.transform.position);
                     if (dist > rayDistance)
                     {
-                        return null;
+                        return false;
                     }
 
-                    return hit.transform;
+                    else return true;
                 }
             }
             Debug.DrawRay(viewPos, dir * rayDistance, Color.red);
         }
 
-        return null;
-    }
-    private async UniTask TargetChase()
-    {
-        // プレイヤーを追い続ける
-        Vector3 chaseDir = player.transform.position - transform.position;
-        chaseDir.y = 0f;
-
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            Quaternion.LookRotation(chaseDir),
-            Time.deltaTime * 5f
-        );
-
-        rb.velocity = transform.forward * speed;
-
-        await UniTask.CompletedTask;
-    }
-    protected virtual async void ActionProcess(Transform targetPlayer)
-    {
-        //首を動かす
-       // RotateTowardsPlayer();
-        //アクションを実行するかどうか [実行しないならリターン]
-        if (!ExecuteAction()) return;
-
-        if(targetPlayer == null)
-        {
-            actionCategory = (Action)UnityEngine.Random.Range((int)Action.Idel,(int)Action.Chase);
-        }
-        else
-        {
-            actionCategory = (Action)UnityEngine.Random.Range((int)Action.Chase, (int)Action.Max);
-            //actionCategory = (Action)2;
-        }
-        //ランダムでアクションを発動させる（もう少し確率をいじったほうがいい）
-        //actionCategory = (Action)UnityEngine.Random.Range(0, (int)Action.Max);
-        //actionCategory = ;
-        switch (actionCategory)
-        {
-            case Action.Idel:
-                Debug.Log("待機");
-                await StartIdel();
-                break;
-            case Action.Search:
-                Debug.Log("索敵する");
-                //ここで索敵のアニメーションを行く。プレイヤーを見つける処理は常に別で動いてる
-                await StartSearch();
-                break;         
-
-            //---------ここから下はプレイヤーがいないと処理されない-----------
-            case Action.Chase:
-                Debug.Log("追う");
-                await StartChase();
-                break;
-            case Action.Attack:
-                Debug.Log("攻撃発動");
-                await StartAttack(UnityEngine.Random.Range(0, (int)AttackType.Max));
-                break;
-        }
-
-        //アクションが終わったら
-        onAction = false;
-
-
-        //必要なこと状態を意識したステートベース繰り返す
-        //
-    }
-    /// <summary>
-    /// アクションを実行する時間
-    /// </summary>
-    /// <returns></returns>
-    private bool ExecuteAction()
-    {
-        if (onAction || isAttacking) return false;
-
-        actionTime += Time.deltaTime;
-        float actionInterval = UnityEngine.Random.Range(2, 7);
-        if (actionTime >= actionInterval)
-        {
-            actionTime = 0;
-            onAction = true;
-            return true;
-        }
         return false;
     }
     /// <summary>
-    /// 待機状態になって休憩するようにしたいなぁ（モウハンみたいに）
+    /// 追いかける
     /// </summary>
     /// <returns></returns>
-    private async UniTask StartIdel()
+    public async UniTask StartChase()
     {
-        rb.velocity = Vector3.zero;
-    }
-    /// <summary>
-    /// 徘徊する
-    /// </summary>
-    private async UniTask StartSearch()
-    {
-       
-    }
-    private async UniTask StartChase()
-    {
-        int area = 5;
-        if (CheckInAttackArea(area))
+        while (true)
         {
-            Debug.Log("近いので追わない");
-            actionCategory = Action.Invalid;
-            rb.velocity = Vector3.zero;
-            return;
-        }
-        //アニメーション
-    }
-   
+            Vector3 dir = (player.transform.position - transform.position).normalized;
+            // プレイヤーとの距離チェック
+            float distance = Vector3.Distance(transform.position, player.transform.position);
+            Debug.Log($"プレイヤーとの距離: {distance}");
 
+            if (distance < attackArea)
+            {
+                // 攻撃に移るなど
+                await SetNextState(new AttackState());
+                break;
+            }
+            else
+            {
+                rb.velocity = dir * speed * 2;
+            }
+
+            // 0.1秒ごとにチェック（負荷軽減）
+            await UniTask.Delay(100);
+        }
+    }
     #region 攻撃関係
 
     /// <summary>
     /// 攻撃をする範囲と攻撃の実行
     /// </summary>
     /// <returns></returns>
+    private AttackType lastAttackType;
+
     public async UniTask StartAttack(int attackType)
     {
-        isAttacking = true;
-        switch ((AttackType)attackType)
+        var selectedType = (AttackType)attackType;
+
+        // もし同じ攻撃タイプだったら通常攻撃に強制変更
+        if (lastAttackType == selectedType)
         {
-            case AttackType.Going:
-                Debug.Log("攻撃しに行く");
-                await GoingAttack();
-                break;
-            case AttackType.LongRange:
-                Debug.Log("遠距離攻撃");
-                await LongRangeAttack();
-                break;
-            case AttackType.TakeDistance:
-                Debug.Log("間合いを取る");
-                await StartTakeDistance();
-                break;
+            Debug.Log("同じ攻撃だったので当てに行く攻撃に切り替え");
+            selectedType = AttackType.Going;
         }
 
+        rb.velocity = Vector3.zero;
+        selectedType = AttackType.Counter;
+        if (attackStrategies.TryGetValue(selectedType, out var strategy))
+        {
+            lastAttackType = selectedType;
+            await strategy.Execute(this);
+        }
+        else
+        {
+            Debug.LogWarning($"未定義の攻撃タイプ: {selectedType}");
+        }
     }
 
-    protected virtual async UniTask GoingAttack()
+    public async UniTask GoingAttack()
     {
-        float attackArea = 3;
-        if (CheckInAttackArea(attackArea)) return;
         //ここの文の書き方がきもいからなんか変えたい
-        const float attackTime = 3;
-        const string attackName = "攻撃しに行く";
+        const float attackTime = 2;
+        const string attackName = "攻撃当てる";
 
-        rb.DOMove(player.transform.position, 1);
-        //攻撃のチャージが完了するかどうか
-        if (await ChargeTime(attackTime)) return;
-        // 攻撃の実行
+        //成功したら、攻撃のチャージが完了するかどうか
+        if (!await ChargeTime(attackTime, attackName)) return;
+        // プレイヤーがぎりかわせる攻撃の実行
         Attack(attackName);
+
+        // アニメーションの終了を待つ（基底のクラスの関数）
+       // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
+
     }
 
-    protected virtual async UniTask LongRangeAttack()
+    public async UniTask LongRangeAttack()
     {
-        float attackArea = 10;
-        if (CheckInAttackArea(attackArea)) return;
         //ここの文の書き方がきもいからなんか変えたい
-        const float attackTime = 3;
+        const float attackTime = 2;
         const string attackName = "攻撃遠距離";
 
-        rb.velocity  = Vector3.zero;
-        //攻撃のチャージが完了するかどうか
-        if (await ChargeTime(attackTime)) return;
-        // 攻撃の実行
+        //成功したら、攻撃のチャージが完了するかどうか
+        if (!await ChargeTime(attackTime, attackName)) return;
+        // プレイヤーがぎりかわせる攻撃の実行
         Attack(attackName);
-    }
-    /// <summary>
-    /// プレイヤーが近づいて攻撃してくるのを攻撃する
-    /// </summary>
-    /// <returns></returns>
-    protected virtual async UniTask CounterAttack()
-    {
-        //通常エネミーにカウンターは追加しない
-    }
 
+        // アニメーションの終了を待つ（基底のクラスの関数）
+       // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
+    }
     /// <summary>
-    /// 後ろに回避して間合いを取る
+    /// 攻撃時間とチャージ画像
     /// </summary>
+    /// <param name="time"></param>
+    /// <param name="warningLineName"></param>
     /// <returns></returns>
-    private async UniTask StartTakeDistance()
+    private async UniTask<bool> ChargeTime(float time, string warningLineName)
+    {
+        float currentChargeTime = 0f;
+
+        //攻撃のチャージ時間
+        while (currentChargeTime <= time)
+        {
+            currentChargeTime += Time.deltaTime;
+            await UniTask.DelayFrame(1);
+        }
+
+        return true;
+    }
+    public async UniTask StartTakeDistance()
     {
 
         //プレイヤーから一定の距離を取る処理（ワンちゃん崖に落ちのでどうしよう）
-        //崖に落ちるくらいなら地面の中心に戻す
+        //崖に落ちるくらいなら地面の中心に戻す×
 
         //後ろの距離を取る地点の取得
         Vector3 fallPoint = transform.localPosition + -transform.forward * 4f;
@@ -315,96 +333,44 @@ public class EnemyCharacter : CharacterBase
             return;
         }
 
-        //animator.SetTrigger("takeDistance");
+        animator.SetTrigger("takeDistance");
 
-        //// 400ms待つ
-        //await UniTask.Delay(400);
+        // 400ms待つ
+        await UniTask.Delay(400);
 
-        ////個々の瞬間だけ一瞬重くなる
-        //transform.DOLocalMove(fallPoint, 1f);
+        //個々の瞬間だけ一瞬重くなる
+        transform.DOLocalMove(fallPoint, 1f);
 
     }
-    /// <summary>
-    /// 攻撃時間とチャージ画像
-    /// </summary>
-    /// <param name="time"></param>
-    /// <param name="warningLineName"></param>
-    /// <returns></returns>
-    protected virtual async UniTask<bool> ChargeTime(float time)
-    {
-        float currentChargeTime = 0f;
-        //攻撃のチャージ時間
-        while (currentChargeTime <= time)
-        {
-            currentChargeTime += Time.deltaTime;
-            await UniTask.DelayFrame(1);
-        }
-
-        return true;
-    }
-    /// <summary>
-    /// 攻撃範囲内かどうか
-    /// </summary>
-    /// <param name="attackArea"></param>
-    /// <returns></returns>
-    private bool CheckInAttackArea(float attackArea)
-    {
-        //プレイヤーが近くにいなければ攻撃しない
-        if (Vector3.Distance(transform.position, player.transform.position) >= attackArea) { onAction = false; return false; }
-        return true;
-    }
-
     #endregion
-
     /// <summary>
     /// 首をプレイヤーに向かせる
     /// </summary>
-    private void RotateTowardsPlayer()
+    public void RotateTowardsPlayer()
     {
-        if (actionCategory == Action.Attack || actionCategory == Action.Search) return;
+        if (actionCategory == Action.Attack) return;
         Vector3 targetDir = player.transform.position - transform.position;
+        targetDir.y = 0f; // 水平方向のみに限定
 
         Vector3 forward = transform.forward;
         float angle = Vector3.SignedAngle(forward, targetDir, Vector3.up);
 
         //首の回る最大数
-        float maxHorizontalNeckAngle = 40;
-        float maxVerticalNeckAngle = 40;
-        if (Mathf.Abs(angle) <= maxHorizontalNeckAngle)
+        float maxAngle = 40;
+        if (Mathf.Abs(angle) <= maxAngle)
         {
-            // 首がプレイヤーを向く処理（上下あり）
-            Vector3 lookDir = player.transform.position - neck.position;
-            Quaternion targetRot = Quaternion.LookRotation(lookDir);
 
-            // 上下角チェック（首のローカルX軸回転）
-            Quaternion localTargetRot = Quaternion.Inverse(transform.rotation) * targetRot;
-            float verticalAngle = localTargetRot.eulerAngles.x;
-            if (verticalAngle > 180) verticalAngle -= 360; // -180〜180 に変換
+            Vector3 lookTarget = player.transform.position + Vector3.up * 0.5f;
+            neck.transform.rotation = Quaternion.LookRotation(lookTarget - neck.position);
 
-            if (Mathf.Abs(verticalAngle) <= maxVerticalNeckAngle)
-            {
-                neck.transform.rotation = targetRot;
-            }
-            else
-            {
-                // 上下の角度が大きすぎるので元に戻す
-                Quaternion defaultNeckRotation = Quaternion.Euler(new Vector3(-83, -64, 24));
-                neck.transform.localRotation = Quaternion.Slerp(neck.transform.localRotation, defaultNeckRotation, Time.deltaTime * 5f);
-            }
         }
         else
         {
-            // 首の範囲を超えたら体をゆっくり回す（水平のみ）
+            // 首の範囲を超えたら体をゆっくり回す
             Quaternion targetRot = Quaternion.LookRotation(targetDir);
-            Vector3 euler = targetRot.eulerAngles;
-            euler.x = 0f; // 上下回転を消す
-            euler.z = 0f;
-
-            Quaternion horizontalRot = Quaternion.Euler(euler);
-            transform.rotation = Quaternion.Slerp(transform.rotation, horizontalRot, Time.deltaTime * 3f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 3f); // ←回転速度
         }
     }
-
 
     private Vector3 PickRandomDirection()
     {

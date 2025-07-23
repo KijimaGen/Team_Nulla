@@ -11,6 +11,12 @@ using static CharacterUtility;
 public class PlayerAction : MonoBehaviour
 {
     Rigidbody rb;
+    bool isJump = false;
+
+    private float shiftPressTime = 0f;
+    private bool isDashing = false;
+    private float dashThreshold = 0.25f; // 0.25秒以上でダッシュ扱い
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -31,6 +37,7 @@ public class PlayerAction : MonoBehaviour
     /// <returns>移動したらTrue</returns>
     public bool AcceptMove()
     {
+        //if (!IsGrounded()) return false;
         if (AcceptJump()) return false;
         // 8方向の入力を受け付ける
         Vector3 inputDir = AcceptDirInput().normalized;
@@ -39,9 +46,41 @@ public class PlayerAction : MonoBehaviour
         //視点入力の受付処理
         AcceptDirChange(inputDir);
 
-        // 移動可否の判定
         PlayerCharacter player = GetComponent<PlayerCharacter>();
-        transform.position += inputDir * player.speed * Time.deltaTime;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            shiftPressTime += Time.deltaTime;
+
+            if (shiftPressTime >= dashThreshold)
+            {
+                // ダッシュ
+                isDashing = true;
+                player.SetSpeed(5);
+            }
+            else if (shiftPressTime < dashThreshold)
+            {
+                // 回避行動（ここでローリング処理を実行）
+                TriggerDodge(player); // ※別で関数を用意
+                
+            }
+
+            
+        }
+        else
+        {
+            // リセット
+            shiftPressTime = 0f;
+            isDashing = false;
+            // シフト押してないとき
+            player.SetSpeed(3);
+        }
+
+        Vector3 velocity = rb.velocity;
+        velocity.x = inputDir.x * player.speed;
+        velocity.z = inputDir.z * player.speed;
+        // Y速度は触らない
+        rb.velocity = velocity;
 
         return true;
     }
@@ -49,11 +88,30 @@ public class PlayerAction : MonoBehaviour
     private bool AcceptJump()
     {
         if (!Input.GetKey(KeyCode.Space)) return false;
+        rb.velocity = Vector3.up * 2;
 
-        rb.DOMove(Vector3.up * 3, 0.5f);
-
-        return true;
+        return false;
     }
+    private bool IsGrounded()
+    {
+        float rayLength = 0.1f;
+        Vector3 origin = transform.position + Vector3.up * 0.1f;
+        return Physics.Raycast(origin, Vector3.down, rayLength);
+    }
+
+    private void TriggerDodge(PlayerCharacter player)
+    {
+        Debug.Log("回避発動！");
+        // プレイヤーの前方向に瞬間的に動かす（例: 回避ロール）
+        Vector3 dodgeDir = AcceptDirInput().normalized;
+        if (dodgeDir == Vector3.zero)
+        {
+            dodgeDir = transform.forward; // 入力がなければ前に回避
+        }
+
+        rb.AddForce(transform.forward * 2.0f, ForceMode.Impulse);
+    }
+
 
     private Vector3 AcceptDirInput()
     {
