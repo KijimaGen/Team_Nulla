@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - OuterCorner
   - Room
+  - TrainingDoll00
   layers:
   - Default
   - TransparentFX
