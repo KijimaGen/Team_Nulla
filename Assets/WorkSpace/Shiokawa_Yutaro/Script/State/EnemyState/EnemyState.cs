@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum AttackType
@@ -72,14 +73,17 @@ public class EnemyState
     {
         public override async UniTask Enter(EnemyCharacter enemy)
         {
-            Debug.Log("UŒ‚ó‘Ô‚ğ”²‚¯‚½");
+            Debug.Log("UŒ‚ó‘Ô‚ğ“ü‚Á‚½");
             await UniTask.CompletedTask;
         }
 
         public override async UniTask Execute(EnemyCharacter enemy)
         {
-            Debug.Log("UŒ‚ó‘Ô‚ğ”²‚¯‚½");
-            await UniTask.CompletedTask;
+            Debug.Log("UŒ‚‚ğ‚µ‚Ü‚·");
+            var availableTypes = enemy.attackStrategies.Keys.ToList();
+            var randomType = availableTypes[Random.Range(0, availableTypes.Count)];
+
+            await enemy.StartAttack((int)randomType);
         }
 
         public override async UniTask Exit(EnemyCharacter enemy)

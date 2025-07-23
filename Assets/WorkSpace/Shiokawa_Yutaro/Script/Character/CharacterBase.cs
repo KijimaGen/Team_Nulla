@@ -243,7 +243,7 @@ public abstract class CharacterBase : MonoBehaviour
     protected void Attack(string attackName)
     {
         rb.velocity = Vector3.zero;
-        animator.SetTrigger(attackName);
+        //animator.SetTrigger(attackName);
         isAttacking = true;
     }
 
@@ -271,5 +271,10 @@ public abstract class CharacterBase : MonoBehaviour
     {
         isAttacking = false;
     }
+
+    public abstract UniTask GoingAttack();
+    public abstract UniTask LongRangeAttack();
+    public abstract UniTask TakeDistance();
+    public abstract UniTask CounterAttack();
 }
 

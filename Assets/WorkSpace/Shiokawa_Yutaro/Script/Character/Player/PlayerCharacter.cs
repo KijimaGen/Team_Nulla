@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,5 +37,36 @@ public class PlayerCharacter : CharacterBase
     {
         // プレイヤー死亡でダンジョン終了
        // _EndDungeon?.Invoke(eDungeonEndReason.Dead);
+    }
+
+    public override UniTask GoingAttack()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override UniTask LongRangeAttack()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override UniTask TakeDistance()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override UniTask CounterAttack()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.gameObject.tag == "Bullet")
+        {
+            if (_playerAction.isDashing)
+            {
+                Destroy(other.gameObject);
+            }
+        }
     }
 }

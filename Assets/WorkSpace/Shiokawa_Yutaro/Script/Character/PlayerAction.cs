@@ -15,7 +15,7 @@ public class PlayerAction : MonoBehaviour
     bool isJump = false;
 
     private float shiftPressTime = 0f;
-    private bool isDashing = false;
+    public bool isDashing = false;
     private float dashThreshold = 0.25f; // 0.25ïbà»è„Ç≈É_ÉbÉVÉÖàµÇ¢
 
     [SerializeField] private float pickupRadius = 2f;
