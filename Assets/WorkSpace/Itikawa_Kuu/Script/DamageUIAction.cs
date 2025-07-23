@@ -30,7 +30,7 @@ public class DamageUIAction : MonoBehaviour
     
     // 攻撃が当たったらアクティブにする
     private void OnTriggerEnter(Collider collider) {
-        if (!(collider.tag == "TrainingDoll00")) {
+        if (collider.tag == "Player") {
             //cloneDamageUI.SetActive(true);
             Damage(collider);
         }
