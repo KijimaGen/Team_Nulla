@@ -121,6 +121,10 @@ public class ParkManager : SystemObject {
         return false;
     }
 
+    /// <summary>
+    /// 全てのパークに特定の処理を行わせる
+    /// </summary>
+    /// <param name="action"></param>
     private void ExecuteAllPark(System.Action<Park> action) {
         if (action == null ) return;
         for (int i = 0, max = _parks.Count; i < max; i++) {

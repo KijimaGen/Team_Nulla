@@ -6,27 +6,26 @@
  */
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 using static ItemUtility;
 
 public class DebugScript : MonoBehaviour{
 
-    private void Awake() {
+    private void Start() {
         MasterdataManager.LoadAllData();
+        
     }
 
     private void Update() {
         if (Input.GetMouseButtonDown(0)) {
-            UseItem();
+            UseItem(new Vector3(0, 5, 0));
         }
         if(Input.GetMouseButtonDown(1)) {
-            UnuseItem(0);
+            GetItem(0);
         }
     }
 
-    public static void ActionTrigger() {
-        UseItem();
-
-    }
+    
 }

@@ -6,7 +6,10 @@
  */
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class ItemManager : SystemObject{
     public static ItemManager instance;
@@ -15,6 +18,9 @@ public class ItemManager : SystemObject{
     [SerializeField] Transform _useRoot;
     [SerializeField] Transform _unuseRoot;
     [SerializeField] ItemBase originItem;
+
+    //デバッグ用のplayerの鞄を疑似的に作ったもの
+    [SerializeField] GameObject PlayerBag;
 
     [SerializeField] List<GameObject> items;
 
@@ -34,6 +40,8 @@ public class ItemManager : SystemObject{
             ItemBase item = Instantiate(originItem, _unuseRoot);
             item.Initialize();
             
+            //IDを指定して、アイテムを未使用状態にしておく
+            item.SetItemID(i);
             _unuseList.Add(item);
         }
     }
@@ -41,7 +49,7 @@ public class ItemManager : SystemObject{
     /// <summary>
     /// アイテムを使える状態にする
     /// </summary>
-    public void UseItem() {
+    public void UseItem(Vector3 spawnPos) {
         ItemBase item = GetUsableItem();
         if (item != null) {
             _unuseList.Remove(item);
@@ -49,10 +57,13 @@ public class ItemManager : SystemObject{
 
             
             item.transform.SetParent(_useRoot);
-           
+           item.transform.position = spawnPos;
+
+            Debug.Log(item.gameObject.name +'['+ item.itemID+']' + "を使用します");
         }
         else {
-            Debug.LogWarning("使用可能なアイテムがありません！");
+            Debug.LogWarning("ああああああああああ");
+
         }
     }
 
@@ -84,5 +95,23 @@ public class ItemManager : SystemObject{
         return null;
     }
 
-    public void 
+    /// <summary>
+    /// アイテムの取得
+    /// </summary>
+    /// <param name="ID"></param>
+    public void GetItem(int ID) {
+        ItemBase getItem = _useList[ID];
+        if(getItem == null) return;
+
+        if (_useList.Contains(getItem)) {
+            _useList.Remove(getItem);
+            _unuseList.Add(getItem);
+
+            getItem.transform.SetParent(PlayerBag.transform);
+            getItem.transform.position = PlayerBag.transform.position;
+            getItem.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            Debug.Log(getItem.gameObject.name + getItem.itemID + "を獲得しました");
+        }
+
+    }
 }
