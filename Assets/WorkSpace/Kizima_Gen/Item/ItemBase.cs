@@ -11,15 +11,15 @@ using UnityEngine;
 public abstract class ItemBase : MonoBehaviour{
 
     //落下すっぴーど
-    protected const float fallSpeed = 0.001f;
+    protected const float fallSpeed = 0.01f;
     //地面にいるかどうか
     public bool isGround = false;
     //自身のID
     public int itemID = -1;
     //プレイヤーが持っているかどうか
     public bool isPlayerPosses = false;
-
-
+    //デバッグ用のplayer
+    public GameObject player;
 
 
     /// <summary>
@@ -55,5 +55,7 @@ public abstract class ItemBase : MonoBehaviour{
         this.itemID = ID;
     }
 
-
+    private void Update() {
+        
+    }
 }

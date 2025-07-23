@@ -5,10 +5,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-using static CharacterManager;
-using static CharacterUtility;
-using static UnityEditor.Progress;
-
 public class PlayerAction : MonoBehaviour
 {
     Rigidbody rb;
