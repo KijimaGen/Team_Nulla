@@ -9,27 +9,43 @@ public class TrainingDoll : MonoBehaviour
     // モード切替のフラグ
     private bool attackMode = false;
     // 攻撃発生のクールタイム
-    private float attackTime = 5;
+    private float coolTime = 5;
+    private float attackTime = 2;
     private float count = 0;
+    // 攻撃のCollider
+    [SerializeField]
+    private Collider attackCollider;
     // Start is called before the first frame update
     void Start()
     {
-        
+        attackMode = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        count += Time.deltaTime;
+        // モード切り替え処理
         if (attackMode)
         {
-            for (int i = 0; attackTime > count; i++) {
-                count = 0;
-                // 攻撃の処理
-            }
-
+            TrainingAttack();
+            Debug.Log(count);
         }
         
+    }
+
+    /// <summary>
+    /// 攻撃モード処理
+    /// </summary>
+    private void TrainingAttack() {
+        count += Time.deltaTime;
+        if (coolTime < count) {
+            attackCollider.enabled = true;
+            // 攻撃発生持続
+            if (coolTime + attackTime < count) {
+                count = 0;
+            }
+        } else {
+            attackCollider.enabled = false;
+        }
     }
 }

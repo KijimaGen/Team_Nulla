@@ -15,9 +15,10 @@ GameObject:
   - component: {fileID: 6978280866849834363}
   - component: {fileID: 5343501067247904746}
   - component: {fileID: 6115345840809561096}
+  - component: {fileID: 6212483778931284324}
   m_Layer: 0
   m_Name: TrainingDoll00
-  m_TagString: Untagged
+  m_TagString: TrainingDoll00
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -162,3 +163,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b984d77496f24144da52fd1ae567c769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackCollider: {fileID: 6212483778931284324}
+--- !u!65 &6212483778931284324
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673022261182330704}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2, z: 0.5}
+  m_Center: {x: 0, y: 0, z: 0.5}

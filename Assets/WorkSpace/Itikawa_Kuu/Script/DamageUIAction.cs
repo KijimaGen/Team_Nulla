@@ -30,8 +30,10 @@ public class DamageUIAction : MonoBehaviour
     
     // 攻撃が当たったらアクティブにする
     private void OnTriggerEnter(Collider collider) {
-        //cloneDamageUI.SetActive(true);
-        Damage(collider);
+        if (!(collider.tag == "TrainingDoll00")) {
+            //cloneDamageUI.SetActive(true);
+            Damage(collider);
+        }
     }
     
     // プロトの仮実装
