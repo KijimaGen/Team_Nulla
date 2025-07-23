@@ -10,11 +10,15 @@ using UnityEngine;
 
 public class ItemUtility{
    
-    public static void UseItem() {
-        ItemManager.instance.UseItem();
+    public static void UseItem(Vector3 spawnPos) {
+        ItemManager.instance.UseItem(spawnPos);
     }
 
-    public static void UnuseItem(ItemBase item) {
-        ItemManager.instance.UnuseItem(item);
+    public static void UnuseItem(int ID) {
+        ItemManager.instance.UnuseItem(ID);
+    }
+
+    public static void GetItem(int ID) {
+        ItemManager.instance.GetItem(ID);
     }
 }

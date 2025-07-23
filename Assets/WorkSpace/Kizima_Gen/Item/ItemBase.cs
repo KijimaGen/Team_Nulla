@@ -14,7 +14,10 @@ public abstract class ItemBase : MonoBehaviour{
     protected const float fallSpeed = 0.001f;
     //地面にいるかどうか
     public bool isGround = false;
-
+    //自身のID
+    public int itemID = -1;
+    //プレイヤーが持っているかどうか
+    public bool isPlayerPosses = false;
 
 
 
@@ -33,16 +36,24 @@ public abstract class ItemBase : MonoBehaviour{
         this.transform.position -= fall;
     }
 
-   
 
     private void OnTriggerEnter(Collider other) {
-        isGround = true;
+        if (other.gameObject.tag == "Room") {
+            isGround = true;
+
+        }
     }
     private void OnTriggerExit(Collider other) {
         isGround=false;
     }
 
-
+    /// <summary>
+    /// アイテムIDのセット
+    /// </summary>
+    /// <param name="ID"></param>
+    public void SetItemID(int ID) {
+        this.itemID = ID;
+    }
 
 
 }

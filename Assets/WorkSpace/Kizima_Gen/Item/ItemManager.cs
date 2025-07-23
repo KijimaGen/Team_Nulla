@@ -6,58 +6,82 @@
  */
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
+using static UnityEditor.Progress;
 
-public class ItemManager : MonoBehaviour{
-    
+public class ItemManager : SystemObject{
     public static ItemManager instance;
-    //使用中のアイテム
-    [SerializeField]
-    Transform _useRoot;
-    //未使用状態のアイテム
-    [SerializeField]
-    Transform _unuseRoot;
-    //アイテムの枠
-    [SerializeField]
-    ItemBase originItem;
 
-    //使用中のアイテム
+    //アイテムを呼び出す先の参照
+    [SerializeField] Transform _useRoot;
+    [SerializeField] Transform _unuseRoot;
+    [SerializeField] ItemBase originItem;
+
+    //デバッグ用のplayerの鞄を疑似的に作ったもの
+    [SerializeField] GameObject PlayerBag;
+
+    [SerializeField] List<GameObject> items;
+
+    //使用、不使用リスト
     List<ItemBase> _useList = new List<ItemBase>();
-    //未使用状態のアイテム
     List<ItemBase> _unuseList = new List<ItemBase>();
 
+    //アイテムの最大数
     const int _ITEM_MAX = 256;
 
-    [SerializeField] List<GameObject> items = new List<GameObject>();
-
-    private void Start() {
-        Initialize();
-    }
-
-
-    private void Initialize() {
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    public override void Initialize() {
         instance = this;
-        for(int i = 0; i < _ITEM_MAX; i++) {
-            Instantiate(originItem, _unuseRoot);
-            _useList.Add(originItem);
+        for (int i = 0; i < _ITEM_MAX; i++) {
+            ItemBase item = Instantiate(originItem, _unuseRoot);
+            item.Initialize();
+            
+            //IDを指定して、アイテムを未使用状態にしておく
+            item.SetItemID(i);
+            _unuseList.Add(item);
         }
     }
 
     /// <summary>
-    /// アイテムの使用
+    /// アイテムを使える状態にする
     /// </summary>
-    /// <param name="item"></param>
-    public void UseItem() {
-        var item = GetUsableItem();
-        item.transform.SetParent(_useRoot);
+    public void UseItem(Vector3 spawnPos) {
+        ItemBase item = GetUsableItem();
+        if (item != null) {
+            _unuseList.Remove(item);
+            _useList.Add(item);
+
+            
+            item.transform.SetParent(_useRoot);
+           item.transform.position = spawnPos;
+
+            Debug.Log(item.gameObject.name +'['+ item.itemID+']' + "を使用します");
+        }
+        else {
+            Debug.LogWarning("ああああああああああ");
+
+        }
     }
 
     /// <summary>
     /// アイテムを未使用状態にする
     /// </summary>
-    /// <param name="item"></param>
-    public void UnuseItem(ItemBase item) {
-        item.transform.SetParent(_unuseRoot);
+    /// <param name="ID"></param>
+    public void UnuseItem(int ID) {
+        if (_useList[0] ==  null) return;
+        ItemBase item = _useList[ID];
+
+        if (_useList.Contains(item)) {
+            _useList.Remove(item);
+            _unuseList.Add(item);
+
+            item.transform.SetParent(_unuseRoot);
+            
+        }
     }
 
     /// <summary>
@@ -65,11 +89,29 @@ public class ItemManager : MonoBehaviour{
     /// </summary>
     /// <returns></returns>
     private ItemBase GetUsableItem() {
-        ItemBase result = null;
-        for(int i = 0,max =_useList.Count; i< max; i++) {
-            if (_useList[i] == null) result = _useList[i];
-            break;
+        if (_unuseList.Count > 0) {
+            return _unuseList[0]; // 先頭の未使用アイテムを返す
         }
-        return result;
-    } 
+        return null;
+    }
+
+    /// <summary>
+    /// アイテムの取得
+    /// </summary>
+    /// <param name="ID"></param>
+    public void GetItem(int ID) {
+        ItemBase getItem = _useList[ID];
+        if(getItem == null) return;
+
+        if (_useList.Contains(getItem)) {
+            _useList.Remove(getItem);
+            _unuseList.Add(getItem);
+
+            getItem.transform.SetParent(PlayerBag.transform);
+            getItem.transform.position = PlayerBag.transform.position;
+            getItem.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            Debug.Log(getItem.gameObject.name + getItem.itemID + "を獲得しました");
+        }
+
+    }
 }

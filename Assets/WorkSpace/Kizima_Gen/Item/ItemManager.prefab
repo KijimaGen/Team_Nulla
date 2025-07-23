@@ -63,6 +63,7 @@ Transform:
   m_Children:
   - {fileID: 2389876268108705823}
   - {fileID: 282061247104508779}
+  - {fileID: 6281908270355260434}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5486424849924595153
@@ -79,9 +80,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _useRoot: {fileID: 2389876268108705823}
   _unuseRoot: {fileID: 282061247104508779}
-  originItem: {fileID: 889336967553201985, guid: cc1c93c8b64abc74d964986189b9ef17, type: 3}
+  originItem: {fileID: 6067156924169744747, guid: 10d4ea970afa43244b2f89b7f00c36ff, type: 3}
+  PlayerBag: {fileID: 6117380134151482461}
   items:
-  - {fileID: 6570008700891121470, guid: 7224547ceee1a644bb7a99254f09905d, type: 3}
+  - {fileID: 2304901711259713005, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
+--- !u!1 &6117380134151482461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6281908270355260434}
+  m_Layer: 0
+  m_Name: PlayerBag
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6281908270355260434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6117380134151482461}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2769710517203258532}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9219269194457911837
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +130,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &282061247104508779
 Transform:
   m_ObjectHideFlags: 0
