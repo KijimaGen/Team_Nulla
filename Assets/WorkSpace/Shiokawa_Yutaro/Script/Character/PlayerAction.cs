@@ -7,6 +7,7 @@ using UnityEngine;
 
 using static CharacterManager;
 using static CharacterUtility;
+using static UnityEditor.Progress;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class PlayerAction : MonoBehaviour
     private bool isDashing = false;
     private float dashThreshold = 0.25f; // 0.25秒以上でダッシュ扱い
 
+    [SerializeField] private float pickupRadius = 2f;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -24,6 +27,11 @@ public class PlayerAction : MonoBehaviour
 
     public void AcceptInput()
     {
+        if (Input.GetKey(KeyCode.E))
+        {
+            TryPickupItem();
+        }
+
         // 移動の受付
         if (AcceptMove()) return;
         // 攻撃の受付
@@ -161,7 +169,7 @@ public class PlayerAction : MonoBehaviour
     {
         if (dir == Vector3.zero) return;
 
-        float rotationSpeed = 720f;
+        float rotationSpeed = 1000f;
         // 入力方向を向くQuaternionを作成（Y軸のみ）
         Quaternion targetRotation = Quaternion.LookRotation(dir);
         Vector3 euler = targetRotation.eulerAngles;
@@ -173,6 +181,43 @@ public class PlayerAction : MonoBehaviour
             targetRotation,
             rotationSpeed * Time.deltaTime
         );
+    }
+
+    private void TryPickupItem()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, pickupRadius);
+
+        PickItem closestItem = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Collider hit in hits)
+        {
+            PickItem item = hit.GetComponent<PickItem>();
+            if (item == null) continue;
+
+            float distance = Vector3.Distance(transform.position, hit.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestItem = item;
+            }
+        }
+
+        if (closestItem != null)
+        {
+            Pickup(closestItem);
+        }
+    }
+
+    private void Pickup(PickItem item)
+    {
+        Debug.Log($"拾ったアイテム: {item.itemName}");
+
+        // 例: 所持品に追加する、UI更新など
+        // inventory.Add(item);
+
+        // アイテムを消す
+        Destroy(item.gameObject);
     }
 
 
