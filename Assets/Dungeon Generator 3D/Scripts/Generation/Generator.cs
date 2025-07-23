@@ -279,7 +279,11 @@ public class Generator : MonoBehaviour
         if(middleObjectsRate == 0 && middleObjects.Count > 0)
             Debug.Log("Rate of MiddleObjects can not equal 0 for MiddleObjects objects to be generated.");
     }
-
+    /// <summary>
+    /// リストの要素が配列分存在するか
+    /// </summary>
+    /// <param name="objectList"></param>
+    /// <returns></returns>
     private bool CheckListObject(List<ObjectList> objectList)
     {
         int listCount = 0;
@@ -324,10 +328,13 @@ public class Generator : MonoBehaviour
         emptyParentRoom.tag = "Room";
     }
 
-    //TODO: Add comments to this function
+    /// <summary>
+    /// それぞれの部屋の生成（ボス部屋とか）
+    /// </summary>
     private void Generate()
     {
-        int randomBossRoom = Random.Range(0, rooms);
+        //int randomBossRoom = Random.Range(0,rooms);
+        int randomBossRoom = rooms - 1;
         bool isBossRoom = false;
 
         for (int i = 0; i < rooms; i++)
@@ -389,30 +396,44 @@ public class Generator : MonoBehaviour
         SpawnEntities();
     }
 
-    //TODO: Add comments to this function   
+    // 指定されたインデックス i の部屋を生成する関数。
+    // すでに部屋が存在する位置には配置しないようにチェックしながら、成功すれば true を返す。
+    // 配置できなければ false を返して呼び出し元で再試行される。
+    // isBossRoom は参照渡しされており、ボス部屋かどうかのフラグとして使われる。
     private bool CreateRooms(int i, ref bool isBossRoom)
     {
+        // 部屋のサイズ分ループ（横方向）
         for (int a = 0; a < roomArea[i].x; a++)
         {
+            // 部屋のサイズ分ループ（縦方向）
             for (int b = 0; b < roomArea[i].y; b++)
             {
-                //Check bounds
-                if (roomPos[i].x + roomArea[i].x > areaWidth - (roomArea[i].x / 2) - 2|| roomPos[i].y + roomArea[i].y > areaHeight - (roomArea[i].y / 2) - 2 
-                    || roomPos[i].x - roomArea[i].x < 2 || roomPos[i].y - roomArea[i].y < 2)
+                // --- エリア外のチェック ---
+                // 部屋がエリア外にはみ出す場合は失敗として false を返す
+                if (roomPos[i].x + roomArea[i].x > areaWidth - (roomArea[i].x / 2) - 2 ||
+                    roomPos[i].y + roomArea[i].y > areaHeight - (roomArea[i].y / 2) - 2 ||
+                    roomPos[i].x - roomArea[i].x < 2 ||
+                    roomPos[i].y - roomArea[i].y < 2)
                 {
                     return false;
                 }
                 else
                 {
-                    if(tempArea.Count < 1)
+                    // --- 周囲の空きチェック ---
+                    // もし部屋の敷地がまだ未使用なら、周囲の最小距離（minDistanceBetweenRooms）もチェック
+                    if (tempArea.Count < 1)
                     {
-                        for (int d = - minDistanceBetweenRooms; d < roomArea[i].x + (minDistanceBetweenRooms); d++)
+                        for (int d = -minDistanceBetweenRooms; d < roomArea[i].x + minDistanceBetweenRooms; d++)
                         {
-                            for (int e = -minDistanceBetweenRooms; e < roomArea[i].y + (minDistanceBetweenRooms); e++)
+                            for (int e = -minDistanceBetweenRooms; e < roomArea[i].y + minDistanceBetweenRooms; e++)
                             {
-                                if(roomPos[i].x + d < areaWidth || roomPos[i].x + d > 0 || roomPos[i].y + e < areaHeight || roomPos[i].y + e > 0)
+                                int checkX = roomPos[i].x + d;
+                                int checkY = roomPos[i].y + e;
+
+                                // 範囲内かつ既存部屋がある場合、失敗とみなす
+                                if (checkX >= 0 && checkX < areaWidth && checkY >= 0 && checkY < areaHeight)
                                 {
-                                    if (area[roomPos[i].x + d, roomPos[i].y + e] != null)
+                                    if (area[checkX, checkY] != null)
                                     {
                                         return false;
                                     }
@@ -421,39 +442,43 @@ public class Generator : MonoBehaviour
                         }
                     }
 
-                    //Check if there is a room at the position
+                    // --- 部屋タイルの配置 ---
+                    // 対象位置にまだ何も存在していない場合、床を生成
                     if (area[roomPos[i].x + a, roomPos[i].y + b] == null)
                     {
-                        //Do only once per room
-                        if(tempArea.Count == 0)
+                        // 部屋の初期生成（床設置開始時に一度だけ行う）
+                        if (tempArea.Count == 0)
                         {
                             numberOfRooms++;
-                            
-                            Vector2 tempArea = CalculateCenterPoint(roomArea[i], roomPos[i]);
-                            
-                            parents[i] = Instantiate(emptyParentRoom, new Vector3(tempArea.x, 0, tempArea.y), Quaternion.identity, gameObject.transform);
+
+                            // 中心座標を計算し、その位置に親オブジェクトを生成
+                            Vector2 center = CalculateCenterPoint(roomArea[i], roomPos[i]);
+                            parents[i] = Instantiate(emptyParentRoom, new Vector3(center.x, 0, center.y), Quaternion.identity, gameObject.transform);
                             parents[i].name = "Room" + numberOfRooms + "(" + roomPos[i].x + ", " + roomPos[i].y + ")";
 
+                            // 当たり判定のための BoxCollider を追加（部屋サイズと一致）
                             BoxCollider collider = parents[i].AddComponent<BoxCollider>();
-                            collider.size = new Vector3(roomArea[i].x - 1 , 3, roomArea[i].y - 1);
+                            collider.size = new Vector3(roomArea[i].x - 1, 3, roomArea[i].y - 1);
                             collider.isTrigger = true;
                         }
 
+                        // ランダムに床を選んで配置
                         int randomFLooring = Random.Range(0, flooring.Count);
-                        //Instantiate Floor
-                        area[roomPos[i].x + a, roomPos[i].y + b] = Instantiate(flooring[randomFLooring].gameObject, new Vector3(roomPos[i].x + a, 0, roomPos[i].y + b), Quaternion.identity, parents[i].transform);
+                        GameObject floor = Instantiate(flooring[randomFLooring].gameObject, new Vector3(roomPos[i].x + a, 0, roomPos[i].y + b), Quaternion.identity, parents[i].transform);
+                        area[roomPos[i].x + a, roomPos[i].y + b] = floor;
 
                         int tempX = roomPos[i].x + a;
                         int tempY = roomPos[i].y + b;
 
-                        area[roomPos[i].x + a, roomPos[i].y + b].name = "Floor" + " (" + tempX + ", " + tempY + ")";
+                        // 床の名前を座標付きで設定
+                        floor.name = "Floor (" + tempX + ", " + tempY + ")";
 
-                        //Add cords to list
-                        tempArea.Add(new Vector2Int(roomPos[i].x + a, roomPos[i].y + b));
+                        // 使用済み座標リストに追加（失敗時のリカバリのため）
+                        tempArea.Add(new Vector2Int(tempX, tempY));
                     }
                     else
                     {
-                        //If it is not null, delete the whole room that was just instatiated with i and the room area
+                        // すでに床がある（部屋が被っている）場合 → 全削除して false を返す
                         if (tempArea.Count > 0)
                         {
                             for (int e = 0; e < tempArea.Count; e++)
@@ -462,7 +487,7 @@ public class Generator : MonoBehaviour
                                 area[tempArea[e].x, tempArea[e].y] = null;
                             }
 
-                            //Delete parent
+                            // 親オブジェクトと情報の削除
                             DestroyImmediate(parents[i]);
                             DestroyImmediate(parentRooms[i]);
                             parentRooms[i] = null;
@@ -472,21 +497,22 @@ public class Generator : MonoBehaviour
                             tempArea.Clear();
                         }
 
-                        //Restart iteneration so this is done again
-                        return false;
+                        return false; // 再試行のため
                     }
 
-                    //If a and b both Max Area reset counter for room[]
-                    if (a >= roomArea[i].x - 1  && b >= roomArea[i].y - 1)
-                    { 
+                    // 最後のマスまで到達したら、一時データをクリア
+                    if (a >= roomArea[i].x - 1 && b >= roomArea[i].y - 1)
+                    {
                         tempArea.Clear();
                     }
                 }
             }
         }
 
+        // 正常に部屋が作成できた
         return true;
     }
+
 
     public void CalculateCorridors()
     {
@@ -530,6 +556,144 @@ public class Generator : MonoBehaviour
 
             //Clear list for the next room
             tempNumbers.Clear();
+        }
+    }
+    /// <summary>
+    /// 部屋を繋げて廊下の生成
+    private void CreateCorridor(int corridor, bool calculateNext, bool isFirstTime, Transform target, Transform startPoint)
+    {
+        GameObject corridorFloor;
+
+        //Only does this the first time
+        if (isFirstTime)
+        {
+            Room tempTarget = target.transform.parent.gameObject.GetComponent<Room>();
+            Room tempStart = startPoint.transform.parent.gameObject.GetComponent<Room>();
+
+            //If the targeted room contains start room, remove it from the connected rooms of target
+            if (tempTarget.ConnectedRooms.Contains(tempStart))
+            {
+                tempTarget.SavedConnectedRooms = tempTarget.ConnectedRooms;
+                tempTarget.ConnectedRooms.Remove(tempStart);
+            }
+
+            corridors.Add(Instantiate(emptyObject));
+            corridors[corridorNumber].transform.SetParent(startPoint.parent);
+            corridors[corridorNumber].name = "Corridor " + corridorNumber;
+        }
+
+        //Do X Corridor
+        if (corridor == 0)
+        {
+            int additive = 0;
+
+            do
+            {
+                if(startPoint.position.z < target.position.z)
+                {
+                    additive++;
+                }
+                else
+                {
+                    additive--;
+                }
+
+                //Get string from the self
+                string tempString = startPoint.gameObject.name;
+                string[] tempStringArray = tempString.Split(floorRemovables, System.StringSplitOptions.RemoveEmptyEntries);
+
+                //Make a parent object for corridor which is child of room
+                int tempIntY = int.Parse(tempStringArray[1]) + additive;
+                int tempIntX = int.Parse(tempStringArray[0]);
+
+                int randomFloor = Random.Range(0, flooring.Count);
+                corridorFloor = Instantiate(flooring[randomFloor].gameObject, new Vector3(startPoint.position.x, 0, startPoint.position.z + additive), Quaternion.identity); 
+                //corridorFloor.transform.localScale = new Vector3(2,2,2);
+                //Name corridor floor
+                corridorFloor.name = "Floor (" + tempIntX + ", " + tempIntY + ")";
+
+                //Set parent to be corridor parent object
+                corridorFloor.transform.SetParent(corridors[corridorNumber].transform);
+
+                if (area[tempIntX, tempIntY] != null)
+                {
+                    DestroyImmediate(corridorFloor);
+                    corridorFloor = area[tempIntX, tempIntY];
+                }
+                else
+                {
+                    area[tempIntX, tempIntY] = corridorFloor;
+                }
+
+            } while (corridorFloor.transform.position.z != target.position.z);
+
+
+            if (calculateNext)
+            {
+                CreateCorridor(1, false, false, target, corridorFloor.transform);
+            }
+        }
+        else if(corridor == 1) // Do Y corridor
+        {
+            int additive = 0;
+
+            do
+            {
+                if (startPoint.position.x < target.position.x)
+                {
+                    additive++;
+                }
+                else
+                {
+                    additive--;
+                }
+
+
+                string tempString = startPoint.gameObject.name;
+                string[] tempStringArray = tempString.Split(floorRemovables, System.StringSplitOptions.RemoveEmptyEntries);
+                tempStringArray[0].Remove(0);
+
+
+                //Make a parent object for corridor which is child of room
+                int tempIntY = int.Parse(tempStringArray[1]);
+                int tempIntX = int.Parse(tempStringArray[0]) + additive;
+
+                int randomFloor = Random.Range(0, flooring.Count);
+                corridorFloor = Instantiate(flooring[randomFloor].gameObject, new Vector3(startPoint.position.x + additive, 0, startPoint.position.z), Quaternion.identity);
+
+                //Name corridor floor
+                corridorFloor.name = "Floor" + " (" + tempIntX + ", " + tempStringArray[1] + ")";
+
+                //Set parent to be corridor parent object
+                corridorFloor.transform.SetParent(corridors[corridorNumber].transform);
+
+                if (area[tempIntX, tempIntY] != null)
+                {
+                    DestroyImmediate(corridorFloor);
+                    corridorFloor = area[tempIntX, tempIntY];
+                }
+                else
+                {
+                    area[tempIntX, tempIntY] = corridorFloor;
+                }
+
+
+            } while (corridorFloor.transform.position.x != target.position.x);
+
+            if (calculateNext)
+            {
+                CreateCorridor(0, false, false, target, corridorFloor.transform);
+            }
+        }
+        else
+        {
+            Debug.LogError("Create Corridor Function's int passed non available to create corridor in specific axis");
+        }
+
+        if (isFirstTime)
+        {
+            //Increase corridor number
+            corridorNumber++;
         }
     }
 
@@ -664,7 +828,7 @@ public class Generator : MonoBehaviour
                 //Compare this list and check which rooms are closer between both lists connect those
                 for (int a = 0; a < parentRooms.Length; a++)
                 {
-                    for (int b = 0; b < roomList.Count; b++)
+                    for (int b = 0; b < roomList.Count;)
                     {
                         //Whatever is first on the list is the closest to the room
                         for (int c = 0; c < parentRooms[a].ClosestRooms.Count; c++)
@@ -676,7 +840,7 @@ public class Generator : MonoBehaviour
                                 break;
                             }
                         }
-
+                        b++;
                         break;
                     }
 
@@ -792,141 +956,6 @@ public class Generator : MonoBehaviour
         CreateCorridor(dir, calculateNext, isFirstTime, target, startPoint);
     }
 
-    private void CreateCorridor(int corridor, bool calculateNext, bool isFirstTime, Transform target, Transform startPoint)
-    {
-        GameObject corridorFloor;
-
-        //Only does this the first time
-        if (isFirstTime)
-        {
-            Room tempTarget = target.transform.parent.gameObject.GetComponent<Room>();
-            Room tempStart = startPoint.transform.parent.gameObject.GetComponent<Room>();
-
-            //If the targeted room contains start room, remove it from the connected rooms of target
-            if (tempTarget.ConnectedRooms.Contains(tempStart))
-            {
-                tempTarget.SavedConnectedRooms = tempTarget.ConnectedRooms;
-                tempTarget.ConnectedRooms.Remove(tempStart);
-            }
-
-            corridors.Add(Instantiate(emptyObject));
-            corridors[corridorNumber].transform.SetParent(startPoint.parent);
-            corridors[corridorNumber].name = "Corridor " + corridorNumber;
-        }
-
-        //Do X Corridor
-        if (corridor == 0)
-        {
-            int additive = 0;
-
-            do
-            {
-                if(startPoint.position.z < target.position.z)
-                {
-                    additive++;
-                }
-                else
-                {
-                    additive--;
-                }
-
-                //Get string from the self
-                string tempString = startPoint.gameObject.name;
-                string[] tempStringArray = tempString.Split(floorRemovables, System.StringSplitOptions.RemoveEmptyEntries);
-
-                //Make a parent object for corridor which is child of room
-                int tempIntY = int.Parse(tempStringArray[1]) + additive;
-                int tempIntX = int.Parse(tempStringArray[0]);
-
-                int randomFloor = Random.Range(0, flooring.Count);
-                corridorFloor = Instantiate(flooring[randomFloor].gameObject, new Vector3(startPoint.position.x, 0, startPoint.position.z + additive), Quaternion.identity); 
-                //Name corridor floor
-                corridorFloor.name = "Floor (" + tempIntX + ", " + tempIntY + ")";
-
-                //Set parent to be corridor parent object
-                corridorFloor.transform.SetParent(corridors[corridorNumber].transform);
-
-                if (area[tempIntX, tempIntY] != null)
-                {
-                    DestroyImmediate(corridorFloor);
-                    corridorFloor = area[tempIntX, tempIntY];
-                }
-                else
-                {
-                    area[tempIntX, tempIntY] = corridorFloor;
-                }
-
-            } while (corridorFloor.transform.position.z != target.position.z);
-
-
-            if (calculateNext)
-            {
-                CreateCorridor(1, false, false, target, corridorFloor.transform);
-            }
-        }
-        else if(corridor == 1) // Do Y corridor
-        {
-            int additive = 0;
-
-            do
-            {
-                if (startPoint.position.x < target.position.x)
-                {
-                    additive++;
-                }
-                else
-                {
-                    additive--;
-                }
-
-
-                string tempString = startPoint.gameObject.name;
-                string[] tempStringArray = tempString.Split(floorRemovables, System.StringSplitOptions.RemoveEmptyEntries);
-                tempStringArray[0].Remove(0);
-
-
-                //Make a parent object for corridor which is child of room
-                int tempIntY = int.Parse(tempStringArray[1]);
-                int tempIntX = int.Parse(tempStringArray[0]) + additive;
-
-                int randomFloor = Random.Range(0, flooring.Count);
-                corridorFloor = Instantiate(flooring[randomFloor].gameObject, new Vector3(startPoint.position.x + additive, 0, startPoint.position.z), Quaternion.identity);
-
-                //Name corridor floor
-                corridorFloor.name = "Floor" + " (" + tempIntX + ", " + tempStringArray[1] + ")";
-
-                //Set parent to be corridor parent object
-                corridorFloor.transform.SetParent(corridors[corridorNumber].transform);
-
-                if (area[tempIntX, tempIntY] != null)
-                {
-                    DestroyImmediate(corridorFloor);
-                    corridorFloor = area[tempIntX, tempIntY];
-                }
-                else
-                {
-                    area[tempIntX, tempIntY] = corridorFloor;
-                }
-
-
-            } while (corridorFloor.transform.position.x != target.position.x);
-
-            if (calculateNext)
-            {
-                CreateCorridor(0, false, false, target, corridorFloor.transform);
-            }
-        }
-        else
-        {
-            Debug.LogError("Create Corridor Function's int passed non available to create corridor in specific axis");
-        }
-
-        if (isFirstTime)
-        {
-            //Increase corridor number
-            corridorNumber++;
-        }
-    }
 
     private void CalculateClosestRooms()
     {
@@ -1447,7 +1476,7 @@ public class Generator : MonoBehaviour
     {
         //Check if Right and Left side of floor have walls
         int number;
-        int extraRotation = 0;
+        //int extraRotation = 0;
 
         //Always check if it is null first before trying to get the tag of the object.
         if (CheckNullAndTag("Floor", false, area[a + 1, b], area[a - 1, b]))
@@ -1872,13 +1901,16 @@ public class Generator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// スポーン場所
+    /// </summary>
     private void SpawnEntities()
     {
         DestroyImmediate(PlayerSpawnRoom.gameObject.GetComponent<BoxCollider>());
 
         if(player != null)
         { 
-            player = Instantiate(Player, PlayerSpawnRoom.transform.position, Quaternion.identity, gameObject.transform);
+            player = Instantiate(Player, PlayerSpawnRoom.transform.position, Quaternion.identity);
         }
 
         if(bosses.Count > 0)
@@ -1894,7 +1926,56 @@ public class Generator : MonoBehaviour
             SpawnEnemies();
         }
     }
+    private void SpawnEnemies()
+    {
+        if(enemies.Count > 0)
+        {
+            for (int i = 0; i < parentRooms.Length; i++)
+            {
 
+                if (PlayerSpawnRoom != parentRooms[i] && bossSpawnRoom != parentRooms[i])
+                {
+                    int area = 0;
+
+                    for (int j = 0; j < parentRooms[i].transform.childCount; j++)
+                    {
+                        if(parentRooms[i].transform.GetChild(j).CompareTag("Floor"))
+                        {
+                            area += 1;
+                        }
+                    }
+
+                    int enem = Random.Range(minEnemiesPerRoom, maxEnemiesPerRoom);
+
+                    for (int a = 0; a < enem; a++)
+                    {
+                        bool isInstantiated = false;
+
+                        do
+                        {
+                            int randomChild = Random.Range(0, area);
+
+                            GameObject tempChild = parentRooms[i].transform.GetChild(randomChild).gameObject;
+
+                            if(tempChild.CompareTag("Floor") && !parentRooms[i].MidPoints.Contains(tempChild) && !parentRooms[i].Corners.Contains(tempChild))
+                            {
+                                Vector3 pos = tempChild.transform.position;
+
+                                int randomEnemy = Random.Range(0, Enemies.Count);
+                                int randomRotation = Random.Range(-360, 361);
+                                GameObject tempEnemy = Instantiate(Enemies[randomEnemy].gameObject, new Vector3(pos.x, pos.y + Enemies[randomEnemy].gameObject.transform.position.y, pos.z), Quaternion.Euler(0, randomRotation, 0), parentRooms[i].transform);
+                                tempEnemy.name = Enemies[randomEnemy].name;
+                                
+
+                                isInstantiated = true;
+                            }
+
+                        } while (isInstantiated == false);
+                    }
+                }
+            }
+        }
+    }
     private void GenerateContent()
     {
         for (int i = 0; i < parentRooms.Length; i++)
@@ -2009,56 +2090,6 @@ public class Generator : MonoBehaviour
         }
     }
 
-    private void SpawnEnemies()
-    {
-        if(enemies.Count > 0)
-        {
-            for (int i = 0; i < parentRooms.Length; i++)
-            {
-
-                if (PlayerSpawnRoom != parentRooms[i] && bossSpawnRoom != parentRooms[i])
-                {
-                    int area = 0;
-
-                    for (int j = 0; j < parentRooms[i].transform.childCount; j++)
-                    {
-                        if(parentRooms[i].transform.GetChild(j).CompareTag("Floor"))
-                        {
-                            area += 1;
-                        }
-                    }
-
-                    int enem = Random.Range(minEnemiesPerRoom, maxEnemiesPerRoom);
-
-                    for (int a = 0; a < enem; a++)
-                    {
-                        bool isInstantiated = false;
-
-                        do
-                        {
-                            int randomChild = Random.Range(0, area);
-
-                            GameObject tempChild = parentRooms[i].transform.GetChild(randomChild).gameObject;
-
-                            if(tempChild.CompareTag("Floor") && !parentRooms[i].MidPoints.Contains(tempChild) && !parentRooms[i].Corners.Contains(tempChild))
-                            {
-                                Vector3 pos = tempChild.transform.position;
-
-                                int randomEnemy = Random.Range(0, Enemies.Count);
-                                int randomRotation = Random.Range(-360, 361);
-                                GameObject tempEnemy = Instantiate(Enemies[randomEnemy].gameObject, new Vector3(pos.x, pos.y + Enemies[randomEnemy].gameObject.transform.position.y, pos.z), Quaternion.Euler(0, randomRotation, 0), parentRooms[i].transform);
-                                tempEnemy.name = Enemies[randomEnemy].name;
-                                
-
-                                isInstantiated = true;
-                            }
-
-                        } while (isInstantiated == false);
-                    }
-                }
-            }
-        }
-    }
 
     private Vector3Int CheckSidesCorridor(GameObject obj, int maxSurroundings)
     {
