@@ -18,7 +18,7 @@ public class PlayerAction : MonoBehaviour
     public bool isDashing = false;
     private float dashThreshold = 0.25f; // 0.25ïbà»è„Ç≈É_ÉbÉVÉÖàµÇ¢
 
-    [SerializeField] private float pickupRadius = 2f;
+    private float pickupRadius = 1f;
 
     private void Start()
     {
@@ -27,7 +27,7 @@ public class PlayerAction : MonoBehaviour
 
     public void AcceptInput()
     {
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             TryPickupItem();
         }
