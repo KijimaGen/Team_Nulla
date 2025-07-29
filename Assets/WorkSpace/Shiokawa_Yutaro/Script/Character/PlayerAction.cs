@@ -17,6 +17,8 @@ public class PlayerAction : MonoBehaviour
     private float shiftPressTime = 0f;
     public bool isDashing = false;
     private float dashThreshold = 0.25f; // 0.25秒以上でダッシュ扱い
+    private bool isJumping = false;
+    public bool isAvoiding = false;
 
     private float pickupRadius = 1f;
 
@@ -27,11 +29,18 @@ public class PlayerAction : MonoBehaviour
 
     public void AcceptInput()
     {
+
+        if (isJumping && IsGrounded())
+        {
+            isJumping = false;
+        }
+
         if (Input.GetKeyDown(KeyCode.E))
         {
             TryPickupItem();
         }
 
+        if (AcceptJump()) return;
         // 移動の受付
         if (AcceptMove()) return;
         // 攻撃の受付
@@ -45,13 +54,11 @@ public class PlayerAction : MonoBehaviour
     /// <returns>移動したらTrue</returns>
     public bool AcceptMove()
     {
-        //if (!IsGrounded()) return false;
-        if (AcceptJump()) return false;
-        // 8方向の入力を受け付ける
+        if (!IsGrounded() || isJumping) return false;
+
         Vector3 inputDir = AcceptDirInput().normalized;
         if (inputDir.magnitude <= 0.0f) return false;
 
-        //視点入力の受付処理
         AcceptDirChange(inputDir);
 
         PlayerCharacter player = GetComponent<PlayerCharacter>();
@@ -62,32 +69,25 @@ public class PlayerAction : MonoBehaviour
 
             if (shiftPressTime >= dashThreshold)
             {
-                // ダッシュ
+                isAvoiding = false;
                 isDashing = true;
                 player.SetSpeed(5);
             }
             else if (shiftPressTime < dashThreshold)
             {
-                // 回避行動（ここでローリング処理を実行）
-                TriggerDodge(player); // ※別で関数を用意
-                
+                TriggerDodge(player);
             }
-
-            
         }
         else
         {
-            // リセット
             shiftPressTime = 0f;
             isDashing = false;
-            // シフト押してないとき
             player.SetSpeed(3);
         }
 
         Vector3 velocity = rb.velocity;
         velocity.x = inputDir.x * player.speed;
         velocity.z = inputDir.z * player.speed;
-        // Y速度は触らない
         rb.velocity = velocity;
 
         return true;
@@ -95,20 +95,32 @@ public class PlayerAction : MonoBehaviour
 
     private bool AcceptJump()
     {
-        if (!Input.GetKey(KeyCode.Space)) return false;
-        rb.velocity = Vector3.up * 2;
+        if (!IsGrounded() || isAvoiding) return false;
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // 水平方向の移動を止める
+            rb.velocity = new Vector3(0f, 3f, 0f);
+            isJumping = true;
+            return true;
+        }
+
 
         return false;
     }
+
+
     private bool IsGrounded()
     {
-        float rayLength = 0.1f;
+        float rayLength = 0.2f;
         Vector3 origin = transform.position + Vector3.up * 0.1f;
         return Physics.Raycast(origin, Vector3.down, rayLength);
     }
 
+
     private void TriggerDodge(PlayerCharacter player)
     {
+        isAvoiding = true;
         Debug.Log("回避発動！");
         // プレイヤーの前方向に瞬間的に動かす（例: 回避ロール）
         Vector3 dodgeDir = AcceptDirInput().normalized;
@@ -169,7 +181,7 @@ public class PlayerAction : MonoBehaviour
     {
         if (dir == Vector3.zero) return;
 
-        float rotationSpeed = 1000f;
+        float rotationSpeed = 2000f;
         // 入力方向を向くQuaternionを作成（Y軸のみ）
         Quaternion targetRotation = Quaternion.LookRotation(dir);
         Vector3 euler = targetRotation.eulerAngles;
