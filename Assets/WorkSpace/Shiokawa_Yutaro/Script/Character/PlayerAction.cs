@@ -16,15 +16,31 @@ public class PlayerAction : MonoBehaviour
 
     private float shiftPressTime = 0f;
     public bool isDashing = false;
-    private float dashThreshold = 0.25f; // 0.25秒以上でダッシュ扱い
+    private float dashThreshold = 0.1f; // 0.25秒以上でダッシュ扱い
     private bool isJumping = false;
     public bool isAvoiding = false;
 
+    private float AvoidingCoolInterval = 2f;
+
     private float pickupRadius = 1f;
 
+    //アニメーション
+    private Animation animation;
+
+    private bool inputShiftButton;
+
+    private PlayerCharacter player;
     private void Start()
     {
+        player = GetComponent<PlayerCharacter>();
+
         rb = GetComponent<Rigidbody>();
+        animation = GetComponent<Animation>();
+
+        foreach (AnimationState state in animation)
+        {
+            Debug.Log("登録済みアニメーション: " + state.name);
+        }
     }
 
     public void AcceptInput()
@@ -54,35 +70,49 @@ public class PlayerAction : MonoBehaviour
     /// <returns>移動したらTrue</returns>
     public bool AcceptMove()
     {
-        if (!IsGrounded() || isJumping) return false;
+        Debug.Log("shift押してます : " + inputShiftButton);
+        if (isJumping) return false;
 
         Vector3 inputDir = AcceptDirInput().normalized;
-        if (inputDir.magnitude <= 0.0f) return false;
+        if (inputDir.magnitude <= 0.0f) { player.SetSpeed(player.walkSpeed);isAvoiding = false; isDashing = false; return false; }
 
         AcceptDirChange(inputDir);
-
-        PlayerCharacter player = GetComponent<PlayerCharacter>();
-
-        if (Input.GetKey(KeyCode.LeftShift))
+        
+        if(isDashing)
         {
-            shiftPressTime += Time.deltaTime;
+            player.SetSpeed(player.runSpeed);
+            TriggerDash();
+            //Debug.Log("ダッシュの開幕時間 : " + shiftPressTime);
 
+            //ダッシュし続けていたら
+            shiftPressTime += Time.deltaTime;
             if (shiftPressTime >= dashThreshold)
             {
                 isAvoiding = false;
-                isDashing = true;
-                player.SetSpeed(5);
             }
             else if (shiftPressTime < dashThreshold)
             {
                 TriggerDodge(player);
             }
+
         }
         else
         {
             shiftPressTime = 0f;
-            isDashing = false;
-            player.SetSpeed(3);
+        }
+        
+
+        if (Input.GetKey(KeyCode.LeftShift) && !inputShiftButton)
+        {
+            inputShiftButton = true;
+            isDashing = true;
+
+            if(shiftPressTime >= AvoidingCoolInterval) { shiftPressTime = 0f; }
+            
+        }
+        else if(!Input.GetKey(KeyCode.LeftShift))
+        {
+            inputShiftButton = false;
         }
 
         Vector3 velocity = rb.velocity;
@@ -112,12 +142,15 @@ public class PlayerAction : MonoBehaviour
 
     private bool IsGrounded()
     {
-        float rayLength = 0.2f;
-        Vector3 origin = transform.position + Vector3.up * 0.1f;
+        float rayLength = 2f;
+        Vector3 origin = transform.position;
         return Physics.Raycast(origin, Vector3.down, rayLength);
     }
 
-
+    /// <summary>
+    /// 回避処理
+    /// </summary>
+    /// <param name="player"></param>
     private void TriggerDodge(PlayerCharacter player)
     {
         isAvoiding = true;
@@ -129,10 +162,29 @@ public class PlayerAction : MonoBehaviour
             dodgeDir = transform.forward; // 入力がなければ前に回避
         }
 
-        rb.AddForce(transform.forward * 2.0f, ForceMode.Impulse);
+        //※ジャスト回避システム
+
+        rb.AddForce(dodgeDir * player.runSpeed, ForceMode.Impulse);
     }
 
+    /// <summary>
+    /// ダッシュ中の銃弾弾き処理
+    /// </summary>
+    private void TriggerDash()
+    {
+        //弾を弾く(ずっと繰り返す)
 
+        //アニメーション(一度だけ)
+
+        animation.Play("ダッシュ");
+        Debug.Log("プレイやーがダッシュ発動");
+
+    }
+
+    /// <summary>
+    /// 方向入力と自機回転処理
+    /// </summary>
+    /// <returns></returns>
     private Vector3 AcceptDirInput()
     {
         float moveX = Input.GetAxisRaw("Horizontal"); // ←→

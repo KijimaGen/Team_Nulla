@@ -232,12 +232,11 @@ public class EnemyCharacter : CharacterBase
     }
     #region 攻撃関係
 
+    private AttackType lastAttackType;
     /// <summary>
     /// 攻撃をする範囲と攻撃の実行
     /// </summary>
     /// <returns></returns>
-    private AttackType lastAttackType;
-
     public async UniTask StartAttack(int attackType)
     {
         var selectedType = (AttackType)attackType;
@@ -271,30 +270,33 @@ public class EnemyCharacter : CharacterBase
         //成功したら、攻撃のチャージが完了するかどうか
         if (!await ChargeTime(attackTime, attackName)) return;
         // プレイヤーがぎりかわせる攻撃の実行
-        Attack(attackName);
+        Attack(attackName , player.transform.position);
 
         // アニメーションの終了を待つ（基底のクラスの関数）
        // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
 
     }
 
+    [SerializeField]
+    private Transform hand;
     public override async UniTask LongRangeAttack()
     {
         //ここの文の書き方がきもいからなんか変えたい
         const float attackTime = 0;
         const string attackName = "攻撃遠距離";
 
-        const int bulletCount = 5;
-        const float interval = 1f;
+        const int bulletCount = 10;
+        const float interval = 0.5f;
 
         //成功したら、攻撃のチャージが完了するかどうか
         if (!await ChargeTime(attackTime, attackName)) return;
 
-        Attack(attackName);
+        Attack(attackName, player.transform.position);
+
         for (int i = 0; i < bulletCount; i++)
         {
-            GameObject bullet = Instantiate(prefabBullet, transform.position,Quaternion.Euler(transform.forward));
-            bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 4,ForceMode.Impulse);
+            Vector3 bulletRotation = (player.transform.position - transform.position).normalized;
+            GameObject bullet = Instantiate(prefabBullet, hand.position, Quaternion.LookRotation(bulletRotation));
             await UniTask.Delay((int)interval * 1000);
         }
 
@@ -336,7 +338,7 @@ public class EnemyCharacter : CharacterBase
 
         if (!CheckGrounded(fallPoint / 2))
         {
-            Debug.Log("後ろには飛べない");
+            //Debug.Log("後ろには飛べない");
             return;
         }
 

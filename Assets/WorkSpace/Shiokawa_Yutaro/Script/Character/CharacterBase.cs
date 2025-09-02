@@ -25,6 +25,8 @@ public abstract class CharacterBase : MonoBehaviour
     public float rawDefense { get; protected set; } = -1;
     public float speed { get; protected set; } = -1;
 
+    public float runSpeed { get; protected set; } = -1;
+    public float walkSpeed { get; protected set; } = -1;
     public List<int> possessItemList { get; protected set; } = null;
     //所持アイテムの最大数
     private static readonly int _POSSESS_ITEM_MAX = 6;
@@ -33,7 +35,6 @@ public abstract class CharacterBase : MonoBehaviour
     protected Rigidbody rb;
 
     protected bool isAttacking = false;
-
     private void Start()
     {
         Setup();
@@ -54,6 +55,11 @@ public abstract class CharacterBase : MonoBehaviour
         SetHP(HP);
         SetRawAttack(rawAttack);
         SetRawDefense(rawDefense);
+        SetSpeed(speed);
+
+        walkSpeed = speed;
+        runSpeed = speed * 1.5f;
+
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
     }
@@ -240,8 +246,11 @@ public abstract class CharacterBase : MonoBehaviour
                          && Physics.Raycast(origin4, direction, rayLength, groundLayer);
     }
 
-    protected void Attack(string attackName)
+    protected void Attack(string attackName , Vector3 targetDir)
     {
+        // 首の範囲を超えたら体をゆっくり回す
+        Quaternion targetRot = Quaternion.LookRotation(targetDir);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 3); // ←回転速度
         rb.velocity = Vector3.zero;
         //animator.SetTrigger(attackName);
         isAttacking = true;

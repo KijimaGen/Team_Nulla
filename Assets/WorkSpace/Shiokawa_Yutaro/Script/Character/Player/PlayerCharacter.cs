@@ -10,7 +10,7 @@ public class PlayerCharacter : CharacterBase
     public override void Setup()
     {
         _playerAction = GetComponent<PlayerAction>();
-        speed = 3;
+        speed = 2.5f;
         maxHP = 10;
         HP = maxHP;
         rawAttack = 5;
