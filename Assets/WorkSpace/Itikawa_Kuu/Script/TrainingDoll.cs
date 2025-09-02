@@ -12,9 +12,16 @@ public class TrainingDoll : MonoBehaviour
     private float coolTime = 3;
     private float attackTime = 2;
     private float count = 0;
+    // lŒ`‚ÌˆÊ’u
+    private Vector3 dollPos = Vector3.zero;
     // UŒ‚‚ÌCollider
     [SerializeField]
     private Collider attackCollider;
+    // ’e
+    [SerializeField]
+    private GameObject bullet;
+    // ’e‚Ì”­ËŠÔŠu
+    private float interval = 0.05f;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,10 +31,13 @@ public class TrainingDoll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        dollPos = transform.position;
         // ƒ‚[ƒhØ‚è‘Ö‚¦ˆ—
         if (attackMode)
         {
-            TrainingAttack();
+            count += Time.deltaTime;
+            TrainingShoot();
+            //TrainingAttack();
             
             Debug.Log(count);
         } else {
@@ -39,7 +49,6 @@ public class TrainingDoll : MonoBehaviour
     /// UŒ‚ƒ‚[ƒhˆ—
     /// </summary>
     private void TrainingAttack() {
-        count += Time.deltaTime;
         if (coolTime < count) {
             attackCollider.enabled = true;
             // UŒ‚”­¶‘±
@@ -48,6 +57,17 @@ public class TrainingDoll : MonoBehaviour
             }
         } else {
             attackCollider.enabled = false;
+        }
+    }
+
+    /// <summary>
+    /// ËŒ‚ƒ‚[ƒhˆ—
+    /// </summary>
+    private void TrainingShoot() {
+        // ˆê’èŠÔŠu‚ÅŒ‚‚Â
+        if (count > interval) {
+            Instantiate(bullet, new Vector3(dollPos.x + 1, dollPos.y, dollPos.z), Quaternion.identity);
+            count = 0;
         }
     }
 }
