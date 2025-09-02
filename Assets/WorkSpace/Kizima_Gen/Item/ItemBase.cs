@@ -6,6 +6,7 @@
  */
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class ItemBase : MonoBehaviour{
@@ -20,6 +21,15 @@ public abstract class ItemBase : MonoBehaviour{
     public bool isPlayerPosses = false;
     //デバッグ用のplayer
     public GameObject player;
+    
+    //上下移動しながら回転するための者
+    //上下の幅
+    private float Amplitude = 0.5f;
+    //速さ
+    private float floatFrequency = 1.0f;
+    //回転の速度
+    private float rotationSpeed = 90f;
+    //初期位置
 
 
     /// <summary>
@@ -36,7 +46,10 @@ public abstract class ItemBase : MonoBehaviour{
         this.transform.position -= fall;
     }
 
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Room") {
             isGround = true;
@@ -44,7 +57,9 @@ public abstract class ItemBase : MonoBehaviour{
         }
     }
     private void OnTriggerExit(Collider other) {
-        isGround=false;
+        if (other.gameObject.tag == "Room") {
+            isGround = false;
+        }
     }
 
     /// <summary>
@@ -54,6 +69,8 @@ public abstract class ItemBase : MonoBehaviour{
     public void SetItemID(int ID) {
         this.itemID = ID;
     }
+
+    
 
     private void Update() {
         

@@ -16,12 +16,7 @@ public class DebugScript : MonoBehaviour{
     }
 
     private void Update() {
-        if (Input.GetMouseButtonDown(0)) {
-            UseItem(new Vector3(57, 5, 59));
-        }
-        if(Input.GetMouseButtonDown(1)) {
-            GetItem(0);
-        }
+        
     }
 
     

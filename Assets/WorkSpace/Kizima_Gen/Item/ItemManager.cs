@@ -97,6 +97,7 @@ public class ItemManager : SystemObject{
     /// </summary>
     /// <param name="ID"></param>
     public void GetItem(int ID) {
+        if(ID < 0 ||  ID >= _useList.Count) return;
         ItemBase getItem = _useList[ID];
         if(getItem == null || ID >=_useList.Count) return;
 
