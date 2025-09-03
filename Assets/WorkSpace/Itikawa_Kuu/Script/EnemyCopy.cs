@@ -22,10 +22,10 @@ public class EnemyCopy : CharacterBase
     float attackArea = 0.5f;
     bool action;
 
-    private StateBase<EnemyCharacter> currentState;
+    public static StateBase<EnemyCharacter> currentState;
     private StateBase<EnemyCharacter> nextState;
 
-    private Dictionary<Action, StateBase<EnemyCharacter>> stateMap;
+    public static Dictionary<Action, StateBase<EnemyCharacter>> stateMap;
     private Dictionary<AttackType, AttackStrategy> attackStrategies;
 
     public override void Setup()
