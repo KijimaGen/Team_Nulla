@@ -4,10 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
-using static CharacterManager;
-using static CharacterUtility;
-using static UnityEditor.Progress;
+using System.Linq;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -55,13 +53,14 @@ public class PlayerAction : MonoBehaviour
         {
             TryPickupItem();
         }
-
-        if (AcceptJump()) return;
-        // 移動の受付
-        if (AcceptMove()) return;
-        // 攻撃の受付
+        //攻撃の受付
         if (AcceptAttack()) return;
+        //ジャンプの受付
+        if (AcceptJump()) return;
+        //移動の受付
+        if (AcceptMove()) return;
         
+
     }
 
     /// <summary>
@@ -70,15 +69,15 @@ public class PlayerAction : MonoBehaviour
     /// <returns>移動したらTrue</returns>
     public bool AcceptMove()
     {
-        Debug.Log("shift押してます : " + inputShiftButton);
-        if (isJumping) return false;
+        Debug.Log("isDashing : " + isDashing);
+        if (isJumping || player.isAttacking) return false;
 
         Vector3 inputDir = AcceptDirInput().normalized;
-        if (inputDir.magnitude <= 0.0f) { player.SetSpeed(player.walkSpeed);isAvoiding = false; isDashing = false; return false; }
+        if (inputDir.magnitude <= 0.0f) { player.SetSpeed(player.walkSpeed);isAvoiding = false; return false; }
 
         AcceptDirChange(inputDir);
-        
-        if(isDashing)
+
+        if (isDashing)
         {
             player.SetSpeed(player.runSpeed);
             TriggerDash();
@@ -100,17 +99,17 @@ public class PlayerAction : MonoBehaviour
         {
             shiftPressTime = 0f;
         }
-        
+
 
         if (Input.GetKey(KeyCode.LeftShift) && !inputShiftButton)
         {
             inputShiftButton = true;
             isDashing = true;
 
-            if(shiftPressTime >= AvoidingCoolInterval) { shiftPressTime = 0f; }
-            
+            if (shiftPressTime >= AvoidingCoolInterval) { shiftPressTime = 0f; }
+
         }
-        else if(!Input.GetKey(KeyCode.LeftShift))
+        else if (!Input.GetKey(KeyCode.LeftShift))
         {
             inputShiftButton = false;
         }
@@ -172,6 +171,8 @@ public class PlayerAction : MonoBehaviour
     /// </summary>
     private void TriggerDash()
     {
+        //回避中なら外れる
+        if (isAvoiding) return;
         //弾を弾く(ずっと繰り返す)
 
         //アニメーション(一度だけ)
@@ -218,6 +219,14 @@ public class PlayerAction : MonoBehaviour
     private bool AcceptAttack()
     {
         if (!Input.GetMouseButton(0)) return false;
+
+        Debug.Log("プレイヤーの攻撃");
+        //近くの敵に向いて攻撃する補正をつける
+        
+
+        TryAttackNearestEnemy().Forget();
+
+        //ロックオンでターゲット取ってるか
 
         //ExecuteAction(GetPlayer(), NORMAL_ATTACK_ACTION_ID);
         //今持ってる武器を参照したい
@@ -284,5 +293,52 @@ public class PlayerAction : MonoBehaviour
         Destroy(item.gameObject);
     }
 
+    private float attackRange;       // 攻撃できる範囲
+    private int enemyLayer;
 
+    private async UniTaskVoid TryAttackNearestEnemy()
+    {
+        if (player.isAttacking) return;
+        enemyLayer = LayerMask.GetMask("Enemy");
+        attackRange = 2;
+
+        // 攻撃範囲内の敵を探す
+        Collider[] hits = Physics.OverlapSphere(transform.position, attackRange, enemyLayer);
+
+        if (hits.Length == 0) return;
+
+        // 一番近い敵を選択
+        var nearestEnemy = hits
+            .Select(h => h.GetComponent<EnemyCharacter>())
+            .Where(e => e != null && !e.isDead)
+            .OrderBy(e => Vector3.Distance(transform.position, e.transform.position))
+            .FirstOrDefault();
+
+        if (nearestEnemy == null) return;
+
+        player.Attack("a", nearestEnemy.transform.position);
+
+        // 攻撃アニメーション実行
+        await player.GoingAttack();
+
+        // 敵との距離を測って「目の前の位置」を計算
+        float stopDistance = 0.5f; // 武器の射程（敵の手前で止まる距離）
+        Vector3 dir = (nearestEnemy.transform.position - transform.position).normalized;
+        Vector3 stopPos = nearestEnemy.transform.position - dir * stopDistance;
+
+        // 近距離武器なら、そこまでダッシュ移動
+        rb.DOMove(stopPos, 0.1f).OnComplete(() =>
+        {
+            player.isAttacking = false;
+        });        
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // 攻撃範囲を可視化
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+
+
+    }
 }

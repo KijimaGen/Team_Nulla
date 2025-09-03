@@ -7,6 +7,8 @@ public class PlayerCharacter : CharacterBase
 {
     private PlayerAction _playerAction;
 
+
+
     public override void Setup()
     {
         _playerAction = GetComponent<PlayerAction>();
@@ -40,8 +42,8 @@ public class PlayerCharacter : CharacterBase
     }
 
     public override UniTask GoingAttack()
-    {
-        throw new System.NotImplementedException();
+    {       
+        return UniTask.CompletedTask;
     }
 
     public override UniTask LongRangeAttack()
@@ -57,16 +59,5 @@ public class PlayerCharacter : CharacterBase
     public override UniTask CounterAttack()
     {
         throw new System.NotImplementedException();
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if(other.gameObject.tag == "Bullet")
-        {
-            if (_playerAction.isDashing)
-            {
-                Destroy(other.gameObject);
-            }
-        }
     }
 }

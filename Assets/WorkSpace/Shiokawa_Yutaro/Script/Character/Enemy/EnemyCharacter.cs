@@ -14,7 +14,7 @@ public class EnemyCharacter : CharacterBase
     /// <summary>
     /// エネミーの視野範囲
     /// </summary>
-    protected static readonly float _ENEMY_VIEW_AREA = 5;
+    protected static readonly float _ENEMY_VIEW_AREA = 10;
 
     Action actionCategory;
     bool onAction;
@@ -77,8 +77,8 @@ public class EnemyCharacter : CharacterBase
         if (playerDistance < attackArea * 2)
         {
             // プレイヤーが近い：攻撃っぽい行動を強調
-            actionWeights[Action.Attack] = 50f;
-            actionWeights[Action.Chase] = 30f;
+            actionWeights[Action.Attack] = 100f;
+            actionWeights[Action.Chase] = 20f;
         }
         else
         {
@@ -152,7 +152,7 @@ public class EnemyCharacter : CharacterBase
         if (action) return false;
 
         actionTime += Time.deltaTime;
-        float actionInterval = UnityEngine.Random.Range(3, 6);
+        float actionInterval = UnityEngine.Random.Range(2, 4);
         if (actionTime >= actionInterval)
         {
             actionTime = 0;
@@ -285,19 +285,22 @@ public class EnemyCharacter : CharacterBase
         const float attackTime = 0;
         const string attackName = "攻撃遠距離";
 
-        const int bulletCount = 10;
-        const float interval = 0.5f;
+        const int bulletCount = 30;
+        const float interval = 0.1f;
 
         //成功したら、攻撃のチャージが完了するかどうか
-        if (!await ChargeTime(attackTime, attackName)) return;
+        //if (!await ChargeTime(attackTime, attackName)) return;
 
         Attack(attackName, player.transform.position);
 
         for (int i = 0; i < bulletCount; i++)
         {
-            Vector3 bulletRotation = (player.transform.position - transform.position).normalized;
+            Vector3 bulletRotation = (player.transform.position - hand.position).normalized;
+            bulletRotation.x += Random.Range(-0.1f, 0.1f);
+            bulletRotation.y += Random.Range(-0.1f, 0.1f);
             GameObject bullet = Instantiate(prefabBullet, hand.position, Quaternion.LookRotation(bulletRotation));
-            await UniTask.Delay((int)interval * 1000);
+            float tmp = interval * 1000;
+            await UniTask.Delay((int)tmp);
         }
 
         // アニメーションの終了を待つ（基底のクラスの関数）
