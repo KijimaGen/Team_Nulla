@@ -8,7 +8,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using System.Linq;
 
-public class Enemy : CharacterBase
+public class EnemyCopy : CharacterBase
 {
 
     Action actionCategory;

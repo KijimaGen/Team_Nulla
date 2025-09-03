@@ -32,12 +32,13 @@ public class TrainingDoll : MonoBehaviour
     void Update()
     {
         dollPos = transform.position;
+        attackMode = true;
         // ÉÇÅ[ÉhêÿÇËë÷Ç¶èàóù
         if (attackMode)
         {
             count += Time.deltaTime;
-            TrainingShoot();
-            //TrainingAttack();
+            //TrainingShoot();
+            TrainingAttack();
             
             Debug.Log(count);
         } else {
