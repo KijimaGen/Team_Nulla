@@ -73,7 +73,7 @@ public class PlayerAction : MonoBehaviour
         if (isJumping || player.isAttacking) return false;
 
         Vector3 inputDir = AcceptDirInput().normalized;
-        if (inputDir.magnitude <= 0.0f) { player.SetSpeed(player.walkSpeed);isAvoiding = false; return false; }
+        if (inputDir.magnitude <= 0.0f) { player.SetSpeed(player.walkSpeed);isDashing = false; isAvoiding = false; return false; }
 
         AcceptDirChange(inputDir);
 
