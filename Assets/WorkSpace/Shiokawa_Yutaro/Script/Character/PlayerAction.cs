@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Linq;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -11,28 +13,54 @@ public class PlayerAction : MonoBehaviour
     bool isJump = false;
 
     private float shiftPressTime = 0f;
-    private bool isDashing = false;
-    private float dashThreshold = 0.25f; // 0.25秒以上でダッシュ扱い
+    public bool isDashing = false;
+    private float dashThreshold = 0.1f; // 0.25秒以上でダッシュ扱い
+    private bool isJumping = false;
+    public bool isAvoiding = false;
 
-    [SerializeField] private float pickupRadius = 2f;
+    private float AvoidingCoolInterval = 2f;
 
+    private float pickupRadius = 1f;
+
+    //アニメーション
+    private Animation animation;
+
+    private bool inputShiftButton;
+
+    private PlayerCharacter player;
     private void Start()
     {
+        player = GetComponent<PlayerCharacter>();
+
         rb = GetComponent<Rigidbody>();
+        animation = GetComponent<Animation>();
+
+        foreach (AnimationState state in animation)
+        {
+            Debug.Log("登録済みアニメーション: " + state.name);
+        }
     }
 
     public void AcceptInput()
     {
-        if (Input.GetKey(KeyCode.E))
+
+        if (isJumping && IsGrounded())
+        {
+            isJumping = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
         {
             TryPickupItem();
         }
-
-        // 移動の受付
-        if (AcceptMove()) return;
-        // 攻撃の受付
+        //攻撃の受付
         if (AcceptAttack()) return;
+        //ジャンプの受付
+        if (AcceptJump()) return;
+        //移動の受付
+        if (AcceptMove()) return;
         
+
     }
 
     /// <summary>
@@ -41,49 +69,54 @@ public class PlayerAction : MonoBehaviour
     /// <returns>移動したらTrue</returns>
     public bool AcceptMove()
     {
-        //if (!IsGrounded()) return false;
-        if (AcceptJump()) return false;
-        // 8方向の入力を受け付ける
-        Vector3 inputDir = AcceptDirInput().normalized;
-        if (inputDir.magnitude <= 0.0f) return false;
+        Debug.Log("isDashing : " + isDashing);
+        if (isJumping || player.isAttacking) return false;
 
-        //視点入力の受付処理
+        Vector3 inputDir = AcceptDirInput().normalized;
+        if (inputDir.magnitude <= 0.0f) { player.SetSpeed(player.walkSpeed);isAvoiding = false; return false; }
+
         AcceptDirChange(inputDir);
 
-        PlayerCharacter player = GetComponent<PlayerCharacter>();
-
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (isDashing)
         {
-            shiftPressTime += Time.deltaTime;
+            player.SetSpeed(player.runSpeed);
+            TriggerDash();
+            //Debug.Log("ダッシュの開幕時間 : " + shiftPressTime);
 
+            //ダッシュし続けていたら
+            shiftPressTime += Time.deltaTime;
             if (shiftPressTime >= dashThreshold)
             {
-                // ダッシュ
-                isDashing = true;
-                player.SetSpeed(5);
+                isAvoiding = false;
             }
             else if (shiftPressTime < dashThreshold)
             {
-                // 回避行動（ここでローリング処理を実行）
-                TriggerDodge(player); // ※別で関数を用意
-                
+                TriggerDodge(player);
             }
 
-            
         }
         else
         {
-            // リセット
             shiftPressTime = 0f;
-            isDashing = false;
-            // シフト押してないとき
-            player.SetSpeed(3);
+        }
+
+
+        if (Input.GetKey(KeyCode.LeftShift) && !inputShiftButton)
+        {
+            inputShiftButton = true;
+            isDashing = true;
+
+            if (shiftPressTime >= AvoidingCoolInterval) { shiftPressTime = 0f; }
+
+        }
+        else if (!Input.GetKey(KeyCode.LeftShift))
+        {
+            inputShiftButton = false;
         }
 
         Vector3 velocity = rb.velocity;
         velocity.x = inputDir.x * player.speed;
         velocity.z = inputDir.z * player.speed;
-        // Y速度は触らない
         rb.velocity = velocity;
 
         return true;
@@ -91,20 +124,35 @@ public class PlayerAction : MonoBehaviour
 
     private bool AcceptJump()
     {
-        if (!Input.GetKey(KeyCode.Space)) return false;
-        rb.velocity = Vector3.up * 2;
+        if (!IsGrounded() || isAvoiding) return false;
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // 水平方向の移動を止める
+            rb.velocity = new Vector3(0f, 3f, 0f);
+            isJumping = true;
+            return true;
+        }
+
 
         return false;
     }
+
+
     private bool IsGrounded()
     {
-        float rayLength = 0.1f;
-        Vector3 origin = transform.position + Vector3.up * 0.1f;
+        float rayLength = 2f;
+        Vector3 origin = transform.position;
         return Physics.Raycast(origin, Vector3.down, rayLength);
     }
 
+    /// <summary>
+    /// 回避処理
+    /// </summary>
+    /// <param name="player"></param>
     private void TriggerDodge(PlayerCharacter player)
     {
+        isAvoiding = true;
         Debug.Log("回避発動！");
         // プレイヤーの前方向に瞬間的に動かす（例: 回避ロール）
         Vector3 dodgeDir = AcceptDirInput().normalized;
@@ -113,10 +161,31 @@ public class PlayerAction : MonoBehaviour
             dodgeDir = transform.forward; // 入力がなければ前に回避
         }
 
-        rb.AddForce(transform.forward * 2.0f, ForceMode.Impulse);
+        //※ジャスト回避システム
+
+        rb.AddForce(dodgeDir * player.runSpeed, ForceMode.Impulse);
     }
 
+    /// <summary>
+    /// ダッシュ中の銃弾弾き処理
+    /// </summary>
+    private void TriggerDash()
+    {
+        //回避中なら外れる
+        if (isAvoiding) return;
+        //弾を弾く(ずっと繰り返す)
 
+        //アニメーション(一度だけ)
+
+        animation.Play("ダッシュ");
+        Debug.Log("プレイやーがダッシュ発動");
+
+    }
+
+    /// <summary>
+    /// 方向入力と自機回転処理
+    /// </summary>
+    /// <returns></returns>
     private Vector3 AcceptDirInput()
     {
         float moveX = Input.GetAxisRaw("Horizontal"); // ←→
@@ -151,6 +220,14 @@ public class PlayerAction : MonoBehaviour
     {
         if (!Input.GetMouseButton(0)) return false;
 
+        Debug.Log("プレイヤーの攻撃");
+        //近くの敵に向いて攻撃する補正をつける
+        
+
+        TryAttackNearestEnemy().Forget();
+
+        //ロックオンでターゲット取ってるか
+
         //ExecuteAction(GetPlayer(), NORMAL_ATTACK_ACTION_ID);
         //今持ってる武器を参照したい
 
@@ -165,7 +242,7 @@ public class PlayerAction : MonoBehaviour
     {
         if (dir == Vector3.zero) return;
 
-        float rotationSpeed = 1000f;
+        float rotationSpeed = 2000f;
         // 入力方向を向くQuaternionを作成（Y軸のみ）
         Quaternion targetRotation = Quaternion.LookRotation(dir);
         Vector3 euler = targetRotation.eulerAngles;
@@ -216,5 +293,52 @@ public class PlayerAction : MonoBehaviour
         Destroy(item.gameObject);
     }
 
+    private float attackRange;       // 攻撃できる範囲
+    private int enemyLayer;
 
+    private async UniTaskVoid TryAttackNearestEnemy()
+    {
+        if (player.isAttacking) return;
+        enemyLayer = LayerMask.GetMask("Enemy");
+        attackRange = 2;
+
+        // 攻撃範囲内の敵を探す
+        Collider[] hits = Physics.OverlapSphere(transform.position, attackRange, enemyLayer);
+
+        if (hits.Length == 0) return;
+
+        // 一番近い敵を選択
+        var nearestEnemy = hits
+            .Select(h => h.GetComponent<EnemyCharacter>())
+            .Where(e => e != null && !e.isDead)
+            .OrderBy(e => Vector3.Distance(transform.position, e.transform.position))
+            .FirstOrDefault();
+
+        if (nearestEnemy == null) return;
+
+        player.Attack("a", nearestEnemy.transform.position);
+
+        // 攻撃アニメーション実行
+        await player.GoingAttack();
+
+        // 敵との距離を測って「目の前の位置」を計算
+        float stopDistance = 0.5f; // 武器の射程（敵の手前で止まる距離）
+        Vector3 dir = (nearestEnemy.transform.position - transform.position).normalized;
+        Vector3 stopPos = nearestEnemy.transform.position - dir * stopDistance;
+
+        // 近距離武器なら、そこまでダッシュ移動
+        rb.DOMove(stopPos, 0.1f).OnComplete(() =>
+        {
+            player.isAttacking = false;
+        });        
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // 攻撃範囲を可視化
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+
+
+    }
 }

@@ -6,9 +6,11 @@
  */
 
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 
 public abstract class CharacterBase : MonoBehaviour
@@ -25,6 +27,8 @@ public abstract class CharacterBase : MonoBehaviour
     public float rawDefense { get; protected set; } = -1;
     public float speed { get; protected set; } = -1;
 
+    public float runSpeed { get; protected set; } = -1;
+    public float walkSpeed { get; protected set; } = -1;
     public List<int> possessItemList { get; protected set; } = null;
     //èäéùÉAÉCÉeÉÄÇÃç≈ëÂêî
     private static readonly int _POSSESS_ITEM_MAX = 6;
@@ -32,8 +36,7 @@ public abstract class CharacterBase : MonoBehaviour
     protected Animator animator;
     protected Rigidbody rb;
 
-    protected bool isAttacking = false;
-
+    public bool isAttacking;
     private void Start()
     {
         Setup();
@@ -54,6 +57,11 @@ public abstract class CharacterBase : MonoBehaviour
         SetHP(HP);
         SetRawAttack(rawAttack);
         SetRawDefense(rawDefense);
+        SetSpeed(speed);
+
+        walkSpeed = speed;
+        runSpeed = speed * 1.3f;
+
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
     }
@@ -240,10 +248,12 @@ public abstract class CharacterBase : MonoBehaviour
                          && Physics.Raycast(origin4, direction, rayLength, groundLayer);
     }
 
-    protected void Attack(string attackName)
+    public void Attack(string attackName , Vector3 targetDir)
     {
-        rb.velocity = Vector3.zero;
-        animator.SetTrigger(attackName);
+        targetDir.y = 0f;
+        Quaternion targetRotation = Quaternion.LookRotation(targetDir);
+        //transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 0.3f);
+        transform.DOLookAt(targetDir, 0.3f);
         isAttacking = true;
     }
 
@@ -271,5 +281,10 @@ public abstract class CharacterBase : MonoBehaviour
     {
         isAttacking = false;
     }
+
+    public abstract UniTask GoingAttack();
+    public abstract UniTask LongRangeAttack();
+    public abstract UniTask TakeDistance();
+    public abstract UniTask CounterAttack();
 }
 

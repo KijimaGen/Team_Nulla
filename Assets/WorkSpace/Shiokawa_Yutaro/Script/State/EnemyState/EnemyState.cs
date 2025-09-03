@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum AttackType
@@ -51,19 +52,19 @@ public class EnemyState
         public override async UniTask Enter(EnemyCharacter enemy)
         {
             //ここで追いかける前にプレイヤーを発見したアニメーションがほしい
-            Debug.Log("追う状態を入った");
+            //Debug.Log("追う状態を入った");
             await UniTask.CompletedTask;
         }
 
         public override async UniTask Execute(EnemyCharacter enemy)
         {
-            Debug.Log("追いかける状態に入った");
+            //Debug.Log("追いかける状態に入った");
             await enemy.StartChase();
         }
 
         public override async UniTask Exit(EnemyCharacter enemy)
         {
-            Debug.Log("追う状態を抜けた");
+            //Debug.Log("追う状態を抜けた");
             await UniTask.CompletedTask;
         }
     }
@@ -72,19 +73,22 @@ public class EnemyState
     {
         public override async UniTask Enter(EnemyCharacter enemy)
         {
-            Debug.Log("攻撃状態を抜けた");
+            //Debug.Log("攻撃状態を入った");
             await UniTask.CompletedTask;
         }
 
         public override async UniTask Execute(EnemyCharacter enemy)
         {
-            Debug.Log("攻撃状態を抜けた");
-            await UniTask.CompletedTask;
+            //Debug.Log("攻撃をします");
+            var availableTypes = enemy.attackStrategies.Keys.ToList();
+            var randomType = availableTypes[Random.Range(0, availableTypes.Count)];
+
+            await enemy.StartAttack((int)randomType);
         }
 
         public override async UniTask Exit(EnemyCharacter enemy)
         {
-            Debug.Log("攻撃状態を抜けた");
+            //Debug.Log("攻撃状態を抜けた");
             await UniTask.CompletedTask;
         }
     }
@@ -93,19 +97,19 @@ public class EnemyState
     {
         public override async UniTask Enter(EnemyCharacter enemy)
         {
-            Debug.Log("待機状態を抜けた");
+           // Debug.Log("待機状態を抜けた");
             await UniTask.CompletedTask;
         }
 
         public override async UniTask Execute(EnemyCharacter enemy)
         {
-            Debug.Log("待機状態を抜けた");
+           // Debug.Log("待機状態を抜けた");
             await UniTask.CompletedTask;
         }
 
         public override async UniTask Exit(EnemyCharacter enemy)
         {
-            Debug.Log("待機状態を抜けた");
+           // Debug.Log("待機状態を抜けた");
             await UniTask.CompletedTask;
         }
     }
