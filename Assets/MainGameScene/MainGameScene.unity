@@ -10527,7 +10527,19 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 117535113}
+        m_TargetAssemblyTypeName: PlayerOpenChester, Assembly-CSharp
+        m_MethodName: HandleInteractInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 40a1470a-0cab-476f-8269-7d7efd0c3ade
     m_ActionName: Interact/New action[/XInputControllerWindows/buttonEast,/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
@@ -232419,7 +232431,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6844175933476128810, guid: e15f735a51babb347b04e3cb7b72fa60, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.26
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 6844175933476128810, guid: e15f735a51babb347b04e3cb7b72fa60, type: 3}
       propertyPath: m_LocalPosition.z
@@ -232427,31 +232439,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6844175933476128810, guid: e15f735a51babb347b04e3cb7b72fa60, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.032774363
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 6844175933476128810, guid: e15f735a51babb347b04e3cb7b72fa60, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.051224783
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 6844175933476128810, guid: e15f735a51babb347b04e3cb7b72fa60, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7053734
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6844175933476128810, guid: e15f735a51babb347b04e3cb7b72fa60, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.70622253
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6844175933476128810, guid: e15f735a51babb347b04e3cb7b72fa60, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -83.189
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 6844175933476128810, guid: e15f735a51babb347b04e3cb7b72fa60, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 90.17
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6844175933476128810, guid: e15f735a51babb347b04e3cb7b72fa60, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 91.328
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
