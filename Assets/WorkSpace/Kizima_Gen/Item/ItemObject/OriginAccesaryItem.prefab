@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6067156924169744747}
   - component: {fileID: 5923354411171800338}
   - component: {fileID: -3084616918407289036}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: OriginAccesaryItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,6 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
+  itemID: -1
+  isPlayerPosses: 0
+  player: {fileID: 0}
 --- !u!135 &5923354411171800338
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -105,7 +108,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1965184028838505820}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ItemHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,6 +182,10 @@ PrefabInstance:
     - target: {fileID: 6570008700891121470, guid: 7224547ceee1a644bb7a99254f09905d, type: 3}
       propertyPath: m_Name
       value: PowerUPNeckles
+      objectReference: {fileID: 0}
+    - target: {fileID: 6570008700891121470, guid: 7224547ceee1a644bb7a99254f09905d, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -21,7 +21,10 @@ public abstract class ItemBase : MonoBehaviour{
     public bool isPlayerPosses = false;
     //デバッグ用のplayer
     public GameObject player;
-    
+
+    //プレイヤーに触れているかどうか
+    private bool isPlayerInRange;
+
     //上下移動しながら回転するための者
     //上下の幅
     private float Amplitude = 0.5f;
@@ -47,18 +50,30 @@ public abstract class ItemBase : MonoBehaviour{
     }
 
     /// <summary>
-    /// 
+    /// プレイヤーと部屋の当たり判定検知
     /// </summary>
     /// <param name="other"></param>
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Room") {
             isGround = true;
+        }
 
+        if(other.gameObject.tag == "Player") {
+            isPlayerInRange = true;
         }
     }
+
+    /// <summary>
+    /// プレイヤーと部屋の離れ判定検知
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerExit(Collider other) {
         if (other.gameObject.tag == "Room") {
             isGround = false;
+        }
+
+        if (other.gameObject.tag == "Player") {
+            isPlayerInRange = false;
         }
     }
 
@@ -70,9 +85,33 @@ public abstract class ItemBase : MonoBehaviour{
         this.itemID = ID;
     }
 
-    
 
     private void Update() {
+
+        Fall();
+
+        //プレイヤーに触れていたら自身を未使用状態にする
         
+        if (this.isPlayerPosses)
+            transform.position = player.transform.position;
+    }
+
+
+    private void OnEnable() {
+        //プレイヤーイベントを購読
+        PlayerOpenChester.OnInteract += TryOpenChest;
+    }
+
+    private void OnDisable() {
+        //イベント購読解除
+        PlayerOpenChester.OnInteract -= TryOpenChest;
+    }
+
+    private void TryOpenChest() {
+        //近くにプレイヤーいなければ何もしない
+        if (!isPlayerInRange) return;
+
+        Debug.Log("アイテムを拾った！");
+        ItemUtility.GetItem(itemID);
     }
 }

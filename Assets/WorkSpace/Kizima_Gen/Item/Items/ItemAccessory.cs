@@ -13,10 +13,4 @@ public class ItemAccessory : ItemBase {
         player = GameObject.Find("Player");
     }
 
-    private void Update() {
-        Fall();
-
-        if (this.isPlayerPosses)
-            transform.position = player.transform.position;
-    }
 }

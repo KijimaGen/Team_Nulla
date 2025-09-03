@@ -14,7 +14,4 @@ public class ItemWeapon : ItemBase {
         
     }
 
-    private void Update() {
-        Fall();
-    }
 }
