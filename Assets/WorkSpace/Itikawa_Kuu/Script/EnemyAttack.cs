@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using static EnemyCharacter;
 using static EnemyCopy;
 
 public class EnemyAttack : MonoBehaviour
