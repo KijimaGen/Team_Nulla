@@ -206,9 +206,7 @@ public class PlayerAction : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal"); // ©¨
         float moveZ = Input.GetAxisRaw("Vertical");   // ª«
 
-        Vector3 swicthMoveValue= switchLvale;
-        Debug.Log("LStickValue" + switchLvale);
-        Vector3 input = new Vector3(swicthMoveValue.x, 0, swicthMoveValue.z);
+        Vector3 input = new Vector3(moveX, 0, moveZ);
         input = Vector3.ClampMagnitude(input, 1f); // Î‚ßˆÚ“®‚ğ•â³
 
         // ƒJƒƒ‰‚ÌŒü‚«‚É‡‚í‚¹‚Ä“ü—Í‚ğ‰ñ“]‚³‚¹‚é
