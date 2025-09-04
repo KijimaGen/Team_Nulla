@@ -30,8 +30,6 @@ public class ChestCreater : MonoBehaviour{
 
     
     void Update(){
-        chestCount = this.transform.childCount-1;
-
-        chestCountText.text = text + chestCount;
+        
     }
 }
