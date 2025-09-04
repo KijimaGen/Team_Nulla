@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ModeSwitch : MonoBehaviour
+public class Bullet : MonoBehaviour
 {
-    // 案山子のモード切替フラグ
-    public static bool attackMode = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,15 +13,12 @@ public class ModeSwitch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        transform.position += new Vector3(0.05f, 0, 0);
     }
 
     private void OnCollisionEnter(Collision collision) {
-        if (attackMode) {
-            attackMode = false;
-
-        } else if (!attackMode) {
-            attackMode = true;
-        }
+        Destroy(gameObject);
     }
+
+
 }
