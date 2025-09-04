@@ -20,7 +20,7 @@ public class Bullet : MonoBehaviour
      float horizontalAngleRange = 70f; // 左右ランダム回転の角度
      float horizontalSpeed = 2f;      // 水平方向スピード
     
-     float downwardForce = 30f;        // 下方向に叩きつける強さ
+     float downwardForce = 3f;        // 下方向に叩きつける強さ
     
      float maxTilt = 20f;              // X,Z軸回転の最大値
 
@@ -72,7 +72,7 @@ public class Bullet : MonoBehaviour
             }
             else if(playerCol is not SphereCollider)
             {
-                Destroy(gameObject);
+                //Destroy(gameObject);
             }
         }
     }

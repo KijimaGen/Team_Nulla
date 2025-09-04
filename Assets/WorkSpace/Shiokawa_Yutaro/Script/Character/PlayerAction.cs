@@ -82,7 +82,7 @@ public class PlayerAction : MonoBehaviour
         if (inputDir.magnitude <= 0.0f)
         {
             player.SetSpeed(player.walkSpeed);
-            isDashing = false;
+            isDashing = true;
             isAvoiding = false;
             isCounter = false;
             return false;
