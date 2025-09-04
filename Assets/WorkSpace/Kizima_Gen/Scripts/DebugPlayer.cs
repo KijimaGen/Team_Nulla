@@ -27,10 +27,21 @@ public class DebugPlayer : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        // 移動方向を決定（X=横, Y=前後）
-        Vector3 move = new Vector3(moveInput.x, 0, moveInput.y);
+        Vector3 camForward = Camera.main.transform.forward;
+        Vector3 camRight = Camera.main.transform.right;
 
-        // 物理的に移動
-        rb.MovePosition(rb.position + move * moveSpeed * Time.fixedDeltaTime);
+        // Y成分を0にして地面に沿わせる
+        camForward.y = 0;
+        camRight.y = 0;
+
+        // カメラ基準で移動
+        Vector3 move = camForward * moveInput.y + camRight * moveInput.x;
+
+        rb.MovePosition(rb.position + move.normalized * moveSpeed * Time.fixedDeltaTime);
+        if (transform.position.y < -0.5) {
+            transform.position = new Vector3(0,1,0);
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
     }
 }
