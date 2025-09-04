@@ -25,14 +25,10 @@ public abstract class ItemBase : MonoBehaviour{
     private bool isPlayerInRange;
 
     //上下移動しながら回転するための者
-    //上下の幅
-    private float Amplitude = 0.5f;
-    //速さ
-    private float floatFrequency = 1.0f;
+    
     //回転の速度
     private float rotationSpeed = 90f;
-    //初期位置
-
+    
 
     /// <summary>
     /// 初期化処理(基底クラスに任せる)
@@ -55,6 +51,7 @@ public abstract class ItemBase : MonoBehaviour{
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Room") {
             isGround = true;
+            
         }
 
         if(other.gameObject.tag == "Player") {
@@ -86,13 +83,20 @@ public abstract class ItemBase : MonoBehaviour{
 
 
     private void Update() {
-
-        Fall();
+        
+        
 
         //プレイヤーに触れていたら自身を未使用状態にする
 
-        if (this.isPlayerPosses)
+        if (isPlayerPosses)
             transform.localPosition = Vector3.zero;
+        else
+            Fall();
+        
+            //Y軸回転
+            transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+            
+        
     }
 
 
@@ -106,6 +110,9 @@ public abstract class ItemBase : MonoBehaviour{
         PlayerOpenChester.OnInteract -= TryOpenChest;
     }
 
+    /// <summary>
+    /// 名前は完全なる嘘ですこれはアイテムを拾うためのスクリプト
+    /// </summary>
     private void TryOpenChest() {
         //近くにプレイヤーいなければ何もしない
         if (!isPlayerInRange) return;

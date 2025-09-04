@@ -1,0 +1,56 @@
+{
+    "name": "PlayerDebugAction",
+    "maps": [
+        {
+            "name": "DebugPlayer",
+            "id": "43cbd1f8-42cf-4a68-be4e-02786f208278",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "48aa913a-9714-4257-957f-0f53a0be4ab6",
+                    "expectedControlType": "Stick",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2bec2bda-8041-4c62-bb96-dbfa5b91d1ad",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8241bf31-4567-40f3-8978-b011966ed356",
+                    "path": "<NPad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c431544f-cbfe-4f91-887c-dc4a503c72d3",
+                    "path": "<SwitchProControllerHID>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

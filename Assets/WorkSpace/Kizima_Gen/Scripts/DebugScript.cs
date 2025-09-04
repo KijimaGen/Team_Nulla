@@ -33,7 +33,7 @@ public class DebugScript : MonoBehaviour{
 
         audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
         audioSource.maxDistance = 20f;
-
+        MasterdataManager.LoadAllData();
     }
 
     public void PlaySound() {
