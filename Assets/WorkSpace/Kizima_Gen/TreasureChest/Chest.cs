@@ -54,9 +54,16 @@ public class Chest : MonoBehaviour{
 
         Debug.Log("ïÛî†ÇäJÇØÇΩÅI");
 
+        DebugScript.instance.PlaySound();
         ItemUtility.UseItem(this.transform.position);
         Instantiate(smokePrefab, this.transform.position, Quaternion.identity);
         Instantiate(hitEffectPrefab, this.transform.position, Quaternion.identity);
         Destroy(this.gameObject);
+    }
+
+    private void Update() {
+        if(transform.position.y < -0.5) {
+            Destroy(gameObject);
+        }
     }
 }

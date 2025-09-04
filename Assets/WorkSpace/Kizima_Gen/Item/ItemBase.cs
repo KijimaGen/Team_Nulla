@@ -110,8 +110,9 @@ public abstract class ItemBase : MonoBehaviour{
     private void TryOpenChest() {
         //近くにプレイヤーいなければ何もしない
         if (!isPlayerInRange) return;
+        if (isPlayerPosses) return;
 
-        Debug.Log("アイテムを拾った！");
+        DebugScript.instance.PlaySE();
         ItemUtility.GetItem(itemID);
     }
 }

@@ -9,15 +9,45 @@ using UnityEngine;
 using static ItemUtility;
 
 public class DebugScript : MonoBehaviour{
+    public static DebugScript instance;
 
-    private void Start() {
-        MasterdataManager.LoadAllData();
-        
+    //óßëÃâπãøÇ®ééÇµóp
+    [SerializeField]
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip clip;
+
+    //ïÅí Ç…å¯â âπñ¬ÇÁÇµÇΩÇ¢
+    [SerializeField]
+    private AudioSource audioSource2;
+    [SerializeField]
+    private AudioClip clip2;
+
+    private void Awake() {
+        if (instance == null) {
+            instance = this;
+        }
+
+        //Ç±Ç±Ç≈3DâπãøÇ…Ç∑ÇÈ
+        audioSource.spatialBlend = 1.0f;
+
+        audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
+        audioSource.maxDistance = 20f;
+
     }
 
-    private void Update() {
-        
+    public void PlaySound() {
+        audioSource.PlayOneShot(clip);
     }
 
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.F)) {
+            audioSource.PlayOneShot(clip);
+        }
+    }
+
+    public void PlaySE() {
+        audioSource2.PlayOneShot(clip2);
+    }
     
 }
