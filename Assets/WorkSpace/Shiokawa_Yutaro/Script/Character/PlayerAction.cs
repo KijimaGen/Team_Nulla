@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Linq;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -33,7 +34,8 @@ public class PlayerAction : MonoBehaviour
     [SerializeField] ParticleSystem attackEfect;
     [SerializeField] ParticleSystem counterEfect;
 
-    Vector3 switchLvale;
+    Vector2 switchLStickValue;
+    bool switchLStickButton;
 
     private void Start()
     {
@@ -82,7 +84,7 @@ public class PlayerAction : MonoBehaviour
         if (inputDir.magnitude <= 0.0f)
         {
             player.SetSpeed(player.walkSpeed);
-            isDashing = true;
+            isDashing = false;
             isAvoiding = false;
             isCounter = false;
             return false;
@@ -114,7 +116,7 @@ public class PlayerAction : MonoBehaviour
         }
 
 
-        if (Input.GetKey(KeyCode.LeftShift) && !inputShiftButton)
+        if (switchLStickButton || Input.GetKey(KeyCode.LeftShift) && !inputShiftButton)
         {
             inputShiftButton = true;
             isDashing = true;
@@ -122,7 +124,7 @@ public class PlayerAction : MonoBehaviour
             if (shiftPressTime >= AvoidingCoolInterval) { shiftPressTime = 0f; }
 
         }
-        else if (!Input.GetKey(KeyCode.LeftShift))
+        else if (!Input.GetKey(KeyCode.LeftShift) || !switchLStickButton)
         {
             inputShiftButton = false;
         }
@@ -133,6 +135,18 @@ public class PlayerAction : MonoBehaviour
         rb.velocity = velocity;
 
         return true;
+    }
+
+    public void SwitchZR(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            switchLStickButton = true;
+        }
+        else
+        {
+            switchLStickButton = false;
+        }
     }
 
     private bool AcceptJump()
@@ -206,7 +220,7 @@ public class PlayerAction : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal"); // Å©Å®
         float moveZ = Input.GetAxisRaw("Vertical");   // Å™Å´
 
-        Vector3 input = new Vector3(moveX, 0, moveZ);
+        Vector3 input = new Vector3(switchLStickValue.x + moveX, 0, switchLStickValue.y + moveZ);
         input = Vector3.ClampMagnitude(input, 1f); // éŒÇﬂà⁄ìÆÇï‚ê≥
 
         // ÉJÉÅÉâÇÃå¸Ç´Ç…çáÇÌÇπÇƒì¸óÕÇâÒì]Ç≥ÇπÇÈ
@@ -227,9 +241,9 @@ public class PlayerAction : MonoBehaviour
         return moveDir;
     }
 
-    public void SwitchMove(InputAction.CallbackContext context)
+    public void SwitchLStickMove(InputAction.CallbackContext context)
     {
-        switchLvale = context.ReadValue<Vector3>();
+        switchLStickValue = context.ReadValue<Vector2>();
     }
 
     /// <summary>
