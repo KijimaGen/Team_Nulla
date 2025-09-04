@@ -23,7 +23,7 @@ public class ChestCreater : MonoBehaviour{
 
     void Start(){
         for (int i = 0; i < 100; i++) {
-            Vector3 chestSpawnPos = new Vector3(Random.Range(17, 87), 5, (Random.Range(14, 87)));
+            Vector3 chestSpawnPos = new Vector3(0, 5,0);
             Instantiate(chest,chestSpawnPos,Quaternion.identity,transform);
         }
     }
