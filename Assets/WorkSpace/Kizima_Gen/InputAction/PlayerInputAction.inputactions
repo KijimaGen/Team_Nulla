@@ -13,6 +13,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchController",
+                    "type": "Button",
+                    "id": "89db5ad8-c55d-494e-b0eb-2af21c3a6de5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchMove",
+                    "type": "Button",
+                    "id": "ae10a443-aa44-45e7-ac9e-f60c074754c6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -35,6 +53,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "OnInteract",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f9aab807-ed95-4ae3-84b9-de888862b7cd",
+                    "path": "<NPad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchController",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3f576d30-d2b2-4502-9d61-1f45d645002e",
+                    "path": "<NPad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchMove",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

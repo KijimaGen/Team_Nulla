@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System.Linq;
 using static UnityEngine.GraphicsBuffer;
+using UnityEngine.InputSystem;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class PlayerAction : MonoBehaviour
 
     [SerializeField] ParticleSystem attackEfect;
     [SerializeField] ParticleSystem counterEfect;
+
+    Vector3 switchLvale;
 
     private void Start()
     {
@@ -198,12 +201,14 @@ public class PlayerAction : MonoBehaviour
     /// •ûŒü“ü—Í‚Æ©‹@‰ñ“]ˆ—
     /// </summary>
     /// <returns></returns>
-    private Vector3 AcceptDirInput()
+    public Vector3 AcceptDirInput()
     {
         float moveX = Input.GetAxisRaw("Horizontal"); // ©¨
         float moveZ = Input.GetAxisRaw("Vertical");   // ª«
 
-        Vector3 input = new Vector3(moveX, 0, moveZ);
+        Vector3 swicthMoveValue= switchLvale;
+        Debug.Log("LStickValue" + switchLvale);
+        Vector3 input = new Vector3(swicthMoveValue.x, 0, swicthMoveValue.z);
         input = Vector3.ClampMagnitude(input, 1f); // Î‚ßˆÚ“®‚ğ•â³
 
         // ƒJƒƒ‰‚ÌŒü‚«‚É‡‚í‚¹‚Ä“ü—Í‚ğ‰ñ“]‚³‚¹‚é
@@ -222,6 +227,11 @@ public class PlayerAction : MonoBehaviour
         Vector3 moveDir = camForward * input.z + camRight * input.x;
 
         return moveDir;
+    }
+
+    public void SwitchMove(InputAction.CallbackContext context)
+    {
+        switchLvale = context.ReadValue<Vector3>();
     }
 
     /// <summary>
