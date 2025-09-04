@@ -24,7 +24,11 @@ public class ItemManager : SystemObject{
     //アイテムの最大数
     const int _ITEM_MAX = 256;
 
-   
+    //デバッグ用のplayer
+    private GameObject player;
+
+    [SerializeField]
+    private List<GameObject> itemRoots; 
 
     /// <summary>
     /// 初期化
@@ -39,7 +43,8 @@ public class ItemManager : SystemObject{
             item.SetItemID(i);
             _unuseList.Add(item);
         }
-
+        player = GameObject.Find("Player");
+        itemRoots = PlayerOpenChester.instance.GetItemRoots();
        
     }
 
@@ -97,17 +102,29 @@ public class ItemManager : SystemObject{
     /// </summary>
     /// <param name="ID"></param>
     public void GetItem(int ID) {
-        if(ID < 0 ||  ID >= _useList.Count) return;
-        ItemBase getItem = _useList[ID];
-        if(getItem == null || ID >=_useList.Count) return;
+        ItemBase getItem = _useList.Find(item => item.itemID == ID);
+        if (getItem == null) return;
 
         if (_useList.Contains(getItem)) {
             _useList.Remove(getItem);
             _unuseList.Add(getItem);
 
-            getItem.transform.SetParent(getItem.player.transform);
-            getItem.transform.position = getItem.player.transform.position;
-            getItem.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            for(int i = 0,max = itemRoots.Count; i < max; i++) {
+
+                if (itemRoots[i].transform.childCount != 0) continue;
+                getItem.transform.SetParent(itemRoots[i].transform);
+                getItem.transform.position = itemRoots[i].transform.position;
+                getItem.transform.rotation = itemRoots[i].transform.rotation;
+                getItem.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+                getItem.isPlayerPosses = true;
+                Debug.Log(getItem.gameObject.name + getItem.itemID + "を獲得しました");
+
+                return;
+            }
+
+            getItem.transform.SetParent(player.transform);
+            getItem.transform.position = player.transform.position;
+            getItem.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
             getItem.isPlayerPosses = true;
             Debug.Log(getItem.gameObject.name + getItem.itemID + "を獲得しました");
         }

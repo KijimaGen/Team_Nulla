@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,10 @@ public class PlayerOpenChester : MonoBehaviour {
     public delegate void InteractAction();
     // 宝箱などに通知するイベント
     public static event InteractAction OnInteract;
+    //雑
+    [SerializeField]
+    private List<GameObject> itemRoots = new List<GameObject>();
+
 
     private void Awake() {
         instance = this;
@@ -21,5 +26,9 @@ public class PlayerOpenChester : MonoBehaviour {
             OnInteract?.Invoke();
         }
         Debug.Log("オープンチェスト");
+    }
+
+    public List<GameObject> GetItemRoots() {
+        return itemRoots;
     }
 }

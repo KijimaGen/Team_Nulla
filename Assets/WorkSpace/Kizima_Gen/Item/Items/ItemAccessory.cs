@@ -10,7 +10,7 @@ using UnityEngine;
 
 public class ItemAccessory : ItemBase {
     public override void Initialize() {
-        player = GameObject.Find("Player");
+        
     }
 
 }

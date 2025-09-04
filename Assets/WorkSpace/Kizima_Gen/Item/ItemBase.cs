@@ -19,8 +19,7 @@ public abstract class ItemBase : MonoBehaviour{
     public int itemID = -1;
     //プレイヤーが持っているかどうか
     public bool isPlayerPosses = false;
-    //デバッグ用のplayer
-    public GameObject player;
+    
 
     //プレイヤーに触れているかどうか
     private bool isPlayerInRange;
@@ -91,9 +90,9 @@ public abstract class ItemBase : MonoBehaviour{
         Fall();
 
         //プレイヤーに触れていたら自身を未使用状態にする
-        
+
         if (this.isPlayerPosses)
-            transform.position = player.transform.position;
+            transform.localPosition = Vector3.zero;
     }
 
 
