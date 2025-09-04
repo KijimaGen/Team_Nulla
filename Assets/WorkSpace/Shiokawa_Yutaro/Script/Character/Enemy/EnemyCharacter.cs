@@ -8,25 +8,31 @@ using Unity.VisualScripting;
 using UnityEditor;
 using System.Linq;
 
+
 public class EnemyCharacter : CharacterBase
 {
+    /// <summary>
+    /// エネミーの視野範囲
+    /// </summary>
+    protected static readonly float _ENEMY_VIEW_AREA = 10;
 
     Action actionCategory;
     bool onAction;
     float actionTime;
 
     [SerializeField] Transform neck;
+    [SerializeField] protected GameObject prefabBullet;
 
     PlayerCharacter player;
 
-    float attackArea = 0.5f;
+    protected float attackArea = 0.5f;
     bool action;
 
     private StateBase<EnemyCharacter> currentState;
     private StateBase<EnemyCharacter> nextState;
 
     private Dictionary<Action, StateBase<EnemyCharacter>> stateMap;
-    private Dictionary<AttackType, AttackStrategy> attackStrategies;
+    public Dictionary<AttackType, AttackStrategy> attackStrategies;
 
     public override void Setup()
     {
@@ -40,20 +46,8 @@ public class EnemyCharacter : CharacterBase
 
         currentState = stateMap[Action.Idel];
 
-        attackStrategies = new Dictionary<AttackType, AttackStrategy>
-        {
-            { AttackType.Going, new GoingAttack() },
-            { AttackType.LongRange, new LongRangeAttack() },
-            { AttackType.Counter, new CounterAttack() },
-            { AttackType.TakeDistance, new TakeDistanceState() }
-        };
-
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCharacter>();
-        speed = 1;
-        maxHP = 10;
-        HP = maxHP;
-        rawAttack = 5;
-        rawDefense = 0;
+
         SetStatus();
     }
     // Update is called once per frame
@@ -80,11 +74,11 @@ public class EnemyCharacter : CharacterBase
 
         Dictionary<Action, float> actionWeights = new();
 
-        if (playerDistance < 6f)
+        if (playerDistance < attackArea * 2)
         {
             // プレイヤーが近い：攻撃っぽい行動を強調
-            actionWeights[Action.Attack] = 50f;
-            actionWeights[Action.Chase] = 30f;
+            actionWeights[Action.Attack] = 100f;
+            actionWeights[Action.Chase] = 20f;
         }
         else
         {
@@ -94,8 +88,8 @@ public class EnemyCharacter : CharacterBase
         }
 
         // 同じ行動を避けながらランダム選出（重み付き）
-        //Action nextAction = GetRandomWeightedAction(actionWeights, previousAction);
-        Action nextAction = Action.Chase;
+        Action nextAction = GetRandomWeightedAction(actionWeights, previousAction);
+        //Action nextAction = Action.Chase;
 
         previousAction = nextAction;
         nextState = stateMap[nextAction];
@@ -158,7 +152,7 @@ public class EnemyCharacter : CharacterBase
         if (action) return false;
 
         actionTime += Time.deltaTime;
-        float actionInterval = UnityEngine.Random.Range(3, 6);
+        float actionInterval = UnityEngine.Random.Range(2, 4);
         if (actionTime >= actionInterval)
         {
             actionTime = 0;
@@ -178,7 +172,6 @@ public class EnemyCharacter : CharacterBase
         float viewAngle = 120;
         float halfAngle = viewAngle / 2f;
         int rayCount = 30;
-        float rayDistance = 5;
 
         for (int i = 0; i < rayCount; i++)
         {
@@ -188,7 +181,7 @@ public class EnemyCharacter : CharacterBase
             Vector3 dir = rotation * transform.forward;
 
             Ray ray = new Ray(viewPos, dir);
-            RaycastHit[] hits = Physics.RaycastAll(ray, rayDistance);
+            RaycastHit[] hits = Physics.RaycastAll(ray, _ENEMY_VIEW_AREA);
 
             foreach (var hit in hits)
             {
@@ -196,7 +189,7 @@ public class EnemyCharacter : CharacterBase
                 {                   
 
                     float dist = Vector3.Distance(neckPos, hit.transform.position);
-                    if (dist > rayDistance)
+                    if (dist > _ENEMY_VIEW_AREA)
                     {
                         return false;
                     }
@@ -204,7 +197,7 @@ public class EnemyCharacter : CharacterBase
                     else return true;
                 }
             }
-            Debug.DrawRay(viewPos, dir * rayDistance, Color.red);
+            Debug.DrawRay(viewPos, dir * _ENEMY_VIEW_AREA, Color.red);
         }
 
         return false;
@@ -239,12 +232,11 @@ public class EnemyCharacter : CharacterBase
     }
     #region 攻撃関係
 
+    private AttackType lastAttackType;
     /// <summary>
     /// 攻撃をする範囲と攻撃の実行
     /// </summary>
     /// <returns></returns>
-    private AttackType lastAttackType;
-
     public async UniTask StartAttack(int attackType)
     {
         var selectedType = (AttackType)attackType;
@@ -257,7 +249,7 @@ public class EnemyCharacter : CharacterBase
         }
 
         rb.velocity = Vector3.zero;
-        selectedType = AttackType.Counter;
+        //selectedType = AttackType.Counter;
         if (attackStrategies.TryGetValue(selectedType, out var strategy))
         {
             lastAttackType = selectedType;
@@ -269,7 +261,7 @@ public class EnemyCharacter : CharacterBase
         }
     }
 
-    public async UniTask GoingAttack()
+    public override async UniTask GoingAttack()
     {
         //ここの文の書き方がきもいからなんか変えたい
         const float attackTime = 2;
@@ -278,26 +270,46 @@ public class EnemyCharacter : CharacterBase
         //成功したら、攻撃のチャージが完了するかどうか
         if (!await ChargeTime(attackTime, attackName)) return;
         // プレイヤーがぎりかわせる攻撃の実行
-        Attack(attackName);
+        Attack(attackName , player.transform.position);
 
         // アニメーションの終了を待つ（基底のクラスの関数）
        // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
 
     }
 
-    public async UniTask LongRangeAttack()
+    [SerializeField]
+    private Transform hand;
+    public override async UniTask LongRangeAttack()
     {
         //ここの文の書き方がきもいからなんか変えたい
-        const float attackTime = 2;
+        const float attackTime = 0;
         const string attackName = "攻撃遠距離";
 
+        const int bulletCount = 30;
+        const float interval = 0.1f;
+
         //成功したら、攻撃のチャージが完了するかどうか
-        if (!await ChargeTime(attackTime, attackName)) return;
-        // プレイヤーがぎりかわせる攻撃の実行
-        Attack(attackName);
+        //if (!await ChargeTime(attackTime, attackName)) return;
+
+        Attack(attackName, player.transform.position);
+
+        for (int i = 0; i < bulletCount; i++)
+        {
+            Vector3 bulletRotation = (player.transform.position - hand.position).normalized;
+            bulletRotation.x += Random.Range(-0.1f, 0.1f);
+            bulletRotation.y += Random.Range(-0.1f, 0.1f);
+            GameObject bullet = Instantiate(prefabBullet, hand.position, Quaternion.LookRotation(bulletRotation));
+            float tmp = interval * 1000;
+            await UniTask.Delay((int)tmp);
+        }
 
         // アニメーションの終了を待つ（基底のクラスの関数）
        // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
+    }
+
+    public override UniTask CounterAttack()
+    {
+        return UniTask.CompletedTask;
     }
     /// <summary>
     /// 攻撃時間とチャージ画像
@@ -318,7 +330,7 @@ public class EnemyCharacter : CharacterBase
 
         return true;
     }
-    public async UniTask StartTakeDistance()
+    public override async UniTask TakeDistance()
     {
 
         //プレイヤーから一定の距離を取る処理（ワンちゃん崖に落ちのでどうしよう）
@@ -329,7 +341,7 @@ public class EnemyCharacter : CharacterBase
 
         if (!CheckGrounded(fallPoint / 2))
         {
-            Debug.Log("後ろには飛べない");
+            //Debug.Log("後ろには飛べない");
             return;
         }
 
@@ -391,4 +403,6 @@ public class EnemyCharacter : CharacterBase
     public override void Dead()
     {
     }
+
+
 }

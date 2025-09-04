@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +7,12 @@ public class PlayerCharacter : CharacterBase
 {
     private PlayerAction _playerAction;
 
+
+
     public override void Setup()
     {
         _playerAction = GetComponent<PlayerAction>();
-        speed = 3;
+        speed = 2.5f;
         maxHP = 10;
         HP = maxHP;
         rawAttack = 5;
@@ -36,5 +39,25 @@ public class PlayerCharacter : CharacterBase
     {
         // プレイヤー死亡でダンジョン終了
        // _EndDungeon?.Invoke(eDungeonEndReason.Dead);
+    }
+
+    public override UniTask GoingAttack()
+    {       
+        return UniTask.CompletedTask;
+    }
+
+    public override UniTask LongRangeAttack()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override UniTask TakeDistance()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override UniTask CounterAttack()
+    {
+        throw new System.NotImplementedException();
     }
 }
