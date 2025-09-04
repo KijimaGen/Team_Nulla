@@ -18,6 +18,7 @@ public class EnemyAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(currentState);
         if (currentState == stateMap[Action.Attack]) {
             attackCollider.enabled = true;
         }
