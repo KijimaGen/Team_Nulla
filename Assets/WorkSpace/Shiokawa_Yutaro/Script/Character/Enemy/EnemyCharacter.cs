@@ -14,7 +14,7 @@ public class EnemyCharacter : CharacterBase
     /// <summary>
     /// エネミーの視野範囲
     /// </summary>
-    protected static readonly float _ENEMY_VIEW_AREA = 10;
+    protected static readonly float _ENEMY_VIEW_AREA = 15;
 
     Action actionCategory;
     bool onAction;
@@ -33,6 +33,9 @@ public class EnemyCharacter : CharacterBase
 
     private Dictionary<Action, StateBase<EnemyCharacter>> stateMap;
     public Dictionary<AttackType, AttackStrategy> attackStrategies;
+
+    bool hitDamage;
+
 
     public override void Setup()
     {
@@ -54,12 +57,10 @@ public class EnemyCharacter : CharacterBase
     void Update()
     {
         //死んでたらリターン
-        if (isDead) return;
+        if (isDead) { Destroy(gameObject); }
         if (!ViewAction()) return;
 
         StateTick().Forget();
-
-        //HPバー追加
     }
 
     private Action previousAction = Action.Max;
@@ -213,7 +214,7 @@ public class EnemyCharacter : CharacterBase
             Vector3 dir = (player.transform.position - transform.position).normalized;
             // プレイヤーとの距離チェック
             float distance = Vector3.Distance(transform.position, player.transform.position);
-            Debug.Log($"プレイヤーとの距離: {distance}");
+           // Debug.Log($"プレイヤーとの距離: {distance}");
 
             if (distance < attackArea)
             {
@@ -404,5 +405,15 @@ public class EnemyCharacter : CharacterBase
     {
     }
 
-
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.gameObject.tag == "Player")
+        {
+            PlayerCharacter player = other.gameObject.GetComponent<PlayerCharacter>();
+            if (player.isAttacking)
+            {
+                HP -= 3;
+            }
+        }
+    }
 }

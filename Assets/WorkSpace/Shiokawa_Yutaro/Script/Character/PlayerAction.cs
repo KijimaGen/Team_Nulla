@@ -6,19 +6,20 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System.Linq;
 using static UnityEngine.GraphicsBuffer;
+using UnityEngine.InputSystem;
 
 public class PlayerAction : MonoBehaviour
 {
     Rigidbody rb;
-    bool isJump = false;
 
     private float shiftPressTime = 0f;
     public bool isDashing = false;
     private float dashThreshold = 0.1f; // 0.25秒以上でダッシュ扱い
     private bool isJumping = false;
     public bool isAvoiding = false;
+    public bool isCounter = false;
 
-    private float AvoidingCoolInterval = 2f;
+    private float AvoidingCoolInterval = 1f;
 
     private float pickupRadius = 1f;
 
@@ -28,6 +29,12 @@ public class PlayerAction : MonoBehaviour
     private bool inputShiftButton;
 
     private PlayerCharacter player;
+
+    [SerializeField] ParticleSystem attackEfect;
+    [SerializeField] ParticleSystem counterEfect;
+
+    Vector3 switchLvale;
+
     private void Start()
     {
         player = GetComponent<PlayerCharacter>();
@@ -69,11 +76,17 @@ public class PlayerAction : MonoBehaviour
     /// <returns>移動したらTrue</returns>
     public bool AcceptMove()
     {
-        Debug.Log("isDashing : " + isDashing);
         if (isJumping || player.isAttacking) return false;
 
         Vector3 inputDir = AcceptDirInput().normalized;
-        if (inputDir.magnitude <= 0.0f) { player.SetSpeed(player.walkSpeed);isAvoiding = false; return false; }
+        if (inputDir.magnitude <= 0.0f)
+        {
+            player.SetSpeed(player.walkSpeed);
+            isDashing = true;
+            isAvoiding = false;
+            isCounter = false;
+            return false;
+        }
 
         AcceptDirChange(inputDir);
 
@@ -163,7 +176,7 @@ public class PlayerAction : MonoBehaviour
 
         //※ジャスト回避システム
 
-        rb.AddForce(dodgeDir * player.runSpeed, ForceMode.Impulse);
+        rb.AddForce(dodgeDir * player.runSpeed * 200, ForceMode.Impulse);
     }
 
     /// <summary>
@@ -173,20 +186,22 @@ public class PlayerAction : MonoBehaviour
     {
         //回避中なら外れる
         if (isAvoiding) return;
+        if (isCounter) return;
         //弾を弾く(ずっと繰り返す)
-
+        //ParticleSystem effect = Instantiate(counterEfect, transform.position + Vector3.up * 0.3f, Quaternion.LookRotation(transform.forward));
+        //effect.transform.SetParent(transform);
         //アニメーション(一度だけ)
 
         animation.Play("ダッシュ");
-        Debug.Log("プレイやーがダッシュ発動");
-
+        //Debug.Log("プレイやーがダッシュ発動");
+        isCounter = true;
     }
 
     /// <summary>
     /// 方向入力と自機回転処理
     /// </summary>
     /// <returns></returns>
-    private Vector3 AcceptDirInput()
+    public Vector3 AcceptDirInput()
     {
         float moveX = Input.GetAxisRaw("Horizontal"); // ←→
         float moveZ = Input.GetAxisRaw("Vertical");   // ↑↓
@@ -212,19 +227,38 @@ public class PlayerAction : MonoBehaviour
         return moveDir;
     }
 
+    public void SwitchMove(InputAction.CallbackContext context)
+    {
+        switchLvale = context.ReadValue<Vector3>();
+    }
+
     /// <summary>
     /// 通常攻撃入力受付、処理
     /// </summary>
     /// <returns></returns>
+    bool inputAttack;
     private bool AcceptAttack()
     {
-        if (!Input.GetMouseButton(0)) return false;
-
+        if (Input.GetMouseButton(0) && !inputAttack && !isJumping)
+        {
+            inputAttack = true;
+            if (!player.isAttacking)
+            {
+                TryAttackNearestEnemy().Forget();
+                return true;
+            }
+        }
+        else if(!Input.GetMouseButton(0))
+        {
+            inputAttack = false;
+            return false;
+        }
+        
         Debug.Log("プレイヤーの攻撃");
         //近くの敵に向いて攻撃する補正をつける
         
 
-        TryAttackNearestEnemy().Forget();
+        
 
         //ロックオンでターゲット取ってるか
 
@@ -298,7 +332,11 @@ public class PlayerAction : MonoBehaviour
 
     private async UniTaskVoid TryAttackNearestEnemy()
     {
+        
         if (player.isAttacking) return;
+        ParticleSystem effect = Instantiate(attackEfect,transform.position + Vector3.up * 0.3f, Quaternion.LookRotation(transform.forward));
+        effect.transform.SetParent(transform);
+        Destroy(effect.gameObject,2);
         enemyLayer = LayerMask.GetMask("Enemy");
         attackRange = 2;
 
@@ -314,7 +352,7 @@ public class PlayerAction : MonoBehaviour
             .OrderBy(e => Vector3.Distance(transform.position, e.transform.position))
             .FirstOrDefault();
 
-        if (nearestEnemy == null) return;
+        //if (nearestEnemy == null) return;
 
         player.Attack("a", nearestEnemy.transform.position);
 

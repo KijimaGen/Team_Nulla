@@ -60,7 +60,7 @@ public abstract class CharacterBase : MonoBehaviour
         SetSpeed(speed);
 
         walkSpeed = speed;
-        runSpeed = speed * 1.3f;
+        runSpeed = speed * 1.8f;
 
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
@@ -250,11 +250,13 @@ public abstract class CharacterBase : MonoBehaviour
 
     public void Attack(string attackName , Vector3 targetDir)
     {
-        targetDir.y = 0f;
-        Quaternion targetRotation = Quaternion.LookRotation(targetDir);
-        //transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 0.3f);
-        transform.DOLookAt(targetDir, 0.3f);
+        Vector3 flatTargetPos = targetDir;
+        flatTargetPos.y = transform.position.y; // é©ï™ÇÃYç¿ïWÇ…å≈íË
+
+        transform.DOLookAt(flatTargetPos, 0.3f);
         isAttacking = true;
+
+
     }
 
     /// <summary>
