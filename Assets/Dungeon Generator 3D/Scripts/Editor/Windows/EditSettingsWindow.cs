@@ -204,6 +204,7 @@ public class EditSettingsWindow : EditorWindow
 
     private void OnGUI()
     {
+        if (serializedObject == null) return;
         currentProperty = serializedObject.FindProperty("generation");
 
         EditorGUILayout.BeginHorizontal();

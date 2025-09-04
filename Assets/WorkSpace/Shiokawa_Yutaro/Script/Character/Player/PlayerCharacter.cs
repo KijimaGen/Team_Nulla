@@ -42,22 +42,22 @@ public class PlayerCharacter : CharacterBase
     }
 
     public override UniTask GoingAttack()
-    {       
+    {   
         return UniTask.CompletedTask;
     }
 
     public override UniTask LongRangeAttack()
     {
-        throw new System.NotImplementedException();
+        return UniTask.CompletedTask;
     }
 
     public override UniTask TakeDistance()
     {
-        throw new System.NotImplementedException();
+        return UniTask.CompletedTask;
     }
 
     public override UniTask CounterAttack()
     {
-        throw new System.NotImplementedException();
+        return UniTask.CompletedTask;
     }
 }
