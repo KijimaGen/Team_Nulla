@@ -25,12 +25,12 @@
                 },
                 {
                     "name": "SwitchMove",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "ae10a443-aa44-45e7-ac9e-f60c074754c6",
-                    "expectedControlType": "",
+                    "expectedControlType": "Stick",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
