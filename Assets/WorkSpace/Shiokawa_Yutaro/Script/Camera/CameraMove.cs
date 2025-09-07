@@ -13,7 +13,7 @@ public class CameraMove : MonoBehaviour
 
     private float angleY = 0f;         // …•½‰ñ“]Šp“x
     private float maxDistance = 1f;
-    private float minDistance = 0.1f;
+    private float minDistance = 0.04f;
 
     Vector2 switchRStickValue;
 

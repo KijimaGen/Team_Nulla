@@ -40,6 +40,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchNormalAttack",
+                    "type": "Button",
+                    "id": "1ce32b7b-bdd7-43cf-8c16-96f6c053b2a0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchSpecialAttack",
+                    "type": "Button",
+                    "id": "416e9f97-5153-4518-8525-0e7fc6d4e863",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -144,8 +162,19 @@
                 },
                 {
                     "name": "",
-                    "id": "7e2a274b-06fb-4c7d-bcb3-b43ddeef2c36",
-                    "path": "<Gamepad>/leftStickPress",
+                    "id": "ac5d7e0e-99b5-4fbc-ac7f-52941759ec40",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchDash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6fc49e01-2baf-4202-a21b-32af964f86c2",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -155,8 +184,8 @@
                 },
                 {
                     "name": "",
-                    "id": "ed354ccd-b32f-4046-baa3-a9c65ecb90cb",
-                    "path": "<SwitchProControllerHID>/leftStickPress",
+                    "id": "e29d540b-3608-44eb-bcc0-9b1d56b2ac66",
+                    "path": "<SwitchProControllerHID>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -166,12 +195,89 @@
                 },
                 {
                     "name": "",
-                    "id": "9ef07062-5c58-4445-8167-f0b7943f8cba",
-                    "path": "<NPad>/leftStickPress",
+                    "id": "e587c718-ca7d-4818-97a8-b6bb5caf1540",
+                    "path": "<NPad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "SwitchJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1ec4ba48-7ad9-4d44-aa06-849b1b0c74f1",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "693d6396-0fb4-4f21-b868-2d20b12ba2bc",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchNormalAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ddf8dd91-473c-4832-966b-c6dc6e902d99",
+                    "path": "<SwitchProControllerHID>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchNormalAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f2ff6713-d17d-4d56-9f0d-f655845550c7",
+                    "path": "<NPad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchNormalAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d5363469-3114-4da9-b5bd-059ea402b274",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchSpecialAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6c7af996-dbdc-4750-8ae6-5ece81f3ed9b",
+                    "path": "<NPad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchSpecialAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "195d841a-c698-45fe-950e-d33aa7860f88",
+                    "path": "<SwitchProControllerHID>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchSpecialAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
