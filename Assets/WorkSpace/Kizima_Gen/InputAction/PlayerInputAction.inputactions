@@ -1,0 +1,85 @@
+{
+    "name": "PlayerInputAction",
+    "maps": [
+        {
+            "name": "Interact",
+            "id": "d88b349f-7b97-49d4-b42e-295914187b22",
+            "actions": [
+                {
+                    "name": "OnInteract",
+                    "type": "Button",
+                    "id": "40a1470a-0cab-476f-8269-7d7efd0c3ade",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchController",
+                    "type": "Button",
+                    "id": "89db5ad8-c55d-494e-b0eb-2af21c3a6de5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchMove",
+                    "type": "Value",
+                    "id": "ae10a443-aa44-45e7-ac9e-f60c074754c6",
+                    "expectedControlType": "Stick",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4744c005-47f4-42e9-b643-995cb430b9e4",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OnInteract",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b7fe5dc9-b5f8-436d-9bac-7e91c7d940e8",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OnInteract",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f9aab807-ed95-4ae3-84b9-de888862b7cd",
+                    "path": "<NPad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchController",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3f576d30-d2b2-4502-9d61-1f45d645002e",
+                    "path": "<NPad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

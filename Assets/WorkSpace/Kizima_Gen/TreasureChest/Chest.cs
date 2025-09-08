@@ -18,6 +18,11 @@ public class Chest : MonoBehaviour{
     //プレイヤーに触れているかどうか
     private bool isPlayerInRange;
 
+    //初期回転度
+    private Vector3 natureRotation = new Vector3(-90,90,0);
+    //初期ポジション
+    private Vector3 naturePosition = new Vector3(0,1,0);
+
     /// <summary>
     /// プレイヤーに当たったらswitchを入れる
     /// </summary>
@@ -25,6 +30,7 @@ public class Chest : MonoBehaviour{
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Player") {
             isPlayerInRange = true;
+            
         }
     }
 
@@ -65,5 +71,13 @@ public class Chest : MonoBehaviour{
         if(transform.position.y < -0.5) {
             Destroy(gameObject);
         }
+    }
+
+    private void Start() {
+        //回転度を初期化
+        transform.Rotate(natureRotation);
+        //ポジションも初期化
+        naturePosition = new Vector3(transform.position.x,naturePosition.y,transform.position.z);
+        transform.position = naturePosition;
     }
 }

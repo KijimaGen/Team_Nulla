@@ -21,6 +21,7 @@ public class PlayerOpenChester : MonoBehaviour {
 
     // Input Systemのイベントで呼ばれる
     public void HandleInteractInput(InputAction.CallbackContext context) {
+        Debug.Log("★ HandleInteractInput が呼ばれたかチェック");
         if (context.performed) {
             Debug.Log("プレイヤーがインタラクトボタンを押した");
             OnInteract?.Invoke();

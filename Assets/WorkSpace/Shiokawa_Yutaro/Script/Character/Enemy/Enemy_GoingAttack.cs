@@ -12,7 +12,7 @@ public class Enemy_GoingAttack : EnemyCharacter
             { AttackType.TakeDistance, new TakeDistance() }
         };
 
-        attackArea = 0.5f;
+        attackArea = 1;
         speed = 1.5f;
         maxHP = 10;
         HP = maxHP;
