@@ -250,6 +250,17 @@
                 },
                 {
                     "name": "",
+                    "id": "75e3ea1c-7716-443f-a543-f759522e94e0",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchNormalAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "d5363469-3114-4da9-b5bd-059ea402b274",
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
