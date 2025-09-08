@@ -2429,7 +2429,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!111 &29989581
 Animation:
   m_ObjectHideFlags: 0
@@ -2533,6 +2533,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDashing: 0
   isAvoiding: 0
+  isCounter: 0
+  attackEfect: {fileID: 0}
+  counterEfect: {fileID: 0}
 --- !u!114 &29989586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10690,6 +10693,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDashing: 0
   isAvoiding: 0
+  isCounter: 0
+  attackEfect: {fileID: 0}
+  counterEfect: {fileID: 0}
 --- !u!114 &117535110
 MonoBehaviour:
   m_ObjectHideFlags: 0
