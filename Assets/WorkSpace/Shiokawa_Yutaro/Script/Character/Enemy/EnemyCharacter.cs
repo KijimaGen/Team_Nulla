@@ -405,6 +405,8 @@ public class EnemyCharacter : CharacterBase
     {
     }
 
+    public GameObject damageUI;
+
     private void OnTriggerStay(Collider other)
     {
         if(other.gameObject.tag == "Player")
@@ -413,6 +415,7 @@ public class EnemyCharacter : CharacterBase
             if (player.isAttacking)
             {
                 HP -= 3;
+                var obj = Instantiate(damageUI, transform.GetComponent<Collider>().bounds.center - Camera.main.transform.forward * 0.2f, Quaternion.identity);
             }
         }
     }

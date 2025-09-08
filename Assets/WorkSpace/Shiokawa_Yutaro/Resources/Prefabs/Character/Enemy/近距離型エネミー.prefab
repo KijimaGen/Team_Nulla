@@ -119,6 +119,7 @@ MonoBehaviour:
   neck: {fileID: 4788744068852608567}
   prefabBullet: {fileID: 0}
   hand: {fileID: 5335889223350560297}
+  damageUI: {fileID: 3808801041788919963, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
 --- !u!54 &2505348379898769107
 Rigidbody:
   m_ObjectHideFlags: 0
