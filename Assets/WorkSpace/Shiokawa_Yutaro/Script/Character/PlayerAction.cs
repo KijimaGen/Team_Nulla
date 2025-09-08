@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -70,7 +70,7 @@ public class PlayerAction : MonoBehaviour
         if (AcceptJump()) return;
         //移動の受付
         if (AcceptMove()) return;
-
+        
 
     }
 
@@ -258,17 +258,17 @@ public class PlayerAction : MonoBehaviour
                 return true;
             }
         }
-        else if (!switchYButton)
+        else if(!switchYButton)
         {
             inputAttack = false;
             return false;
         }
-
+        
         Debug.Log("プレイヤーの攻撃");
         //近くの敵に向いて攻撃する補正をつける
+        
 
-
-
+        
 
         //ロックオンでターゲット取ってるか
 
@@ -342,11 +342,11 @@ public class PlayerAction : MonoBehaviour
 
     private async UniTaskVoid TryAttackNearestEnemy()
     {
-
+        
         if (player.isAttacking) return;
-        ParticleSystem effect = Instantiate(attackEfect, transform.position + Vector3.up * 0.3f, Quaternion.LookRotation(transform.forward));
+        ParticleSystem effect = Instantiate(attackEfect,transform.position + Vector3.up * 0.3f, Quaternion.LookRotation(transform.forward));
         effect.transform.SetParent(transform);
-        Destroy(effect.gameObject, 2);
+        Destroy(effect.gameObject,2);
         enemyLayer = LayerMask.GetMask("Enemy");
         attackRange = 2;
 
@@ -378,7 +378,7 @@ public class PlayerAction : MonoBehaviour
         rb.DOMove(stopPos, 0.1f).OnComplete(() =>
         {
             player.isAttacking = false;
-        });
+        });        
     }
 
     public void SwitchB(InputAction.CallbackContext context)

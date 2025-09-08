@@ -198,7 +198,7 @@ public class EnemyCharacter : CharacterBase
                     else return true;
                 }
             }
-            Debug.DrawRay(viewPos, dir * _ENEMY_VIEW_AREA, Color.red);
+            //Debug.DrawRay(viewPos, dir * _ENEMY_VIEW_AREA, Color.red);
         }
 
         return false;
@@ -286,8 +286,8 @@ public class EnemyCharacter : CharacterBase
         const float attackTime = 0;
         const string attackName = "攻撃遠距離";
 
-        const int bulletCount = 30;
-        const float interval = 0.1f;
+        const int bulletCount = 10;
+        const float interval = 0.5f;
 
         //成功したら、攻撃のチャージが完了するかどうか
         //if (!await ChargeTime(attackTime, attackName)) return;
@@ -405,8 +405,6 @@ public class EnemyCharacter : CharacterBase
     {
     }
 
-    public GameObject damageUI;
-
     private void OnTriggerStay(Collider other)
     {
         if(other.gameObject.tag == "Player")
@@ -415,7 +413,6 @@ public class EnemyCharacter : CharacterBase
             if (player.isAttacking)
             {
                 HP -= 3;
-                var obj = Instantiate(damageUI, transform.GetComponent<Collider>().bounds.center - Camera.main.transform.forward * 0.2f, Quaternion.identity);
             }
         }
     }
