@@ -271,7 +271,7 @@ public class EnemyCharacter : CharacterBase
         //成功したら、攻撃のチャージが完了するかどうか
         if (!await ChargeTime(attackTime, attackName)) return;
         // プレイヤーがぎりかわせる攻撃の実行
-        Attack(attackName , player.transform.position);
+        Attack(player.transform.position);
 
         // アニメーションの終了を待つ（基底のクラスの関数）
        // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
@@ -282,17 +282,13 @@ public class EnemyCharacter : CharacterBase
     private Transform hand;
     public override async UniTask LongRangeAttack()
     {
-        //ここの文の書き方がきもいからなんか変えたい
-        const float attackTime = 0;
-        const string attackName = "攻撃遠距離";
-
         const int bulletCount = 10;
         const float interval = 0.5f;
 
         //成功したら、攻撃のチャージが完了するかどうか
         //if (!await ChargeTime(attackTime, attackName)) return;
 
-        Attack(attackName, player.transform.position);
+        Attack(player.transform.position);
 
         for (int i = 0; i < bulletCount; i++)
         {

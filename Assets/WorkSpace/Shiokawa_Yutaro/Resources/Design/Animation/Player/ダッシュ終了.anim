@@ -6,9 +6,9 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: "\u56DE\u907F"
+  m_Name: "\u30C0\u30C3\u30B7\u30E5\u7D42\u4E86"
   serializedVersion: 7
-  m_Legacy: 1
+  m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
   m_RotationCurves: []
