@@ -2299,7 +2299,7 @@ public class Generator : MonoBehaviour
 
                         if(parentRooms[a] != playerSpawnRoom && parentRooms[a] != bossSpawnRoom)
                         {
-                            GameObject tempMiddleObject = Instantiate(middleObjects[randomMiddleObject].gameObject, parentRooms[a].MidPoints[b].transform.position, Quaternion.Euler(0, randomRotation, 0), parentRooms[a].transform);
+                            GameObject tempMiddleObject = Instantiate(middleObjects[randomMiddleObject].gameObject, parentRooms[a].MidPoints[b].transform.position, Quaternion.Euler(transform.rotation.x, randomRotation, transform.rotation.z), parentRooms[a].transform);
                             tempMiddleObject.name = middleObjects[randomMiddleObject].name;
                         }
                     }
