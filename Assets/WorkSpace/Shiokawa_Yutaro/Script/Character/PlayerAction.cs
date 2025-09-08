@@ -44,7 +44,7 @@ public class PlayerAction : MonoBehaviour
         player = GetComponent<PlayerCharacter>();
 
         rb = GetComponent<Rigidbody>();
-        animation = GetComponent<Animation>();
+        //animation = GetComponent<Animation>();
 
         foreach (AnimationState state in animation)
         {
@@ -207,7 +207,7 @@ public class PlayerAction : MonoBehaviour
         //effect.transform.SetParent(transform);
         //アニメーション(一度だけ)
 
-        animation.Play("ダッシュ");
+        //animation.Play("ダッシュ");
         //Debug.Log("プレイやーがダッシュ発動");
         isCounter = true;
     }
