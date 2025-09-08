@@ -14,6 +14,8 @@ public class SystemManager : SystemObject {
 
     private void Start() {
         Initialize();
+        Application.targetFrameRate = 30;
+        FadeManager.instance.FadeIn();
     }
 
     public override void Initialize() {

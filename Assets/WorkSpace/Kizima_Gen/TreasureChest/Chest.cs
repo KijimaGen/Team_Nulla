@@ -21,7 +21,7 @@ public class Chest : MonoBehaviour{
     //初期回転度
     private Vector3 natureRotation = new Vector3(-90,90,0);
     //初期ポジション
-    private Vector3 naturePosition = new Vector3(0,1,0);
+    private Vector3 naturePosition = new Vector3(0,0.75f,0);
 
     /// <summary>
     /// プレイヤーに当たったらswitchを入れる
@@ -60,7 +60,7 @@ public class Chest : MonoBehaviour{
 
         Debug.Log("宝箱を開けた！");
 
-        DebugScript.instance.PlaySound();
+        AudioManager.instance.PlaySE(2);
         ItemUtility.UseItem(this.transform.position);
         Instantiate(smokePrefab, this.transform.position, Quaternion.identity);
         Instantiate(hitEffectPrefab, this.transform.position, Quaternion.identity);
