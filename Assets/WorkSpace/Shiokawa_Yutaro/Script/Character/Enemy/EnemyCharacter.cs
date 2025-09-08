@@ -198,7 +198,7 @@ public class EnemyCharacter : CharacterBase
                     else return true;
                 }
             }
-            Debug.DrawRay(viewPos, dir * _ENEMY_VIEW_AREA, Color.red);
+            //Debug.DrawRay(viewPos, dir * _ENEMY_VIEW_AREA, Color.red);
         }
 
         return false;
@@ -271,7 +271,7 @@ public class EnemyCharacter : CharacterBase
         //成功したら、攻撃のチャージが完了するかどうか
         if (!await ChargeTime(attackTime, attackName)) return;
         // プレイヤーがぎりかわせる攻撃の実行
-        Attack(attackName , player.transform.position);
+        Attack(player.transform.position);
 
         // アニメーションの終了を待つ（基底のクラスの関数）
        // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
@@ -282,17 +282,13 @@ public class EnemyCharacter : CharacterBase
     private Transform hand;
     public override async UniTask LongRangeAttack()
     {
-        //ここの文の書き方がきもいからなんか変えたい
-        const float attackTime = 0;
-        const string attackName = "攻撃遠距離";
-
-        const int bulletCount = 30;
-        const float interval = 0.1f;
+        const int bulletCount = 10;
+        const float interval = 0.5f;
 
         //成功したら、攻撃のチャージが完了するかどうか
         //if (!await ChargeTime(attackTime, attackName)) return;
 
-        Attack(attackName, player.transform.position);
+        Attack(player.transform.position);
 
         for (int i = 0; i < bulletCount; i++)
         {
@@ -405,8 +401,6 @@ public class EnemyCharacter : CharacterBase
     {
     }
 
-    public GameObject damageUI;
-
     private void OnTriggerStay(Collider other)
     {
         if(other.gameObject.tag == "Player")
@@ -415,7 +409,6 @@ public class EnemyCharacter : CharacterBase
             if (player.isAttacking)
             {
                 HP -= 3;
-                var obj = Instantiate(damageUI, transform.GetComponent<Collider>().bounds.center - Camera.main.transform.forward * 0.2f, Quaternion.identity);
             }
         }
     }

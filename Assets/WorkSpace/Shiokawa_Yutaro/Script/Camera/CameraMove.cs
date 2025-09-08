@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.GraphicsBuffer;
 
 public class CameraMove : MonoBehaviour
@@ -12,9 +13,9 @@ public class CameraMove : MonoBehaviour
 
     private float angleY = 0f;         // êÖïΩâÒì]äpìx
     private float maxDistance = 1f;
-    private float minDistance = 0.1f;
+    private float minDistance = 0.04f;
 
-    
+    Vector2 switchRStickValue;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +25,7 @@ public class CameraMove : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         Vector3 playerPos = player.transform.position;
         ViewRoteto(player.transform);
@@ -37,8 +38,8 @@ public class CameraMove : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        angleY += mouseX * rotateSpeed;
-        angleX -= mouseY * rotateSpeed;
+        angleY += (switchRStickValue.x + mouseX) * rotateSpeed;
+        angleX -= (switchRStickValue.y + mouseY) * rotateSpeed;
         angleX = Mathf.Clamp(angleX, -40f, 80f);
 
         // âÒì]
@@ -64,4 +65,8 @@ public class CameraMove : MonoBehaviour
         transform.LookAt(targetCenter);
     }
 
+    public void SwitchMove(InputAction.CallbackContext context)
+    {
+        switchRStickValue = context.ReadValue<Vector2>();
+    }
 }
