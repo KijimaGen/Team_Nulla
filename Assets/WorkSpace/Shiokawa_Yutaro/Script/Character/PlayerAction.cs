@@ -368,7 +368,10 @@ public class PlayerAction : MonoBehaviour
         rb.DOMove(stopPos, 0.1f).OnComplete(() =>
         {
             player.isAttacking = false;
-        });        
+        });
+
+        //Œø‰Ê‰¹‚ÌÄ¶
+        AudioManager.instance.PlaySE(0);
     }
 
     private void OnDrawGizmosSelected()

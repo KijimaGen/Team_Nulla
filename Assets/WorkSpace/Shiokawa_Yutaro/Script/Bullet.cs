@@ -66,7 +66,8 @@ public class Bullet : MonoBehaviour
                 float randomTiltZ = Random.Range(-maxTilt, maxTilt);
                 rb.AddTorque(new Vector3(randomTiltX, 0f, randomTiltZ), ForceMode.VelocityChange);
 
-
+                //効果音を再生
+                AudioManager.instance.PlaySE(1);
 
                 render.material.color = Color.red;
             }
