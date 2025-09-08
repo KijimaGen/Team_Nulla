@@ -256,29 +256,28 @@ public class PlayerAction : MonoBehaviour
     bool inputAttack;
     private bool AcceptAttack()
     {
-        
+
         if (switchYButton && !inputAttack)
         {
             isDashing = false;
             inputAttack = true;
-            if (!player.isAttacking)
+            if (canCombo)
             {
-                if(canCombo)
-                {
-                    comboStep++;
-                    TryAttackNearestEnemy().Forget();
-                    return true;
-                }
-                else
-                {
-                    comboStep = 1;
-                    TryAttackNearestEnemy().Forget();
-                    return true;
-                }
-                
+                comboStep++;
+                player.isAttacking = false;
+                TryAttackNearestEnemy().Forget();
+                return true;
             }
+            else
+            {
+                comboStep = 1;
+                TryAttackNearestEnemy().Forget();
+                return true;
+            }
+
+
         }
-        else if(!switchYButton)
+        else if (!switchYButton)
         {
             inputAttack = false;
             return false;
@@ -341,7 +340,6 @@ public class PlayerAction : MonoBehaviour
     private int comboStep = 0;
     public void OnComboOpen()
     {
-        player.isAttacking = false;
         canCombo = true;
     }
     public void OnComboClose()
