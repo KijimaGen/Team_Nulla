@@ -3765,6 +3765,7 @@ GameObject:
   - component: {fileID: 213163864213050818}
   - component: {fileID: 3996753420668044496}
   - component: {fileID: 6744689611977416003}
+  - component: {fileID: 2692210107027039301}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -3845,26 +3846,14 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2082356567414140669}
-        m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
-        m_MethodName: SwitchLStickMove
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: ae10a443-aa44-45e7-ac9e-f60c074754c6
     m_ActionName: Interact/SwitchMove[/XInputControllerWindows/leftStick]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5925238653780358100}
-        m_TargetAssemblyTypeName: CameraMove, Assembly-CSharp
-        m_MethodName: SwitchMove
+      - m_Target: {fileID: 2692210107027039301}
+        m_TargetAssemblyTypeName: PlayerOpenChester, Assembly-CSharp
+        m_MethodName: HandleInteractInput
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3874,72 +3863,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: ef2fae67-626d-4e3c-9ab7-5ab6a7084e5d
-    m_ActionName: Interact/SwitchCameraMove[/XInputControllerWindows/rightStick/down]
+    m_ActionId: 40a1470a-0cab-476f-8269-7d7efd0c3ade
+    m_ActionName: Interact/OnInteract[/XInputControllerWindows/buttonEast,/Keyboard/e]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2082356567414140669}
-        m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
-        m_MethodName: SwitchZR
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 75fbe045-65a1-41ed-a07e-e7dfd1e0a0b4
-    m_ActionName: Interact/SwitchDash[/XInputControllerWindows/leftStickPress]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2082356567414140669}
-        m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
-        m_MethodName: SwitchB
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 5d2d0501-d8e8-4b6e-9cad-b6a56ebbecef
-    m_ActionName: Interact/SwitchJump[/XInputControllerWindows/leftStickPress]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2082356567414140669}
-        m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
-        m_MethodName: SwitchY
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 1ce32b7b-bdd7-43cf-8c16-96f6c053b2a0
-    m_ActionName: Interact/SwitchNormalAttack[/XInputControllerWindows/buttonWest]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2082356567414140669}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 416e9f97-5153-4518-8525-0e7fc6d4e863
-    m_ActionName: Interact/SwitchSpecialAttack[/XInputControllerWindows/buttonNorth]
+      m_Calls: []
+    m_ActionId: 89db5ad8-c55d-494e-b0eb-2af21c3a6de5
+    m_ActionName: Interact/SwitchController
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Interact
@@ -4034,6 +3963,19 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &2692210107027039301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6495165415704152671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fdf52441626a042906a5a99760d083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemRoots: []
 --- !u!1 &6578932209010347393
 GameObject:
   m_ObjectHideFlags: 0

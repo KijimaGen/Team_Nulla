@@ -28,11 +28,7 @@ public class DebugScript : MonoBehaviour{
             instance = this;
         }
 
-        //‚±‚±‚Å3D‰¹‹¿‚É‚·‚é
-        audioSource.spatialBlend = 1.0f;
-
-        audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
-        audioSource.maxDistance = 20f;
+        
         MasterdataManager.LoadAllData();
     }
 

@@ -43,7 +43,7 @@ public class ItemManager : SystemObject{
             item.SetItemID(i);
             _unuseList.Add(item);
         }
-        player = GameObject.Find("Player");
+        player = GameObject.Find("Player(Clone)");
         itemRoots = PlayerOpenChester.instance.GetItemRoots();
        
     }
