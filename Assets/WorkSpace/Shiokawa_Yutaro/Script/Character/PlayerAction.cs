@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Linq;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -33,7 +34,10 @@ public class PlayerAction : MonoBehaviour
     [SerializeField] ParticleSystem attackEfect;
     [SerializeField] ParticleSystem counterEfect;
 
-    Vector3 switchLvale;
+    Vector2 switchLStickValue;
+    bool switchZRButton;
+    bool switchBButton;
+    bool switchYButton;
 
     private void Start()
     {
@@ -82,7 +86,7 @@ public class PlayerAction : MonoBehaviour
         if (inputDir.magnitude <= 0.0f)
         {
             player.SetSpeed(player.walkSpeed);
-            isDashing = true;
+            isDashing = false;
             isAvoiding = false;
             isCounter = false;
             return false;
@@ -114,7 +118,7 @@ public class PlayerAction : MonoBehaviour
         }
 
 
-        if (Input.GetKey(KeyCode.LeftShift) && !inputShiftButton)
+        if (switchZRButton && !inputShiftButton)
         {
             inputShiftButton = true;
             isDashing = true;
@@ -122,7 +126,7 @@ public class PlayerAction : MonoBehaviour
             if (shiftPressTime >= AvoidingCoolInterval) { shiftPressTime = 0f; }
 
         }
-        else if (!Input.GetKey(KeyCode.LeftShift))
+        else if (!switchZRButton)
         {
             inputShiftButton = false;
         }
@@ -139,10 +143,10 @@ public class PlayerAction : MonoBehaviour
     {
         if (!IsGrounded() || isAvoiding) return false;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (switchBButton)
         {
             // 水平方向の移動を止める
-            rb.velocity = new Vector3(0f, 3f, 0f);
+            Jump();
             isJumping = true;
             return true;
         }
@@ -151,11 +155,22 @@ public class PlayerAction : MonoBehaviour
         return false;
     }
 
+    private float jumpHeight = 1f;   // ジャンプの高さ
+    private float jumpDistance = 5f; // 飛びたい距離
+    private float gravity = -9.81f;  // 重力（Unityのデフォルト）
+    void Jump()
+    {
+        float jumpVelocity = Mathf.Sqrt(2 * -gravity * jumpHeight);
+        rb.velocity = new Vector3(rb.velocity.x, jumpVelocity, rb.velocity.z);
+    }
+
 
     private bool IsGrounded()
     {
-        float rayLength = 2f;
+        float rayLength = 0.1f;
         Vector3 origin = transform.position;
+        origin.y += 0.05f;
+        Debug.DrawRay(origin, Vector3.down * rayLength);
         return Physics.Raycast(origin, Vector3.down, rayLength);
     }
 
@@ -206,7 +221,7 @@ public class PlayerAction : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal"); // ←→
         float moveZ = Input.GetAxisRaw("Vertical");   // ↑↓
 
-        Vector3 input = new Vector3(moveX, 0, moveZ);
+        Vector3 input = new Vector3(switchLStickValue.x + moveX, 0, switchLStickValue.y + moveZ);
         input = Vector3.ClampMagnitude(input, 1f); // 斜め移動を補正
 
         // カメラの向きに合わせて入力を回転させる
@@ -227,11 +242,6 @@ public class PlayerAction : MonoBehaviour
         return moveDir;
     }
 
-    public void SwitchMove(InputAction.CallbackContext context)
-    {
-        switchLvale = context.ReadValue<Vector3>();
-    }
-
     /// <summary>
     /// 通常攻撃入力受付、処理
     /// </summary>
@@ -239,7 +249,7 @@ public class PlayerAction : MonoBehaviour
     bool inputAttack;
     private bool AcceptAttack()
     {
-        if (Input.GetMouseButton(0) && !inputAttack && !isJumping)
+        if (switchYButton && !inputAttack)
         {
             inputAttack = true;
             if (!player.isAttacking)
@@ -248,7 +258,7 @@ public class PlayerAction : MonoBehaviour
                 return true;
             }
         }
-        else if(!Input.GetMouseButton(0))
+        else if(!switchYButton)
         {
             inputAttack = false;
             return false;
@@ -371,12 +381,43 @@ public class PlayerAction : MonoBehaviour
         });        
     }
 
-    private void OnDrawGizmosSelected()
+    public void SwitchB(InputAction.CallbackContext context)
     {
-        // 攻撃範囲を可視化
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-
-
+        if (context.performed)
+        {
+            switchBButton = true;
+            Debug.Log(context.performed);
+        }
+        else
+        {
+            switchBButton = false;
+        }
+    }
+    public void SwitchY(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            switchYButton = true;
+            Debug.Log(context.performed);
+        }
+        else
+        {
+            switchYButton = false;
+        }
+    }
+    public void SwitchZR(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            switchZRButton = true;
+        }
+        else
+        {
+            switchZRButton = false;
+        }
+    }
+    public void SwitchLStickMove(InputAction.CallbackContext context)
+    {
+        switchLStickValue = context.ReadValue<Vector2>();
     }
 }
