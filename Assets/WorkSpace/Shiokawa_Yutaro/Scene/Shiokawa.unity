@@ -4102,6 +4102,7 @@ MonoBehaviour:
   neck: {fileID: 241693202}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 1920881586}
+  damageUI: {fileID: 0}
 --- !u!1 &33629643
 GameObject:
   m_ObjectHideFlags: 0
@@ -5904,6 +5905,7 @@ MonoBehaviour:
   neck: {fileID: 816652287}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 1700487189}
+  damageUI: {fileID: 0}
 --- !u!1 &53022275
 GameObject:
   m_ObjectHideFlags: 0
@@ -8469,6 +8471,7 @@ MonoBehaviour:
   neck: {fileID: 871279553}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 2111760338}
+  damageUI: {fileID: 0}
 --- !u!1 &91987749
 GameObject:
   m_ObjectHideFlags: 1
@@ -18950,6 +18953,7 @@ MonoBehaviour:
   neck: {fileID: 1345822108}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 140983124}
+  damageUI: {fileID: 0}
 --- !u!1 &198589791
 GameObject:
   m_ObjectHideFlags: 0
@@ -29080,6 +29084,7 @@ MonoBehaviour:
   neck: {fileID: 2046555188}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 2070090843}
+  damageUI: {fileID: 0}
 --- !u!1 &298450893
 GameObject:
   m_ObjectHideFlags: 0
@@ -38928,6 +38933,7 @@ MonoBehaviour:
   neck: {fileID: 691875089}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 266579859}
+  damageUI: {fileID: 0}
 --- !u!1 &402667463
 GameObject:
   m_ObjectHideFlags: 0
@@ -41124,6 +41130,7 @@ MonoBehaviour:
   neck: {fileID: 1083731923}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 1839157098}
+  damageUI: {fileID: 0}
 --- !u!1 &425003842
 GameObject:
   m_ObjectHideFlags: 0
@@ -43687,6 +43694,7 @@ MonoBehaviour:
   neck: {fileID: 1499041872}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 1688440282}
+  damageUI: {fileID: 0}
 --- !u!1 &450655587
 GameObject:
   m_ObjectHideFlags: 0
@@ -52579,6 +52587,7 @@ MonoBehaviour:
   neck: {fileID: 1318549179}
   prefabBullet: {fileID: 0}
   hand: {fileID: 2129576721}
+  damageUI: {fileID: 0}
 --- !u!1 &540022051
 GameObject:
   m_ObjectHideFlags: 0
@@ -54189,6 +54198,7 @@ MonoBehaviour:
   neck: {fileID: 1775125585}
   prefabBullet: {fileID: 0}
   hand: {fileID: 1934038347}
+  damageUI: {fileID: 0}
 --- !u!1 &551017818
 GameObject:
   m_ObjectHideFlags: 0
@@ -56503,6 +56513,7 @@ MonoBehaviour:
   neck: {fileID: 1606371424}
   prefabBullet: {fileID: 0}
   hand: {fileID: 2051031525}
+  damageUI: {fileID: 0}
 --- !u!1 &566303462
 GameObject:
   m_ObjectHideFlags: 0
@@ -60300,6 +60311,7 @@ MonoBehaviour:
   neck: {fileID: 1877362469}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 545724452}
+  damageUI: {fileID: 0}
 --- !u!1 &594142310
 GameObject:
   m_ObjectHideFlags: 0
@@ -66755,6 +66767,7 @@ MonoBehaviour:
   neck: {fileID: 1169096209}
   prefabBullet: {fileID: 0}
   hand: {fileID: 1166384476}
+  damageUI: {fileID: 0}
 --- !u!1 &660333978
 GameObject:
   m_ObjectHideFlags: 0
@@ -72990,6 +73003,7 @@ MonoBehaviour:
   neck: {fileID: 1504451680}
   prefabBullet: {fileID: 0}
   hand: {fileID: 1229502176}
+  damageUI: {fileID: 0}
 --- !u!1 &712967551
 GameObject:
   m_ObjectHideFlags: 0
@@ -78320,6 +78334,7 @@ MonoBehaviour:
   neck: {fileID: 999411846}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 211202275}
+  damageUI: {fileID: 0}
 --- !u!1 &759901039
 GameObject:
   m_ObjectHideFlags: 1
@@ -83087,6 +83102,7 @@ MonoBehaviour:
   neck: {fileID: 1597721837}
   prefabBullet: {fileID: 0}
   hand: {fileID: 639768628}
+  damageUI: {fileID: 0}
 --- !u!1 &799382086
 GameObject:
   m_ObjectHideFlags: 0
@@ -88915,6 +88931,7 @@ MonoBehaviour:
   neck: {fileID: 2092155112}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 331359238}
+  damageUI: {fileID: 0}
 --- !u!1 &856236866
 GameObject:
   m_ObjectHideFlags: 0
@@ -94090,6 +94107,7 @@ MonoBehaviour:
   neck: {fileID: 193162275}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 1384537505}
+  damageUI: {fileID: 0}
 --- !u!1 &905020891
 GameObject:
   m_ObjectHideFlags: 0
@@ -96444,6 +96462,7 @@ MonoBehaviour:
   neck: {fileID: 1182537649}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 132594157}
+  damageUI: {fileID: 0}
 --- !u!1 &927871153
 GameObject:
   m_ObjectHideFlags: 0
@@ -98343,6 +98362,7 @@ MonoBehaviour:
   neck: {fileID: 1436735337}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 88372204}
+  damageUI: {fileID: 0}
 --- !u!1 &945587783
 GameObject:
   m_ObjectHideFlags: 0
@@ -103470,6 +103490,7 @@ MonoBehaviour:
   neck: {fileID: 1354529082}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 1126960106}
+  damageUI: {fileID: 0}
 --- !u!1 &988082325
 GameObject:
   m_ObjectHideFlags: 0
@@ -105968,6 +105989,7 @@ MonoBehaviour:
   neck: {fileID: 778221428}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 2106280313}
+  damageUI: {fileID: 0}
 --- !u!1 &1012304659
 GameObject:
   m_ObjectHideFlags: 0
@@ -106207,6 +106229,7 @@ MonoBehaviour:
   neck: {fileID: 2124154463}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 822310115}
+  damageUI: {fileID: 0}
 --- !u!1 &1017550871
 GameObject:
   m_ObjectHideFlags: 0
@@ -107501,6 +107524,7 @@ MonoBehaviour:
   neck: {fileID: 614298727}
   prefabBullet: {fileID: 0}
   hand: {fileID: 490433382}
+  damageUI: {fileID: 0}
 --- !u!1 &1028978942
 GameObject:
   m_ObjectHideFlags: 0
@@ -108724,6 +108748,7 @@ MonoBehaviour:
   neck: {fileID: 974043412}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 1603256710}
+  damageUI: {fileID: 0}
 --- !u!1 &1038077080
 GameObject:
   m_ObjectHideFlags: 0
@@ -124053,6 +124078,7 @@ MonoBehaviour:
   neck: {fileID: 547201999}
   prefabBullet: {fileID: 0}
   hand: {fileID: 1917966937}
+  damageUI: {fileID: 0}
 --- !u!1 &1163806813
 GameObject:
   m_ObjectHideFlags: 0
@@ -134051,6 +134077,7 @@ MonoBehaviour:
   neck: {fileID: 2039854075}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 1006532171}
+  damageUI: {fileID: 0}
 --- !u!1 &1268050067
 GameObject:
   m_ObjectHideFlags: 0
@@ -134538,6 +134565,7 @@ MonoBehaviour:
   neck: {fileID: 373790058}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 778261222}
+  damageUI: {fileID: 0}
 --- !u!1 &1270474840
 GameObject:
   m_ObjectHideFlags: 0
@@ -136579,6 +136607,7 @@ MonoBehaviour:
   neck: {fileID: 143165026}
   prefabBullet: {fileID: 0}
   hand: {fileID: 1876525129}
+  damageUI: {fileID: 0}
 --- !u!1 &1290696613
 GameObject:
   m_ObjectHideFlags: 0
@@ -138175,6 +138204,7 @@ MonoBehaviour:
   neck: {fileID: 2028921494}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 212455067}
+  damageUI: {fileID: 0}
 --- !u!1 &1303433928
 GameObject:
   m_ObjectHideFlags: 0
@@ -142411,6 +142441,7 @@ MonoBehaviour:
   neck: {fileID: 1819709903}
   prefabBullet: {fileID: 0}
   hand: {fileID: 469596593}
+  damageUI: {fileID: 0}
 --- !u!1 &1339301784
 GameObject:
   m_ObjectHideFlags: 1
@@ -149366,6 +149397,7 @@ MonoBehaviour:
   neck: {fileID: 176006647}
   prefabBullet: {fileID: 0}
   hand: {fileID: 569641926}
+  damageUI: {fileID: 0}
 --- !u!1 &1358715451
 GameObject:
   m_ObjectHideFlags: 0
@@ -153291,6 +153323,7 @@ MonoBehaviour:
   neck: {fileID: 1653612409}
   prefabBullet: {fileID: 0}
   hand: {fileID: 887886645}
+  damageUI: {fileID: 0}
 --- !u!1 &1392419512
 GameObject:
   m_ObjectHideFlags: 0
@@ -158171,6 +158204,7 @@ MonoBehaviour:
   neck: {fileID: 914477378}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 1587862143}
+  damageUI: {fileID: 0}
 --- !u!1 &1431187037
 GameObject:
   m_ObjectHideFlags: 0
@@ -159569,6 +159603,7 @@ MonoBehaviour:
   neck: {fileID: 1364077957}
   prefabBullet: {fileID: 0}
   hand: {fileID: 1091880856}
+  damageUI: {fileID: 0}
 --- !u!1 &1440907541
 GameObject:
   m_ObjectHideFlags: 0
@@ -183293,6 +183328,7 @@ MonoBehaviour:
   neck: {fileID: 1932630733}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 2144283297}
+  damageUI: {fileID: 0}
 --- !u!1 &1627768723
 GameObject:
   m_ObjectHideFlags: 0
@@ -186205,6 +186241,7 @@ MonoBehaviour:
   neck: {fileID: 846601351}
   prefabBullet: {fileID: 0}
   hand: {fileID: 1970421814}
+  damageUI: {fileID: 0}
 --- !u!1 &1660221241
 GameObject:
   m_ObjectHideFlags: 1
@@ -187796,6 +187833,7 @@ MonoBehaviour:
   neck: {fileID: 566303463}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 1364227055}
+  damageUI: {fileID: 0}
 --- !u!1 &1674317504
 GameObject:
   m_ObjectHideFlags: 0
@@ -188665,6 +188703,7 @@ MonoBehaviour:
   neck: {fileID: 1130729172}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 1439039413}
+  damageUI: {fileID: 0}
 --- !u!1 &1683430281
 GameObject:
   m_ObjectHideFlags: 1
@@ -190577,6 +190616,7 @@ MonoBehaviour:
   neck: {fileID: 1295188555}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 1564891160}
+  damageUI: {fileID: 0}
 --- !u!1 &1704775707
 GameObject:
   m_ObjectHideFlags: 0
@@ -193049,6 +193089,7 @@ MonoBehaviour:
   neck: {fileID: 800015549}
   prefabBullet: {fileID: 0}
   hand: {fileID: 135589812}
+  damageUI: {fileID: 0}
 --- !u!1 &1729497634
 GameObject:
   m_ObjectHideFlags: 0
@@ -193683,6 +193724,7 @@ MonoBehaviour:
   neck: {fileID: 1679858746}
   prefabBullet: {fileID: 0}
   hand: {fileID: 51361700}
+  damageUI: {fileID: 0}
 --- !u!1 &1737034964
 GameObject:
   m_ObjectHideFlags: 1
@@ -194076,6 +194118,7 @@ MonoBehaviour:
   neck: {fileID: 410372122}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 1022103055}
+  damageUI: {fileID: 0}
 --- !u!1 &1741374321
 GameObject:
   m_ObjectHideFlags: 0
@@ -217835,6 +217878,7 @@ MonoBehaviour:
   neck: {fileID: 2013765516}
   prefabBullet: {fileID: 0}
   hand: {fileID: 1268350672}
+  damageUI: {fileID: 0}
 --- !u!1 &1912916359
 GameObject:
   m_ObjectHideFlags: 0
@@ -225737,6 +225781,7 @@ MonoBehaviour:
   neck: {fileID: 1533818755}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 1193631845}
+  damageUI: {fileID: 0}
 --- !u!1 &1991354265
 GameObject:
   m_ObjectHideFlags: 0
@@ -229408,6 +229453,7 @@ MonoBehaviour:
   neck: {fileID: 1532207137}
   prefabBullet: {fileID: 0}
   hand: {fileID: 929964753}
+  damageUI: {fileID: 0}
 --- !u!1 &2028095750
 GameObject:
   m_ObjectHideFlags: 0
@@ -232665,6 +232711,7 @@ MonoBehaviour:
   neck: {fileID: 89606810}
   prefabBullet: {fileID: 0}
   hand: {fileID: 142283385}
+  damageUI: {fileID: 0}
 --- !u!1 &2058281458
 GameObject:
   m_ObjectHideFlags: 0
@@ -237792,6 +237839,7 @@ MonoBehaviour:
   neck: {fileID: 1493403283}
   prefabBullet: {fileID: 0}
   hand: {fileID: 1859262034}
+  damageUI: {fileID: 0}
 --- !u!1 &2117757199
 GameObject:
   m_ObjectHideFlags: 0
@@ -239867,6 +239915,7 @@ MonoBehaviour:
   neck: {fileID: 1079977397}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
   hand: {fileID: 133117032}
+  damageUI: {fileID: 0}
 --- !u!1 &2134753506
 GameObject:
   m_ObjectHideFlags: 0
