@@ -118,7 +118,7 @@ public abstract class ItemBase : MonoBehaviour{
         if (!isPlayerInRange) return;
         if (isPlayerPosses) return;
 
-        DebugScript.instance.PlaySE();
+        AudioManager.instance.PlaySE(3);
         ItemUtility.GetItem(itemID);
     }
 }

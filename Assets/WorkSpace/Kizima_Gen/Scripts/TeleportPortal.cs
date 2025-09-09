@@ -19,9 +19,11 @@ public class TeleportPortal : MonoBehaviour{
         
     }
 
-    private void OnCollisionEnter(Collision collision) {
+    private async void OnCollisionEnter(Collision collision) {
         if(collision.gameObject.tag == "Player") {
-            SceneManager.LoadScene("Shiokawa");
+
+            await FadeManager.instance.FadeOut();
+            SceneManager.LoadScene("Main");
         }
     }
 }

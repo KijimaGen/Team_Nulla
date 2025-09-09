@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Linq;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -33,7 +34,11 @@ public class PlayerAction : MonoBehaviour
     [SerializeField] ParticleSystem attackEfect;
     [SerializeField] ParticleSystem counterEfect;
 
-    Vector3 switchLvale;
+
+    Vector2 switchLStickValue;
+    bool switchZRButton;
+    bool switchBButton;
+    bool switchYButton;
 
     private void Start()
     {
@@ -60,13 +65,17 @@ public class PlayerAction : MonoBehaviour
         {
             TryPickupItem();
         }
+
+        
+
         //攻撃の受付
         if (AcceptAttack()) return;
         //ジャンプの受付
         if (AcceptJump()) return;
         //移動の受付
         if (AcceptMove()) return;
-        
+
+       //animation.Play("待機");
 
     }
 
@@ -82,12 +91,13 @@ public class PlayerAction : MonoBehaviour
         if (inputDir.magnitude <= 0.0f)
         {
             player.SetSpeed(player.walkSpeed);
-            isDashing = true;
+            isDashing = false;
             isAvoiding = false;
             isCounter = false;
+            
             return false;
         }
-
+        
         AcceptDirChange(inputDir);
 
         if (isDashing)
@@ -111,10 +121,11 @@ public class PlayerAction : MonoBehaviour
         else
         {
             shiftPressTime = 0f;
+            animation.Play("歩く");
         }
 
 
-        if (Input.GetKey(KeyCode.LeftShift) && !inputShiftButton)
+        if (switchZRButton && !inputShiftButton)
         {
             inputShiftButton = true;
             isDashing = true;
@@ -122,7 +133,7 @@ public class PlayerAction : MonoBehaviour
             if (shiftPressTime >= AvoidingCoolInterval) { shiftPressTime = 0f; }
 
         }
-        else if (!Input.GetKey(KeyCode.LeftShift))
+        else if (!switchZRButton)
         {
             inputShiftButton = false;
         }
@@ -139,10 +150,10 @@ public class PlayerAction : MonoBehaviour
     {
         if (!IsGrounded() || isAvoiding) return false;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (switchBButton)
         {
             // 水平方向の移動を止める
-            rb.velocity = new Vector3(0f, 3f, 0f);
+            Jump();
             isJumping = true;
             return true;
         }
@@ -151,11 +162,22 @@ public class PlayerAction : MonoBehaviour
         return false;
     }
 
+    private float jumpHeight = 1f;   // ジャンプの高さ
+    private float jumpDistance = 5f; // 飛びたい距離
+    private float gravity = -9.81f;  // 重力（Unityのデフォルト）
+    void Jump()
+    {
+        float jumpVelocity = Mathf.Sqrt(2 * -gravity * jumpHeight);
+        rb.velocity = new Vector3(rb.velocity.x, jumpVelocity, rb.velocity.z);
+    }
+
 
     private bool IsGrounded()
     {
-        float rayLength = 2f;
+        float rayLength = 0.1f;
         Vector3 origin = transform.position;
+        origin.y += 0.05f;
+        Debug.DrawRay(origin, Vector3.down * rayLength);
         return Physics.Raycast(origin, Vector3.down, rayLength);
     }
 
@@ -206,7 +228,7 @@ public class PlayerAction : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal"); // ←→
         float moveZ = Input.GetAxisRaw("Vertical");   // ↑↓
 
-        Vector3 input = new Vector3(moveX, 0, moveZ);
+        Vector3 input = new Vector3(switchLStickValue.x + moveX, 0, switchLStickValue.y + moveZ);
         input = Vector3.ClampMagnitude(input, 1f); // 斜め移動を補正
 
         // カメラの向きに合わせて入力を回転させる
@@ -227,11 +249,6 @@ public class PlayerAction : MonoBehaviour
         return moveDir;
     }
 
-    public void SwitchMove(InputAction.CallbackContext context)
-    {
-        switchLvale = context.ReadValue<Vector3>();
-    }
-
     /// <summary>
     /// 通常攻撃入力受付、処理
     /// </summary>
@@ -239,16 +256,28 @@ public class PlayerAction : MonoBehaviour
     bool inputAttack;
     private bool AcceptAttack()
     {
-        if (Input.GetMouseButton(0) && !inputAttack && !isJumping)
+
+        if (switchYButton && !inputAttack)
         {
+            isDashing = false;
             inputAttack = true;
-            if (!player.isAttacking)
+            if (canCombo)
             {
+                comboStep++;
+                player.isAttacking = false;
                 TryAttackNearestEnemy().Forget();
                 return true;
             }
+            else
+            {
+                comboStep = 1;
+                TryAttackNearestEnemy().Forget();
+                return true;
+            }
+
+
         }
-        else if(!Input.GetMouseButton(0))
+        else if (!switchYButton)
         {
             inputAttack = false;
             return false;
@@ -267,6 +296,63 @@ public class PlayerAction : MonoBehaviour
 
 
         return true;
+    }
+    private async UniTaskVoid TryAttackNearestEnemy()
+    {
+
+        if (player.isAttacking) return;
+        // 攻撃アニメーション実行
+        PlayAttackAnimation(comboStep);
+
+
+        ParticleSystem effect = Instantiate(attackEfect, transform.position + Vector3.up * 0.3f, Quaternion.LookRotation(transform.forward));
+        effect.transform.SetParent(transform);
+        Destroy(effect.gameObject, 2);
+        enemyLayer = LayerMask.GetMask("Enemy");
+        attackRange = 2;
+
+        // 攻撃範囲内の敵を探す
+        Collider[] hits = Physics.OverlapSphere(transform.position, attackRange, enemyLayer);
+
+        if (hits.Length == 0) return;
+
+        // 一番近い敵を選択
+        var nearestEnemy = hits
+            .Select(h => h.GetComponent<EnemyCharacter>())
+            .Where(e => e != null && !e.isDead)
+            .OrderBy(e => Vector3.Distance(transform.position, e.transform.position))
+            .FirstOrDefault();
+
+        //if (nearestEnemy == null) return;
+
+        player.Attack(nearestEnemy.transform.position);
+
+        // 敵との距離を測って「目の前の位置」を計算
+        float stopDistance = 0.5f; // 武器の射程（敵の手前で止まる距離）
+        Vector3 dir = (nearestEnemy.transform.position - transform.position).normalized;
+        Vector3 stopPos = nearestEnemy.transform.position - dir * stopDistance;
+
+        // 近距離武器なら、そこまでダッシュ移動
+        rb.DOMove(stopPos, 0.1f);
+    }
+
+    private bool canCombo = false;
+    private int comboStep = 0;
+    public void OnComboOpen()
+    {
+        canCombo = true;
+    }
+    public void OnComboClose()
+    {
+        player.isAttacking = false;
+        canCombo = false;
+        comboStep = 0;
+    }
+
+    private void PlayAttackAnimation(int step)
+    {
+        player.isAttacking = true;
+        animation.Play("コンボ" + step);
     }
 
     /// <summary>
@@ -330,56 +416,46 @@ public class PlayerAction : MonoBehaviour
     private float attackRange;       // 攻撃できる範囲
     private int enemyLayer;
 
-    private async UniTaskVoid TryAttackNearestEnemy()
+    
+
+
+    public void SwitchB(InputAction.CallbackContext context)
     {
-        
-        if (player.isAttacking) return;
-        ParticleSystem effect = Instantiate(attackEfect,transform.position + Vector3.up * 0.3f, Quaternion.LookRotation(transform.forward));
-        effect.transform.SetParent(transform);
-        Destroy(effect.gameObject,2);
-        enemyLayer = LayerMask.GetMask("Enemy");
-        attackRange = 2;
-
-        // 攻撃範囲内の敵を探す
-        Collider[] hits = Physics.OverlapSphere(transform.position, attackRange, enemyLayer);
-
-        if (hits.Length == 0) return;
-
-        // 一番近い敵を選択
-        var nearestEnemy = hits
-            .Select(h => h.GetComponent<EnemyCharacter>())
-            .Where(e => e != null && !e.isDead)
-            .OrderBy(e => Vector3.Distance(transform.position, e.transform.position))
-            .FirstOrDefault();
-
-        //if (nearestEnemy == null) return;
-
-        player.Attack("a", nearestEnemy.transform.position);
-
-        // 攻撃アニメーション実行
-        await player.GoingAttack();
-
-        // 敵との距離を測って「目の前の位置」を計算
-        float stopDistance = 0.5f; // 武器の射程（敵の手前で止まる距離）
-        Vector3 dir = (nearestEnemy.transform.position - transform.position).normalized;
-        Vector3 stopPos = nearestEnemy.transform.position - dir * stopDistance;
-
-        // 近距離武器なら、そこまでダッシュ移動
-        rb.DOMove(stopPos, 0.1f).OnComplete(() =>
+        if (context.performed)
         {
-            player.isAttacking = false;
-        });
-
-        //効果音の再生
-        AudioManager.instance.PlaySE(0);
+            switchBButton = true;
+            Debug.Log(context.performed);
+        }
+        else
+        {
+            switchBButton = false;
+        }
     }
-
-    private void OnDrawGizmosSelected()
+    public void SwitchY(InputAction.CallbackContext context)
     {
-        // 攻撃範囲を可視化
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-
-
+        if (context.performed)
+        {
+            switchYButton = true;
+            Debug.Log(context.performed);
+        }
+        else
+        {
+            switchYButton = false;
+        }
+    }
+    public void SwitchZR(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            switchZRButton = true;
+        }
+        else
+        {
+            switchZRButton = false;
+        }
+    }
+    public void SwitchLStickMove(InputAction.CallbackContext context)
+    {
+        switchLStickValue = context.ReadValue<Vector2>();
     }
 }

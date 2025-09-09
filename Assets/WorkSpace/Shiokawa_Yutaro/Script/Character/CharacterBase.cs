@@ -248,7 +248,7 @@ public abstract class CharacterBase : MonoBehaviour
                          && Physics.Raycast(origin4, direction, rayLength, groundLayer);
     }
 
-    public void Attack(string attackName , Vector3 targetDir)
+    public void Attack(Vector3 targetDir)
     {
         Vector3 flatTargetPos = targetDir;
         flatTargetPos.y = transform.position.y; // é©ï™ÇÃYç¿ïWÇ…å≈íË
