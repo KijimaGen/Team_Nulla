@@ -190268,7 +190268,7 @@ PrefabInstance:
     - target: {fileID: 230163865767644395, guid: 7cceb7c0d418a544287f1fd8bcde9421, type: 3}
       propertyPath: generationSettings
       value: 
-      objectReference: {fileID: 11400000, guid: 1a976e4400faa1644be6c249c2e76f9b, type: 2}
+      objectReference: {fileID: 11400000, guid: cac475ae63d1dc449a68242f97fdea1b, type: 2}
     - target: {fileID: 5325869983140188781, guid: 7cceb7c0d418a544287f1fd8bcde9421, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -264123,7 +264123,6 @@ GameObject:
   - component: {fileID: 6713204345818455556}
   - component: {fileID: 6713204345818455559}
   - component: {fileID: 6713204345818455558}
-  - component: {fileID: 6713204345818455560}
   - component: {fileID: 6713204345818455561}
   m_Layer: 0
   m_Name: Enemy
@@ -264294,18 +264293,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.5, z: 0.7}
   m_Center: {x: 0, y: 0.8, z: 0.5}
---- !u!114 &6713204345818455560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6224475393583105211}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bb8c9abfaf6e374089eda35ce18c951, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6713204345818455561
 MonoBehaviour:
   m_ObjectHideFlags: 0
