@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class Bullet : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class Bullet : MonoBehaviour
     {
         Destroy(gameObject, 5);
 
+        if (this == null) return;
         // プレイヤーをレイヤーで検索
         Collider[] players = Physics.OverlapSphere(transform.position, hitDistance, LayerMask.GetMask("Player"));
         foreach (var playerCol in players)

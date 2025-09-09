@@ -75,8 +75,6 @@ public class PlayerAction : MonoBehaviour
         //移動の受付
         if (AcceptMove()) return;
 
-       //animation.Play("待機");
-
     }
 
     /// <summary>
@@ -94,7 +92,7 @@ public class PlayerAction : MonoBehaviour
             isDashing = false;
             isAvoiding = false;
             isCounter = false;
-            
+            animation.Play("待機");
             return false;
         }
         
@@ -259,6 +257,7 @@ public class PlayerAction : MonoBehaviour
 
         if (switchYButton && !inputAttack)
         {
+            player.SetSpeed(player.runSpeed);
             isDashing = false;
             inputAttack = true;
 
@@ -271,7 +270,7 @@ public class PlayerAction : MonoBehaviour
             }
             else
             {
-                comboStep = 1;
+                comboStep = 3;
                 TryAttackNearestEnemy().Forget();
                 return true;
             }
@@ -283,19 +282,9 @@ public class PlayerAction : MonoBehaviour
             return false;
         }
         
-        Debug.Log("プレイヤーの攻撃");
-        //近くの敵に向いて攻撃する補正をつける
-        
-
-        
-
-        //ロックオンでターゲット取ってるか
-
         //ExecuteAction(GetPlayer(), NORMAL_ATTACK_ACTION_ID);
         //今持ってる武器を参照したい
 
-
-        return true;
     }
     private async UniTaskVoid TryAttackNearestEnemy()
     {
@@ -325,8 +314,7 @@ public class PlayerAction : MonoBehaviour
 
         player.Attack(nearestEnemy.transform.position);
 
-        // 敵との距離を測って「目の前の位置」を計算
-        float stopDistance = 0.5f; // 武器の射程（敵の手前で止まる距離）
+        float stopDistance = 0.5f; //敵の手前で止まる距離
         Vector3 dir = (nearestEnemy.transform.position - transform.position).normalized;
         Vector3 stopPos = nearestEnemy.transform.position - dir * stopDistance;
 
@@ -353,19 +341,6 @@ public class PlayerAction : MonoBehaviour
     {
         player.isAttacking = true;
         animation.Play("コンボ" + step);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Enemy")
-        {
-            EnemyCharacter enemy = other.gameObject.GetComponent<EnemyCharacter>();
-            if (player.isAttacking && !enemy.GetHitDamage())
-            {
-                enemy.SetHitDamage(true);
-               // enemy.HP -= 3;
-            }
-        }
     }
 
     /// <summary>

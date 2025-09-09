@@ -131,6 +131,10 @@ public abstract class CharacterBase : MonoBehaviour
         maxHP = setValue;
     }
 
+    public float GetHP()
+    {
+        return HP;
+    }
     /// <summary>
     /// åªç›HPê›íË
     /// </summary>
