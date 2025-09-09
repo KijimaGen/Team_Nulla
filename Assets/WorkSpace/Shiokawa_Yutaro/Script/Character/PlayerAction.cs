@@ -114,6 +114,7 @@ public class PlayerAction : MonoBehaviour
             {
                 TriggerDodge(player);
             }
+            animation.Play("ダッシュ");
 
         }
         else
@@ -212,7 +213,7 @@ public class PlayerAction : MonoBehaviour
         //effect.transform.SetParent(transform);
         //アニメーション(一度だけ)
 
-        animation.Play("ダッシュ");
+        
         //Debug.Log("プレイやーがダッシュ発動");
         isCounter = true;
     }
@@ -270,7 +271,7 @@ public class PlayerAction : MonoBehaviour
             }
             else
             {
-                comboStep = 3;
+                comboStep = 1;
                 TryAttackNearestEnemy().Forget();
                 return true;
             }
@@ -292,9 +293,9 @@ public class PlayerAction : MonoBehaviour
         PlayAttackAnimation(comboStep);
 
 
-        ParticleSystem effect = Instantiate(attackEfect, transform.position + Vector3.up * 0.3f, Quaternion.LookRotation(transform.forward));
-        effect.transform.SetParent(transform);
-        Destroy(effect.gameObject, 2);
+        //ParticleSystem effect = Instantiate(attackEfect, transform.position + Vector3.up * 0.3f, Quaternion.LookRotation(transform.forward));
+        //effect.transform.SetParent(transform);
+        //Destroy(effect.gameObject, 2);
         enemyLayer = LayerMask.GetMask("Enemy");
         attackRange = 2;
 
@@ -341,6 +342,7 @@ public class PlayerAction : MonoBehaviour
     {
         player.isAttacking = true;
         animation.Play("コンボ" + step);
+        
     }
 
     /// <summary>

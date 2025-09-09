@@ -429,6 +429,7 @@ public class EnemyCharacter : CharacterBase
             {
                 Damage(this.GetComponent<Collider>());
                 HP -= rawAttack;
+                AudioManager.instance.PlaySE(0);
             }
         }
     }

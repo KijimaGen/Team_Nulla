@@ -14,7 +14,7 @@ public class Enemy_GoingAttack : EnemyCharacter
 
         attackArea = 0.5f;
         speed = 1.5f;
-        maxHP = 100;
+        maxHP = 15;
         HP = maxHP;
         rawAttack = 5;
         rawDefense = 0;
