@@ -23,7 +23,7 @@ public class TeleportPortal : MonoBehaviour{
         if(collision.gameObject.tag == "Player") {
 
             await FadeManager.instance.FadeOut();
-            SceneManager.LoadScene("Shiokawa");
+            SceneManager.LoadScene("Main");
         }
     }
 }
