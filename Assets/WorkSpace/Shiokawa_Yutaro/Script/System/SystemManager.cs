@@ -4,15 +4,18 @@
 * @author kijima
 * @date 2025/7/16
 */
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SystemManager : SystemObject {
     public List<SystemObject> systemObjectList = null;
+    private void Awake() {
+        // ƒCƒxƒ“ƒg‚É“o˜^
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
-    private void Start() {
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         Initialize();
         Application.targetFrameRate = 30;
         FadeManager.instance.FadeIn();

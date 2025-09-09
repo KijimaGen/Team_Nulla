@@ -211,6 +211,11 @@ public class EnemyCharacter : CharacterBase
     {
         while (true)
         {
+            // プレイヤーが消えていたらループ終了
+            if (player == null) {
+                Debug.Log("プレイヤーが消えたので追跡終了");
+                return;
+            }
             Vector3 dir = (player.transform.position - transform.position).normalized;
             // プレイヤーとの距離チェック
             float distance = Vector3.Distance(transform.position, player.transform.position);

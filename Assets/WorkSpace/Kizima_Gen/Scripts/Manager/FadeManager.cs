@@ -27,6 +27,7 @@ public class FadeManager : SystemObject {
     /// <returns></returns>
     public override void Initialize() {
         instance = this;
+        DontDestroyOnLoad(_fadeImage);
     }
 
     /// <summary>
