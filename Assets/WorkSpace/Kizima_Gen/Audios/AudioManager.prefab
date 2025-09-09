@@ -244,6 +244,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 13cbf236c91def04090e245e1dc708e8, type: 3}
   - {fileID: 8300000, guid: 3fcfb7526dd2d8d489dc1e35bcc9f5a2, type: 3}
   - {fileID: 8300000, guid: 60081aac9f7fc6d46adfbfacaf4d32ef, type: 3}
+  - {fileID: 8300000, guid: 1568293394d89d348bdd84b6f5909ac4, type: 3}
   BGMSource: {fileID: 7193135356726813274}
   BGMClipList:
   - {fileID: 8300000, guid: 8d0b5147ca10dda44b8f5e8c0c644d4d, type: 3}
