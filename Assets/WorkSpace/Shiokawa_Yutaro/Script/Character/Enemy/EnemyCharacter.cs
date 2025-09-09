@@ -36,7 +36,7 @@ public class EnemyCharacter : CharacterBase
     public Dictionary<AttackType, AttackStrategy> attackStrategies;
 
     bool hitDamage;
-
+    public GameObject damageUI;
 
     public override void Setup()
     {
@@ -58,7 +58,7 @@ public class EnemyCharacter : CharacterBase
     void Update()
     {
         //死んでたらリターン
-        if (isDead) { Destroy(gameObject); }
+        if (isDead) { Destroy(gameObject); return; }
         if (!ViewAction()) return;
 
         StateTick().Forget();
@@ -298,16 +298,20 @@ public class EnemyCharacter : CharacterBase
 
         for (int i = 0; i < bulletCount; i++)
         {
+            if (this == null || player == null || hand == null) return;
+
             Vector3 bulletRotation = (player.transform.position - hand.position).normalized;
             bulletRotation.x += Random.Range(-0.1f, 0.1f);
             bulletRotation.y += Random.Range(-0.1f, 0.1f);
-            GameObject bullet = Instantiate(prefabBullet, hand.position, Quaternion.LookRotation(bulletRotation));
-            float tmp = interval * 1000;
-            await UniTask.Delay((int)tmp);
+
+            Instantiate(prefabBullet, hand.position, Quaternion.LookRotation(bulletRotation));
+
+            await UniTask.Delay((int)(interval * 1000));
         }
 
+
         // アニメーションの終了を待つ（基底のクラスの関数）
-       // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
+        // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
     }
 
     public override UniTask CounterAttack()
@@ -415,5 +419,23 @@ public class EnemyCharacter : CharacterBase
     {
         hitDamage = set;
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Weapon")
+        {
+            PlayerCharacter player = other.transform.root.Find("Player(Clone)").GetComponent<PlayerCharacter>();
+            if (player.isAttacking)
+            {
+                Damage(this.GetComponent<Collider>());
+                HP -= rawAttack;
+            }
+        }
+    }
+    public void Damage(Collider collider)
+    {
+        //　DamageUIを中心からカメラの方向に少し寄せた位置にインスタンス化
+        var obj = Instantiate(damageUI, collider.bounds.center - Camera.main.transform.forward * 0.2f, Quaternion.identity);
+    }
+
 }
