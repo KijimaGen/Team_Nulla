@@ -257,7 +257,7 @@ public class PlayerAction : MonoBehaviour
 
         if (switchYButton && !inputAttack)
         {
-            player.SetSpeed(player.runSpeed);
+            player.SetSpeed(player.walkSpeed);
             isDashing = false;
             inputAttack = true;
 
