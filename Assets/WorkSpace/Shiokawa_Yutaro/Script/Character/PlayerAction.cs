@@ -260,6 +260,8 @@ public class PlayerAction : MonoBehaviour
             player.SetSpeed(player.walkSpeed);
             isDashing = false;
             inputAttack = true;
+            //Œø‰Ê‰¹‚ð–Â‚ç‚·
+            AudioManager.instance.PlaySE(4);
 
             if (canCombo)
             {
@@ -275,7 +277,7 @@ public class PlayerAction : MonoBehaviour
                 return true;
             }
 
-
+           
         }
         else
         {
@@ -429,6 +431,7 @@ public class PlayerAction : MonoBehaviour
         {
             switchYButton = false;
         }
+
     }
     public void SwitchZR(InputAction.CallbackContext context)
     {
