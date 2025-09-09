@@ -261,6 +261,7 @@ public class PlayerAction : MonoBehaviour
         {
             isDashing = false;
             inputAttack = true;
+
             if (canCombo)
             {
                 comboStep++;
@@ -277,9 +278,8 @@ public class PlayerAction : MonoBehaviour
 
 
         }
-        else if (!switchYButton)
+        else
         {
-            inputAttack = false;
             return false;
         }
         
@@ -299,8 +299,6 @@ public class PlayerAction : MonoBehaviour
     }
     private async UniTaskVoid TryAttackNearestEnemy()
     {
-
-        if (player.isAttacking) return;
         // 攻撃アニメーション実行
         PlayAttackAnimation(comboStep);
 
@@ -341,18 +339,33 @@ public class PlayerAction : MonoBehaviour
     public void OnComboOpen()
     {
         canCombo = true;
+        inputAttack = false;
     }
     public void OnComboClose()
     {
         player.isAttacking = false;
         canCombo = false;
         comboStep = 0;
+        inputAttack = false;
     }
 
     private void PlayAttackAnimation(int step)
     {
         player.isAttacking = true;
         animation.Play("コンボ" + step);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Enemy")
+        {
+            EnemyCharacter enemy = other.gameObject.GetComponent<EnemyCharacter>();
+            if (player.isAttacking && !enemy.GetHitDamage())
+            {
+                enemy.SetHitDamage(true);
+               // enemy.HP -= 3;
+            }
+        }
     }
 
     /// <summary>
@@ -436,7 +449,6 @@ public class PlayerAction : MonoBehaviour
         if (context.performed)
         {
             switchYButton = true;
-            Debug.Log(context.performed);
         }
         else
         {

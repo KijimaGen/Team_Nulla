@@ -7,6 +7,7 @@ using static EnemyState;
 using Unity.VisualScripting;
 using UnityEditor;
 using System.Linq;
+using UnityEngine.InputSystem.HID;
 
 
 public class EnemyCharacter : CharacterBase
@@ -406,15 +407,13 @@ public class EnemyCharacter : CharacterBase
     {
     }
 
-    private void OnTriggerStay(Collider other)
+    public bool GetHitDamage()
     {
-        if(other.gameObject.tag == "Player")
-        {
-            PlayerCharacter player = other.gameObject.GetComponent<PlayerCharacter>();
-            if (player.isAttacking)
-            {
-                HP -= 3;
-            }
-        }
+        return hitDamage;
     }
+    public void SetHitDamage(bool set)
+    {
+        hitDamage = set;
+    }
+    
 }
