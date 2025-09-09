@@ -11,15 +11,9 @@ using UnityEngine.SceneManagement;
 public class SystemManager : SystemObject {
     public List<SystemObject> systemObjectList = null;
     private void Awake() {
-        // ƒCƒxƒ“ƒg‚É“o˜^
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         Initialize();
         Application.targetFrameRate = 30;
         FadeManager.instance.FadeIn();
-        DontDestroyOnLoad(gameObject);
     }
 
     public override void Initialize() {
