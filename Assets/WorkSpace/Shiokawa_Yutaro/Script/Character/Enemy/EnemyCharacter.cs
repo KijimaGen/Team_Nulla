@@ -171,7 +171,7 @@ public class EnemyCharacter : CharacterBase
     {
         Vector3 neckPos = neck.position;
         Vector3 viewPos = new Vector3(neckPos.x, neckPos.y, neckPos.z);
-        float viewAngle = 120;
+        float viewAngle = 360;
         float halfAngle = viewAngle / 2f;
         int rayCount = 30;
 
@@ -182,14 +182,20 @@ public class EnemyCharacter : CharacterBase
             Quaternion rotation = Quaternion.Euler(0, angle, 0);
             Vector3 dir = rotation * transform.forward;
 
+            int layerMask = LayerMask.GetMask("Player");
+
             Ray ray = new Ray(viewPos, dir);
-            RaycastHit[] hits = Physics.RaycastAll(ray, _ENEMY_VIEW_AREA);
+            RaycastHit hit;
+            float direction = _ENEMY_VIEW_AREA;
 
-            foreach (var hit in hits)
+            if(Physics.Raycast(ray, out hit, direction))
             {
-                if (hit.collider.CompareTag("Player"))
-                {                   
-
+                if (!hit.collider.CompareTag("Player"))
+                {
+                    direction = hit.distance;
+                }
+                else if (hit.collider.CompareTag("Player"))
+                {
                     float dist = Vector3.Distance(neckPos, hit.transform.position);
                     if (dist > _ENEMY_VIEW_AREA)
                     {
@@ -199,7 +205,8 @@ public class EnemyCharacter : CharacterBase
                     else return true;
                 }
             }
-            //Debug.DrawRay(viewPos, dir * _ENEMY_VIEW_AREA, Color.red);
+           // Debug.DrawRay(viewPos, dir * direction, Color.red,direction);
+
         }
 
         return false;

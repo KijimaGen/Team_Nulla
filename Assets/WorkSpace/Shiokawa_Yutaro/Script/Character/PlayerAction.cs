@@ -292,7 +292,10 @@ public class PlayerAction : MonoBehaviour
         // 攻撃アニメーション実行
         PlayAttackAnimation(comboStep);
 
-
+        if (comboStep == 3)
+        {
+            rb.velocity = transform.up * 6f;
+        }
         //ParticleSystem effect = Instantiate(attackEfect, transform.position + Vector3.up * 0.3f, Quaternion.LookRotation(transform.forward));
         //effect.transform.SetParent(transform);
         //Destroy(effect.gameObject, 2);
@@ -315,6 +318,8 @@ public class PlayerAction : MonoBehaviour
 
         player.Attack(nearestEnemy.transform.position);
 
+        
+
         float stopDistance = 0.5f; //敵の手前で止まる距離
         Vector3 dir = (nearestEnemy.transform.position - transform.position).normalized;
         Vector3 stopPos = nearestEnemy.transform.position - dir * stopDistance;
@@ -336,6 +341,7 @@ public class PlayerAction : MonoBehaviour
         canCombo = false;
         comboStep = 0;
         inputAttack = false;
+        animation.Play("待機");
     }
 
     private void PlayAttackAnimation(int step)
