@@ -41,8 +41,8 @@ public class ItemManager : SystemObject{
             _unuseList.Add(item);
         }
         player = GameObject.Find("Player(Clone)");
-        
-       
+        _useList.RemoveAll(item => item == null || item.Equals(null));
+
     }
 
     /// <summary>
@@ -99,6 +99,10 @@ public class ItemManager : SystemObject{
     /// </summary>
     /// <param name="ID"></param>
     public void GetItem(int ID) {
+        //ここで一旦デストロイしてあるアイテムをなくしておく
+        _useList.RemoveAll(item => item == null || item.Equals(null));
+        player = GameObject.Find("Player(Clone)");
+
         ItemBase getItem = _useList.Find(item => item.itemID == ID);
         if (getItem == null) return;
 

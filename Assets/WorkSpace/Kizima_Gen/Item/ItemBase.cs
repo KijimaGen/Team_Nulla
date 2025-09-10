@@ -51,10 +51,10 @@ public abstract class ItemBase : MonoBehaviour{
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Room") {
             isGround = true;
-            
         }
 
         if(other.gameObject.tag == "Player") {
+            if (isPlayerPosses) return;
             isPlayerInRange = true;
             //UI‚Ì•¶Žš‚ð•Ï‚¦‚Ä•\Ž¦‚ð‚Â‚¯‚é
             UIManager.instance.ChangeVisibleinteractCanvas(true);
@@ -69,8 +69,6 @@ public abstract class ItemBase : MonoBehaviour{
     private void OnTriggerExit(Collider other) {
         if (other.gameObject.tag == "Room") {
             isGround = false;
-            
-            
         }
 
         if (other.gameObject.tag == "Player") {
