@@ -5800,7 +5800,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 948036626729602021, guid: 3d86c086815c1074397e396aced60f4c, type: 3}
       propertyPath: m_Height
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 948036626729602021, guid: 3d86c086815c1074397e396aced60f4c, type: 3}
       propertyPath: m_Center.x

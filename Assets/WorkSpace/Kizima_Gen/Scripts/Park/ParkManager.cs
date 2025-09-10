@@ -22,11 +22,10 @@ public class ParkManager : SystemObject {
 
     [SerializeField]
     private GameObject _parkRoot = null;
-
     //パーク列の指している先
     private int Index = 1;
-
-    
+    //自身のインスタンス
+    public static ParkManager instance = null;
 
     /// <summary>
     /// 初期化
@@ -41,6 +40,7 @@ public class ParkManager : SystemObject {
             _parks.Add(park);
         }
         _parkRoot.SetActive(false);
+        instance = this;
     }
 
     private void Update() {
@@ -54,8 +54,7 @@ public class ParkManager : SystemObject {
                 ExecuteAllPark(park => park.TearDown());
                 return;
             }
-            _parkRoot.SetActive(true);
-            ChangeParkID();
+            
         }
 
         if (Input.GetKeyDown(KeyCode.X)) {
@@ -131,6 +130,24 @@ public class ParkManager : SystemObject {
             if (_parks[i] == null) continue;
             action(_parks[i]);
         }
+    }
+
+    /// <summary>
+    /// パークリストを開く
+    /// </summary>
+    public void OpenParkList() {
+        //パークリストを見れるようにする
+        _parkRoot.SetActive(true);
+        //パークリストをリセット
+        ChangeParkID();
+    }
+
+    /// <summary>
+    /// パークリストを閉じる
+    /// </summary>
+    public void CloseParkList() {
+        _parkRoot.SetActive(false);
+        ExecuteAllPark(park => park.TearDown());
     }
    
 }
