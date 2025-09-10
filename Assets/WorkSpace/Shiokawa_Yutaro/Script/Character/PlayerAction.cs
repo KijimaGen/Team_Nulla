@@ -34,6 +34,8 @@ public class PlayerAction : MonoBehaviour
     [SerializeField] ParticleSystem attackEfect;
     [SerializeField] ParticleSystem counterEfect;
 
+    [SerializeField] ParticleSystem jumpEfect;
+
 
     Vector2 switchLStickValue;
     bool switchZRButton;
@@ -150,6 +152,8 @@ public class PlayerAction : MonoBehaviour
 
         if (switchBButton)
         {
+            ParticleSystem jumpEffect = Instantiate(jumpEfect, transform.position, Quaternion.identity);
+            Destroy(jumpEffect.gameObject, 2);
             // …•½•ûŒü‚ÌˆÚ“®‚ğ~‚ß‚é
             Jump();
             isJumping = true;
