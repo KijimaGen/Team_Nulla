@@ -13,7 +13,7 @@ public class SystemManager : SystemObject {
     private void Awake() {
         Initialize();
         Application.targetFrameRate = 30;
-        FadeManager.instance.FadeIn();
+        _ = FadeManager.instance.FadeIn();
     }
 
     public override void Initialize() {

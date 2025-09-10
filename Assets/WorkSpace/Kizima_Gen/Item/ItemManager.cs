@@ -41,8 +41,8 @@ public class ItemManager : SystemObject{
             _unuseList.Add(item);
         }
         player = GameObject.Find("Player(Clone)");
-        
-       
+        _useList.RemoveAll(item => item == null || item.Equals(null));
+
     }
 
     /// <summary>
@@ -99,6 +99,10 @@ public class ItemManager : SystemObject{
     /// </summary>
     /// <param name="ID"></param>
     public void GetItem(int ID) {
+        //ここで一旦デストロイしてあるアイテムをなくしておく
+        _useList.RemoveAll(item => item == null || item.Equals(null));
+        player = GameObject.Find("Player(Clone)");
+
         ItemBase getItem = _useList.Find(item => item.itemID == ID);
         if (getItem == null) return;
 
@@ -115,5 +119,30 @@ public class ItemManager : SystemObject{
             Debug.Log(getItem.gameObject.name + getItem.itemID + "を獲得しました");
         }
 
+    }
+
+    /// <summary>
+    /// プレイヤーがアイテムを持っているかどうかを返す
+    /// </summary>
+    /// <returns></returns>
+    public bool PlayerHasItem() {
+        //for分を回してその中にisPlayerPossesがtrueなアイテムがあるかを返す
+        for(int i = 0,max  = _unuseList.Count; i < max; i++) {
+            if (_unuseList[i].isPlayerPosses)
+                return true;
+        }
+        //for分を抜ける=そんなアイテムはないのでfalseを返す
+        return false;
+
+    }
+
+    public int GetHasPlayerItemCount() {
+        int count = 0;
+        //for分を回してその中にisPlayerPossesがtrueなアイテムがあるかを返す
+        for (int i = 0, max = _unuseList.Count; i < max; i++) {
+            if (_unuseList[i].isPlayerPosses)
+                count++;
+        }
+        return count;
     }
 }

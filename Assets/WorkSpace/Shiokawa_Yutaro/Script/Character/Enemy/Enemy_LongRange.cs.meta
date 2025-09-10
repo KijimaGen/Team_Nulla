@@ -3,7 +3,11 @@ guid: 451c27ad97b4c2940bf6bcf40c390562
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - neck: {instanceID: 0}
+  - prefabBullet: {instanceID: 0}
+  - damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
+  - hand: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
