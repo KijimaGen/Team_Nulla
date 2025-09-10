@@ -3782,7 +3782,7 @@ Transform:
   m_GameObject: {fileID: 6495165415704152671}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 56.86, y: 0.098, z: 57.358}
+  m_LocalPosition: {x: 0.39, y: 0.098, z: 56.358}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3820,6 +3820,7 @@ MonoBehaviour:
   isCounter: 0
   attackEfect: {fileID: 7075662119902662680, guid: f74d6d68090453340b8266c1213cb0dc, type: 3}
   counterEfect: {fileID: 3540279324930218144, guid: 43a5db2a830427a4d8da0a87549ff513, type: 3}
+  jumpEfect: {fileID: 970440554703164915, guid: c9e78ea04c90d7c4eb28e3b92df587ac, type: 3}
 --- !u!114 &5048464570732529882
 MonoBehaviour:
   m_ObjectHideFlags: 0
