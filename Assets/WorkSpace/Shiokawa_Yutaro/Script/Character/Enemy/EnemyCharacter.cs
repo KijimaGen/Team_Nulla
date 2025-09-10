@@ -22,9 +22,9 @@ public class EnemyCharacter : CharacterBase
     float actionTime;
 
     [SerializeField] Transform neck;
-    [SerializeField] protected GameObject prefabBullet;
+    
 
-    PlayerCharacter player;
+    protected PlayerCharacter player;
 
     protected float attackArea = 0.5f;
     bool action;
@@ -58,7 +58,12 @@ public class EnemyCharacter : CharacterBase
     void Update()
     {
         //死んでたらリターン
-        if (isDead) { Destroy(gameObject); return; }
+        if (isDead || HP <= 0) 
+        {
+            Destroy(gameObject);
+            
+            return;
+        }
         if (!ViewAction()) return;
 
         StateTick().Forget();
@@ -291,8 +296,7 @@ public class EnemyCharacter : CharacterBase
 
     }
 
-    [SerializeField]
-    private Transform hand;
+
     public override async UniTask LongRangeAttack()
     {
         const int bulletCount = 10;
@@ -303,19 +307,7 @@ public class EnemyCharacter : CharacterBase
 
         Attack(player.transform.position);
 
-        for (int i = 0; i < bulletCount; i++)
-        {
-            if (this == null || player == null || hand == null) return;
-
-            Vector3 bulletRotation = (player.transform.position - hand.position).normalized;
-            bulletRotation.x += Random.Range(-0.1f, 0.1f);
-            bulletRotation.y += Random.Range(-0.1f, 0.1f);
-
-            Instantiate(prefabBullet, hand.position, Quaternion.LookRotation(bulletRotation));
-
-            await UniTask.Delay((int)(interval * 1000));
-        }
-
+        return;
 
         // アニメーションの終了を待つ（基底のクラスの関数）
         // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
@@ -359,7 +351,7 @@ public class EnemyCharacter : CharacterBase
             return;
         }
 
-        animator.SetTrigger("takeDistance");
+        //animation.SetTrigger("takeDistance");
 
         // 400ms待つ
         await UniTask.Delay(400);
@@ -431,7 +423,8 @@ public class EnemyCharacter : CharacterBase
     {
         if (other.gameObject.tag == "Weapon")
         {
-            PlayerCharacter player = other.transform.root.Find("Player(Clone)").GetComponent<PlayerCharacter>();
+            PlayerCharacter player = other.transform.root.GetComponent<PlayerCharacter>();
+            if (player == null) return;
             if (player.isAttacking)
             {
                 Damage(this.GetComponent<Collider>());

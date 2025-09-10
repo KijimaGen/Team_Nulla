@@ -24,8 +24,6 @@ public class PlayerAction : MonoBehaviour
 
     private float pickupRadius = 1f;
 
-    //アニメーション
-    private Animation animation;
 
     private bool inputShiftButton;
 
@@ -40,14 +38,15 @@ public class PlayerAction : MonoBehaviour
     bool switchBButton;
     bool switchYButton;
 
+    Animation anim;
+
     private void Start()
     {
         player = GetComponent<PlayerCharacter>();
-
+        anim = player.GetComponent<Animation>();
         rb = GetComponent<Rigidbody>();
-        animation = GetComponent<Animation>();
 
-        foreach (AnimationState state in animation)
+        foreach (AnimationState state in anim)
         {
             Debug.Log("登録済みアニメーション: " + state.name);
         }
@@ -75,6 +74,11 @@ public class PlayerAction : MonoBehaviour
         //移動の受付
         if (AcceptMove()) return;
 
+        if(rb.velocity.magnitude < 0.01f && !player.isAttacking && !isJumping && !isDashing)
+        {
+            rb.velocity = Vector2.zero;
+            anim.Play("待機");
+        }
     }
 
     /// <summary>
@@ -92,7 +96,7 @@ public class PlayerAction : MonoBehaviour
             isDashing = false;
             isAvoiding = false;
             isCounter = false;
-            animation.Play("待機");
+            
             return false;
         }
         
@@ -114,13 +118,13 @@ public class PlayerAction : MonoBehaviour
             {
                 TriggerDodge(player);
             }
-            animation.Play("ダッシュ");
+            anim.Play("ダッシュ");
 
         }
         else
         {
             shiftPressTime = 0f;
-            animation.Play("歩く");
+            anim.Play("歩く");
         }
 
 
@@ -309,7 +313,7 @@ public class PlayerAction : MonoBehaviour
 
         // 一番近い敵を選択
         var nearestEnemy = hits
-            .Select(h => h.GetComponent<EnemyCharacter>())
+            .Select(e => e.GetComponent<EnemyCharacter>())
             .Where(e => e != null && !e.isDead)
             .OrderBy(e => Vector3.Distance(transform.position, e.transform.position))
             .FirstOrDefault();
@@ -341,13 +345,13 @@ public class PlayerAction : MonoBehaviour
         canCombo = false;
         comboStep = 0;
         inputAttack = false;
-        animation.Play("待機");
+        anim.Play("待機");
     }
 
     private void PlayAttackAnimation(int step)
     {
         player.isAttacking = true;
-        animation.Play("コンボ" + step);
+        anim.Play("コンボ" + step);
         
     }
 
