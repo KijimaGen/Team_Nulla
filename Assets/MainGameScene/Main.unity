@@ -270169,6 +270169,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6960255527846054698, guid: 36d0c848eaebbbc40a49d062c0367a78, type: 3}
+      propertyPath: systemObjectList.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960255527846054698, guid: 36d0c848eaebbbc40a49d062c0367a78, type: 3}
+      propertyPath: systemObjectList.Array.data[4]
+      value: 
+      objectReference: {fileID: 7655204883971415103, guid: 17aa33308b585b540ac5e4bd3b5f9ef1, type: 3}
     - target: {fileID: 8512872466458859048, guid: 36d0c848eaebbbc40a49d062c0367a78, type: 3}
       propertyPath: m_Name
       value: SystemManager

@@ -56,6 +56,9 @@ public abstract class ItemBase : MonoBehaviour{
 
         if(other.gameObject.tag == "Player") {
             isPlayerInRange = true;
+            //UI‚Ì•¶š‚ğ•Ï‚¦‚Ä•\¦‚ğ‚Â‚¯‚é
+            UIManager.instance.ChangeVisibleinteractCanvas(true);
+            UIManager.instance.ChangeInteractText("GetItem");
         }
     }
 
@@ -66,10 +69,14 @@ public abstract class ItemBase : MonoBehaviour{
     private void OnTriggerExit(Collider other) {
         if (other.gameObject.tag == "Room") {
             isGround = false;
+            
+            
         }
 
         if (other.gameObject.tag == "Player") {
             isPlayerInRange = false;
+            //UI‚Ì•\¦‚ğØ‚é
+            UIManager.instance.ChangeVisibleinteractCanvas(false);
         }
     }
 
@@ -118,6 +125,8 @@ public abstract class ItemBase : MonoBehaviour{
         if (!isPlayerInRange) return;
         if (isPlayerPosses) return;
 
+        //UI‚Ì•\¦‚ğØ‚é
+        UIManager.instance.ChangeVisibleinteractCanvas(false);
         AudioManager.instance.PlaySE(3);
         ItemUtility.GetItem(itemID);
     }

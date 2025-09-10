@@ -3765,6 +3765,7 @@ GameObject:
   - component: {fileID: 213163864213050818}
   - component: {fileID: 3996753420668044496}
   - component: {fileID: 6744689611977416003}
+  - component: {fileID: 7992880584262535398}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -3941,7 +3942,19 @@ MonoBehaviour:
     m_ActionId: 416e9f97-5153-4518-8525-0e7fc6d4e863
     m_ActionName: Interact/SwitchSpecialAttack
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7992880584262535398}
+        m_TargetAssemblyTypeName: PlayerOpenChester, Assembly-CSharp
+        m_MethodName: HandleInteractInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: b13152a9-77ec-4064-a39a-81413a1975fc
     m_ActionName: Interact/Interact[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
@@ -4041,6 +4054,19 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &7992880584262535398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6495165415704152671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fdf52441626a042906a5a99760d083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemRoots: []
 --- !u!1 &6578932209010347393
 GameObject:
   m_ObjectHideFlags: 0

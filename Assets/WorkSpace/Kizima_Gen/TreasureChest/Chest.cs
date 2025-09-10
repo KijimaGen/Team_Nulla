@@ -30,7 +30,9 @@ public class Chest : MonoBehaviour{
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Player") {
             isPlayerInRange = true;
-            
+            //UI‚Ì•¶š‚ğ•Ï‚¦‚Ä•\¦‚ğ‚Â‚¯‚é
+            UIManager.instance.ChangeVisibleinteractCanvas(true);
+            UIManager.instance.ChangeInteractText("OpenChest");
         }
     }
 
@@ -41,6 +43,8 @@ public class Chest : MonoBehaviour{
     private void OnTriggerExit(Collider other) {
         if (other.gameObject.tag == "Player") {
             isPlayerInRange = false;
+            //UI‚Ì•\¦‚ğØ‚é
+            UIManager.instance.ChangeVisibleinteractCanvas(false);
         }
     }
 
@@ -64,6 +68,8 @@ public class Chest : MonoBehaviour{
         ItemUtility.UseItem(this.transform.position);
         Instantiate(smokePrefab, this.transform.position, Quaternion.identity);
         Instantiate(hitEffectPrefab, this.transform.position, Quaternion.identity);
+        //UI‚Ì•\¦‚ğØ‚é
+        UIManager.instance.ChangeVisibleinteractCanvas(false);
         Destroy(this.gameObject);
     }
 
