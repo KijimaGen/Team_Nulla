@@ -8,6 +8,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ParkManager : SystemObject {
 
@@ -44,40 +45,6 @@ public class ParkManager : SystemObject {
     }
 
     private void Update() {
-        //デバッグ用の確認
-        if(Input.GetKeyDown(KeyCode.Z)) {
-            //もしすでにパークが開かれていた場合選んでいるパークを使用
-            if (_parkRoot.activeSelf) {
-                _parks[Index].SelectPark();
-                //使用して終了
-                _parkRoot.SetActive(false);
-                ExecuteAllPark(park => park.TearDown());
-                return;
-            }
-            
-        }
-
-        if (Input.GetKeyDown(KeyCode.X)) {
-            if (!_parkRoot.activeSelf) return;
-            _parkRoot.SetActive(false);
-            ExecuteAllPark(park => park.TearDown());
-        }
-
-        //キーの入力によってインデックスを変更
-        if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            Index++;
-            if(Index >= _parks.Count) {
-                Index = 0;
-            }
-            
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-            Index--;
-            if (Index < 0) {
-                Index = _parks.Count -1;
-            }
-            
-        }
         //全アウトラインの機能を停止
         ExecuteAllPark(park => park.ChangeOutline(false));
         //インデックスが向いている者だけoutlineをつける
@@ -95,7 +62,7 @@ public class ParkManager : SystemObject {
     }
 
     /// <summary>
-    /// パークアイテムの再生性
+    /// パークアイテムの再生成
     /// </summary>
     public void ChangeParkID() {
         for (int i = 0, max = _parks.Count; i < max; i++) {
@@ -149,5 +116,53 @@ public class ParkManager : SystemObject {
         _parkRoot.SetActive(false);
         ExecuteAllPark(park => park.TearDown());
     }
-   
+    
+
+    /// <summary>
+    /// パークリストのインデックスを増やす
+    /// </summary>
+    public void IncreaceIndex(InputAction.CallbackContext context) {
+        if (context.performed) {
+            Index++;
+            if (Index >= _parks.Count) {
+                Index = 0;
+            }
+        }
+    }
+    /// <summary>
+    /// パークリストのインデックスを減らす
+    /// </summary>
+    public void DecreaseIndex(InputAction.CallbackContext context) {
+        if (context.performed) {
+            Index--;
+            if (Index < 0) {
+                Index = _parks.Count - 1;
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// パークの決定
+    /// </summary>
+    public void DecidePark(InputAction.CallbackContext context) {
+        if (context.performed) {
+            //もしすでにパークが開かれていた場合選んでいるパークを使用
+            if (_parkRoot.activeSelf) {
+                _parks[Index].SelectPark();
+                //使用して終了
+                _parkRoot.SetActive(false);
+                ExecuteAllPark(park => park.TearDown());
+                return;
+            }
+        }
+    }
+
+    public void CancellPark(InputAction.CallbackContext context) {
+        if (context.performed) {
+            if (!_parkRoot.activeSelf) return;
+            _parkRoot.SetActive(false);
+            ExecuteAllPark(park => park.TearDown());
+        }
+    }
 }

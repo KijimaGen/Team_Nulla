@@ -26,7 +26,7 @@ public class PlayerOpenChester : MonoBehaviour {
             Debug.Log("プレイヤーがインタラクトボタンを押した");
             OnInteract?.Invoke();
         }
-        Debug.Log("オープンチェスト");
+        
     }
 
     public List<GameObject> GetItemRoots() {

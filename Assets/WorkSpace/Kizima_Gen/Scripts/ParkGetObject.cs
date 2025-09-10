@@ -37,6 +37,7 @@ public class ParkGetObject : MonoBehaviour{
             UIManager.instance.ChangeVisibleinteractCanvas(false);
         }
     }
+    //アイテムがアクティブになったときに呼ばれる
     private void OnEnable() {
         //プレイヤーイベントを購読
         PlayerOpenChester.OnInteract += TryOpenParkList;
@@ -48,11 +49,14 @@ public class ParkGetObject : MonoBehaviour{
     }
 
     /// <summary>
-    /// 名前は完全なる嘘ですこれはアイテムを拾うためのスクリプト
+    /// パークリストを開くための処理
     /// </summary>
     private void TryOpenParkList() {
+        Debug.Log("パークゲットオブジェクトが入力を検知！");
         //近くにプレイヤーいなければ何もしない
         if (!isPlayerInRange) return;
+
+        ParkManager.instance.OpenParkList();
         
         //UIの表示を切る
         UIManager.instance.ChangeVisibleinteractCanvas(false);
