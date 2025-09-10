@@ -120,4 +120,29 @@ public class ItemManager : SystemObject{
         }
 
     }
+
+    /// <summary>
+    /// プレイヤーがアイテムを持っているかどうかを返す
+    /// </summary>
+    /// <returns></returns>
+    public bool PlayerHasItem() {
+        //for分を回してその中にisPlayerPossesがtrueなアイテムがあるかを返す
+        for(int i = 0,max  = _unuseList.Count; i < max; i++) {
+            if (_unuseList[i].isPlayerPosses)
+                return true;
+        }
+        //for分を抜ける=そんなアイテムはないのでfalseを返す
+        return false;
+
+    }
+
+    public int GetHasPlayerItemCount() {
+        int count = 0;
+        //for分を回してその中にisPlayerPossesがtrueなアイテムがあるかを返す
+        for (int i = 0, max = _unuseList.Count; i < max; i++) {
+            if (_unuseList[i].isPlayerPosses)
+                count++;
+        }
+        return count;
+    }
 }

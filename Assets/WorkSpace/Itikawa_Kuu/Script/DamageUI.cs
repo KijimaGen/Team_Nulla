@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,8 +8,7 @@ using UnityEngine.UI;
 public class DamageUI : MonoBehaviour
 {
     //public GameObject enemy;
-    [SerializeField]
-    private TextMeshProUGUI damage;
+    
     [SerializeField]
     private Canvas damageUI;
 
@@ -60,5 +60,11 @@ public class DamageUI : MonoBehaviour
         if (damageText.color.a <= 0.1f) {
             Destroy(gameObject);
         }
+    }
+
+    public void ChangeDamageText(string changeText) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.Append(changeText);
+        damageText.text = stringBuilder.ToString();
     }
 }

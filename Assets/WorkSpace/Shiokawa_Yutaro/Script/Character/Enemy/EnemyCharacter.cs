@@ -36,7 +36,7 @@ public class EnemyCharacter : CharacterBase
     public Dictionary<AttackType, AttackStrategy> attackStrategies;
 
     bool hitDamage;
-    public GameObject damageUI;
+    public DamageUI damageUI;
 
     public override void Setup()
     {
@@ -428,14 +428,31 @@ public class EnemyCharacter : CharacterBase
             if (player.isAttacking)
             {
                 Damage(this.GetComponent<Collider>());
-                HP -= rawAttack;
+
+                //プレイヤーがアイテムを持っているときに持っている数分ダメージが上がる
+                HP -= rawAttack * 
+                    ItemManager.instance.GetHasPlayerItemCount() + 1;
+                //↑+1は一個だけの時に等倍になっちゃうので
+
+               
+                AudioManager.instance.PlaySE(0);
             }
         }
     }
     public void Damage(Collider collider)
     {
-        //　DamageUIを中心からカメラの方向に少し寄せた位置にインスタンス化
-        var obj = Instantiate(damageUI, collider.bounds.center - Camera.main.transform.forward * 0.2f, Quaternion.identity);
+
+        DamageUI DUI = damageUI;
+        if (DUI != null) {
+            DamageUI createObject = Instantiate(DUI, collider.bounds.center - Camera.main.transform.forward * 0.2f, Quaternion.identity);
+            // 計算
+            int totalAttack = (int)rawAttack * (ItemManager.instance.GetHasPlayerItemCount() + 1);
+
+            // テキストに表示
+            
+            createObject.ChangeDamageText(totalAttack.ToString());
+        }
+
     }
 
 }
