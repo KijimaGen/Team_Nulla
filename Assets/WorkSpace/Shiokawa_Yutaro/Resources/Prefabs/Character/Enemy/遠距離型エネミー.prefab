@@ -589,6 +589,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 2046691291715832682}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 8884371268655795233, guid: 20fda529c996a334da7fd65b48ea40df, type: 3}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 2692891181711933521}
 --- !u!54 &8974267836210401406
