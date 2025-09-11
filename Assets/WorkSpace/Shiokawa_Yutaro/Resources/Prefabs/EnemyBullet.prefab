@@ -121,6 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 20
   _effect: {fileID: 8914863724442220557, guid: 96fffd4962129b5428788a7ffab13e70, type: 3}
+  BulletEffect: {fileID: 8974203713140315807, guid: 709b0bd6b0b625249a98409dd7a87343, type: 3}
 --- !u!54 &-2371177010280344008
 Rigidbody:
   m_ObjectHideFlags: 0

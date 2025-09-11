@@ -5801,7 +5801,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 948036626729602021, guid: 3d86c086815c1074397e396aced60f4c, type: 3}
       propertyPath: m_Height
-      value: 10
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 948036626729602021, guid: 3d86c086815c1074397e396aced60f4c, type: 3}
+      propertyPath: m_Radius
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 948036626729602021, guid: 3d86c086815c1074397e396aced60f4c, type: 3}
       propertyPath: m_Center.x

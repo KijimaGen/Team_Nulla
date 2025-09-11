@@ -9,6 +9,8 @@ public class Bullet : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private ParticleSystem _effect;
     Renderer render;
+    [SerializeField]
+    private GameObject BulletEffect;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -75,8 +77,24 @@ public class Bullet : MonoBehaviour
             }
             else if(playerCol is not SphereCollider)
             {
-                //Destroy(gameObject);
+                //エフェクト出して消えるよ～～～～～～～～～～～～ん
+                Instantiate(BulletEffect, transform.position, transform.rotation);
+                Destroy(gameObject);
             }
+            else {
+                //エフェクト出して消えるのにぇん！
+                Instantiate(BulletEffect, transform.position, transform.rotation);
+                Destroy(gameObject);
+            }
+        }
+
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        if(collision.gameObject.tag != "Player") {
+            //エフェクト出して消えるペコ！
+            Instantiate(BulletEffect, transform.position, transform.rotation);
+            Destroy(gameObject);
         }
     }
 }
