@@ -61,6 +61,7 @@ public class ParkGetObject : MonoBehaviour{
         //UI‚Ì•\¦‚ğØ‚é
         UIManager.instance.ChangeVisibleinteractCanvas(false);
         AudioManager.instance.PlaySE(3);
+        gameObject.SetActive(false);
         
     }
 }

@@ -42,6 +42,13 @@ public class PlayerAction : MonoBehaviour
     bool switchBButton;
     bool switchYButton;
 
+    //‘«‰¹‚Ü‚Æ‚ß
+    [SerializeField] 
+    private AudioClip[] _footstepClips;
+    [SerializeField]
+    private AudioSource _audioSource;
+
+
     private void Start()
     {
         player = GetComponent<PlayerCharacter>();
@@ -95,6 +102,8 @@ public class PlayerAction : MonoBehaviour
             isAvoiding = false;
             isCounter = false;
             animation.Play("‘Ò‹@");
+            //‰¹‚ğ”‘‚ß‚é
+            _audioSource.Stop();
             return false;
         }
         
@@ -116,12 +125,17 @@ public class PlayerAction : MonoBehaviour
             {
                 TriggerDodge(player);
             }
-
+            //‰¹‚ğØ‚è‘Ö‚¦‚ÄÄ¶
+            _audioSource.clip = _footstepClips[1];
+            _audioSource.Play();
         }
         else
         {
             shiftPressTime = 0f;
             animation.Play("•à‚­");
+            //‰¹‚ğØ‚è‘Ö‚¦‚ÄÄ¶
+            _audioSource.clip = _footstepClips[0];
+            _audioSource.Play();
         }
 
 
@@ -157,6 +171,8 @@ public class PlayerAction : MonoBehaviour
             // …•½•ûŒü‚ÌˆÚ“®‚ğ~‚ß‚é
             Jump();
             isJumping = true;
+
+            AudioManager.instance.PlaySE(5);
             return true;
         }
 

@@ -4,6 +4,7 @@
 * @author kijima
 * @date 2025/7/16
 */
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,6 +26,10 @@ public class ParkManager : SystemObject {
     private GameObject _parkRoot = null;
     //パーク列の指している先
     private int Index = 1;
+    //パーク選択画面を開いた瞬間だけ処理を無効にするための物
+    private bool justOpend = false;
+
+
     //自身のインスタンス
     public static ParkManager instance = null;
 
@@ -102,17 +107,27 @@ public class ParkManager : SystemObject {
     /// <summary>
     /// パークリストを開く
     /// </summary>
-    public void OpenParkList() {
-        //パークリストを見れるようにする
-        _parkRoot.SetActive(true);
+    public async void OpenParkList() {
+        //もう開いてたら処理しないよ
+        if (_parkRoot.activeSelf) return;
+
         //パークリストをリセット
         ChangeParkID();
+        //パークリストを見れるようにする
+        _parkRoot.SetActive(true);
+
+        //30フレーム = 1秒待って
+        await UniTask.DelayFrame(30);
+
+        justOpend = true;
     }
 
     /// <summary>
     /// パークリストを閉じる
     /// </summary>
     public void CloseParkList() {
+        //もう閉じてたら処理しないよ
+        if (!_parkRoot.activeSelf) return;
         _parkRoot.SetActive(false);
         ExecuteAllPark(park => park.TearDown());
     }
@@ -147,22 +162,27 @@ public class ParkManager : SystemObject {
     /// </summary>
     public void DecidePark(InputAction.CallbackContext context) {
         if (context.performed) {
+            if (!justOpend) {
+                
+                return;
+            }
+
             //もしすでにパークが開かれていた場合選んでいるパークを使用
             if (_parkRoot.activeSelf) {
                 _parks[Index].SelectPark();
                 //使用して終了
-                _parkRoot.SetActive(false);
-                ExecuteAllPark(park => park.TearDown());
+                CloseParkList();
+                justOpend = false;
                 return;
             }
+            
         }
     }
 
     public void CancellPark(InputAction.CallbackContext context) {
         if (context.performed) {
             if (!_parkRoot.activeSelf) return;
-            _parkRoot.SetActive(false);
-            ExecuteAllPark(park => park.TearDown());
+            CloseParkList();
         }
     }
 }

@@ -13,6 +13,8 @@ public class SystemManager : SystemObject {
     private void Awake() {
         Initialize();
         Application.targetFrameRate = 30;
+        MasterdataManager.LoadAllData();
+        //フェードイン
         _ = FadeManager.instance.FadeIn();
     }
 
