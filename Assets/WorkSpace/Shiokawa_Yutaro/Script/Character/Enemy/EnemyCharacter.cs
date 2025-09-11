@@ -55,7 +55,7 @@ public class EnemyCharacter : CharacterBase
         SetStatus();
     }
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         //死んでたらリターン
         if (isDead || HP <= 0) 
@@ -172,7 +172,7 @@ public class EnemyCharacter : CharacterBase
     /// プレイヤーを見つけるかの処理
     /// </summary>
     /// <returns></returns>
-    private bool ViewAction()
+    protected virtual bool ViewAction()
     {
         Vector3 neckPos = neck.position;
         Vector3 viewPos = new Vector3(neckPos.x, neckPos.y, neckPos.z);
@@ -210,7 +210,7 @@ public class EnemyCharacter : CharacterBase
                     else return true;
                 }
             }
-           // Debug.DrawRay(viewPos, dir * direction, Color.red,direction);
+            //Debug.DrawRay(viewPos, dir * direction, Color.red,direction);
 
         }
 
