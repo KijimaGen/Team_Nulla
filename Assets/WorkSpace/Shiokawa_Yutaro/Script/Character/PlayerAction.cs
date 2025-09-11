@@ -281,7 +281,7 @@ public class PlayerAction : MonoBehaviour
             }
             else
             {
-                comboStep = 3;
+                comboStep = 1;
                 TryAttackNearestEnemy().Forget();
                 return true;
             }

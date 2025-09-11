@@ -53,7 +53,13 @@ public class CameraMove : MonoBehaviour
         RaycastHit hit;
         Vector3 finalOffset = desiredOffset;
 
-        if (Physics.Raycast(targetCenter, desiredOffset.normalized, out hit, maxDistance))
+        //特定のレイヤーを無視するための物
+        int ignoreLayer = LayerMask.NameToLayer("Item");
+        //そのレイヤーを無視するマスクを作る
+        int layerMask = ~(1<< ignoreLayer);
+
+
+        if (Physics.Raycast(targetCenter, desiredOffset.normalized, out hit, maxDistance, layerMask))
         {
             // 衝突点の少し手前にカメラを置く（0.2fだけ前に出す）
             float hitDist = Mathf.Clamp(hit.distance - 0.2f, minDistance, maxDistance);
