@@ -26,4 +26,13 @@ public class ModeSwitch : MonoBehaviour
             attackMode = true;
         }
     }
+    /*
+    // ヒットエフェクト
+    [SerializeField]
+    private ParticleSystem hitEffect;
+    private void HitEffect(Collider collider) {
+        ParticleSystem hitEffectClone = Instantiate(hitEffect, collider.transform.position, Quaternion.identity);
+        Destroy(hitEffectClone.gameObject, 2);
+    }
+    */
 }
