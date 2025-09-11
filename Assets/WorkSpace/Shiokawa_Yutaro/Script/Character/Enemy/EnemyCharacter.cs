@@ -23,6 +23,9 @@ public class EnemyCharacter : CharacterBase
 
     [SerializeField] Transform neck;
     [SerializeField] protected GameObject prefabBullet;
+    // ヒットエフェクト
+    [SerializeField]
+    private ParticleSystem hitEffect;
 
     PlayerCharacter player;
 
@@ -436,6 +439,7 @@ public class EnemyCharacter : CharacterBase
 
                
                 AudioManager.instance.PlaySE(0);
+                HitEffect(this.GetComponent<Collider>());
             }
         }
     }
@@ -453,6 +457,11 @@ public class EnemyCharacter : CharacterBase
             createObject.ChangeDamageText(totalAttack.ToString());
         }
 
+    }
+
+    private void HitEffect(Collider collider) {
+        ParticleSystem hitEffectClone = Instantiate(hitEffect, collider.transform.position, Quaternion.identity);
+        Destroy(hitEffectClone.gameObject, 2);
     }
 
 }
