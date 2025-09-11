@@ -92,7 +92,7 @@ public abstract class ItemBase : MonoBehaviour{
         //プレイヤーに触れていたら自身を未使用状態にする
 
         if (isPlayerPosses)
-            transform.localPosition = Vector3.zero;
+            transform.localPosition = new Vector3(0,2,0);
         else
             Fall();
         

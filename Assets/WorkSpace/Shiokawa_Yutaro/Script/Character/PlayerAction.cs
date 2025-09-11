@@ -42,13 +42,7 @@ public class PlayerAction : MonoBehaviour
     bool switchBButton;
     bool switchYButton;
 
-    //‘«‰¹‚Ü‚Æ‚ß
-    [SerializeField] 
-    private AudioClip[] _footstepClips;
-    [SerializeField]
-    private AudioSource _audioSource;
-
-
+    
     private void Start()
     {
         player = GetComponent<PlayerCharacter>();
@@ -102,8 +96,7 @@ public class PlayerAction : MonoBehaviour
             isAvoiding = false;
             isCounter = false;
             animation.Play("‘Ò‹@");
-            //‰¹‚ğ”‘‚ß‚é
-            _audioSource.Stop();
+            
             return false;
         }
         
@@ -125,17 +118,13 @@ public class PlayerAction : MonoBehaviour
             {
                 TriggerDodge(player);
             }
-            //‰¹‚ğØ‚è‘Ö‚¦‚ÄÄ¶
-            _audioSource.clip = _footstepClips[1];
-            _audioSource.Play();
+            
         }
         else
         {
             shiftPressTime = 0f;
             animation.Play("•à‚­");
-            //‰¹‚ğØ‚è‘Ö‚¦‚ÄÄ¶
-            _audioSource.clip = _footstepClips[0];
-            _audioSource.Play();
+            
         }
 
 
@@ -467,5 +456,19 @@ public class PlayerAction : MonoBehaviour
     public void SwitchLStickMove(InputAction.CallbackContext context)
     {
         switchLStickValue = context.ReadValue<Vector2>();
+    }
+
+    /// <summary>
+    /// •à‚­‚Æ‚«‚Ì‰¹‚ÌÄ¶
+    /// </summary>
+    public void PlayWalkSound() {
+        AudioManager.instance.PlaySE(6);
+    }
+
+    /// <summary>
+    /// ‘–‚é‚Ì‰¹‚ÌÄ¶
+    /// </summary>
+    public void PlayDashSound() {
+        AudioManager.instance.PlaySE(7);
     }
 }
