@@ -9,16 +9,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class TeleportPortal : MonoBehaviour{
-    
+
+    //èâä˙à íu
+    const float InitializePos = 0.5f;
+
+
     void Start(){
-        
+        transform.position = new Vector3(transform.position.x,InitializePos,transform.position.z);
     }
 
     
-    void Update(){
-        
-    }
-
     private async void OnCollisionEnter(Collision collision) {
         if(collision.gameObject.tag == "Player") {
 
