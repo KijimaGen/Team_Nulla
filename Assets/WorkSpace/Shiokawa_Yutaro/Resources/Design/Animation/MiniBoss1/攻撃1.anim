@@ -8,7 +8,7 @@ AnimationClip:
   m_PrefabAsset: {fileID: 0}
   m_Name: "\u653B\u64831"
   serializedVersion: 7
-  m_Legacy: 0
+  m_Legacy: 1
   m_Compressed: 0
   m_UseHighQualityCurve: 1
   m_RotationCurves:
@@ -115103,6 +115103,13 @@ AnimationClip:
   m_Events:
   - time: 1.5
     functionName: Attack1_Jump
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.5
+    functionName: Attack1_Effect
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

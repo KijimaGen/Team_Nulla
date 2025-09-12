@@ -9,11 +9,23 @@ public class MiniBoss_OZN : EnemyCharacter
     [SerializeField] private Transform hand;
     private bool actionCatch;
     private bool playerCatch;
-    Animator animator;
+
+    [SerializeField] private Transform playerMoveParent;
+    [SerializeField] private Transform cameraMoveParent;
+
+
+    [SerializeField] private ParticleSystem pressEffect;
+    [SerializeField] private ParticleSystem CatchBleakEffect;
+    [SerializeField] private ParticleSystem CatchSmokeEffect;
+
+    float attackChanceTime;
+    float attackChanceInterval;
+    bool attackChance;
+    bool success;
+
 
     public override void Setup()
     {
-        animator = GetComponent<Animator>();
         attackStrategies = new Dictionary<AttackType, AttackStrategy>
         {
             { AttackType.Going, new GoingAttack() },
@@ -23,12 +35,14 @@ public class MiniBoss_OZN : EnemyCharacter
 
         attackArea = 0.5f;
         speed = 1.5f;
-        maxHP = 15;
+        maxHP = 10000;
         HP = maxHP;
         rawAttack = 5;
         rawDefense = 0;
         base.Setup();
     }
+
+
 
     //private void Update()
     //{
@@ -44,35 +58,45 @@ public class MiniBoss_OZN : EnemyCharacter
         if (playerCatch) return;
         base.Update();
 
-        if (actionCatch && Vector3.Distance(player.transform.position, transform.position) <= 1)
+        if (actionCatch && Vector3.Distance(player.transform.position, transform.position) <= 0.7f)
         {
             PlayerCatch();
         }
+
 
     }
 
     public void PlayerCatch()
     {
-        //player.transform.Find("Camera").GetComponent<CameraMove>().enabled = false;
-        //rb.isKinematic = true;
-        player.transform.SetParent(transform, true);
-        player.GetComponent<Rigidbody>().isKinematic = true;
-        //player.GetComponent<Rigidbody>().detectCollisions = false;
-        //player.transform.localPosition = Vector3.zero;
-        //player.transform.rotation = Quaternion.Euler(0,0,0);
-        //actionCatch = false;
-        //playerCatch = true;
+        rb.isKinematic = true;
 
-        animator.SetTrigger("Ç¬Ç©Ç›ê¨å˜");
+        CameraMove camera = Camera.main.GetComponent<CameraMove>();
+        camera.enabled = false;
+        camera.transform.SetParent(cameraMoveParent, true);
+        camera.transform.localPosition = Vector3.zero;
+        camera.transform.rotation = Quaternion.Euler(0, 0, 0);
+        camera.transform.localRotation = Quaternion.Euler(0, 0, 0);
+
+        player.transform.SetParent(playerMoveParent, true);
+        player.GetComponent<Rigidbody>().isKinematic = true;
+        player.transform.localPosition = Vector3.zero;
+        player.transform.rotation = Quaternion.Euler(0, 0, 0);
+        actionCatch = false;
+        playerCatch = true;
+
+        animation.Play("Ç¬Ç©Ç›ê¨å˜");
     }
     public void PlayerRelease()
     {
-        //player.transform.SetParent(null);
-        //rb.isKinematic = false;
-        //player.GetComponent<Rigidbody>().isKinematic = false;
-        //player.GetComponent<Rigidbody>().detectCollisions = true;
-        //player.transform.Find("Camera").GetComponent<CameraMove>().enabled = true;
-        //playerCatch = false;
+        rb.isKinematic = false;
+
+        CameraMove camera = Camera.main.GetComponent<CameraMove>();
+        camera.enabled = true;
+        camera.transform.SetParent(player.transform, true);
+
+        player.transform.SetParent(null);
+        player.GetComponent<Rigidbody>().isKinematic = false;
+        playerCatch = false;
     }
 
     protected override bool ViewAction()
@@ -83,16 +107,16 @@ public class MiniBoss_OZN : EnemyCharacter
 
     public override async UniTask GoingAttack()
     {
+        Attack(player.transform.position);
         int rand = Random.Range(0, 1);
 
         if(rand == 0)
         {
-            
-            animator.SetTrigger("Ç¬Ç©Ç›îªíË");
+            animation.Play("Ç¬Ç©Ç›îªíË");
         }
         if(rand == 1)
         {
-            animation.Play("çUåÇ1");
+           
         }
 
         return;
@@ -100,7 +124,6 @@ public class MiniBoss_OZN : EnemyCharacter
 
     public override async UniTask LongRangeAttack()
     {
-        return;
         int rand = Random.Range(0, 1);
 
         if (rand == 0)
@@ -129,9 +152,28 @@ public class MiniBoss_OZN : EnemyCharacter
     {
         rb.velocity = transform.up * 5;
     }
+    public void Attack1_Effect()
+    {
+        // é©ï™ÇÃå¸Ç´Ç…ëŒÇµÇƒï‚ê≥âÒì]Çâ¡Ç¶ÇÈ
+        Quaternion rot = transform.rotation * Quaternion.Euler(0, -90, 0);
+        ParticleSystem effect = Instantiate(pressEffect, transform.position, rot);
+
+
+    }
     public void Attack2_Jump()
     {
         Vector3 targetDir = player.transform.position - transform.position;
         rb.velocity = targetDir.normalized * 2 + transform.up * 5;
     }
+    public void Attack2_Effect()
+    {
+
+    }
+    public void AttackCatch_Effect()
+    {
+        Vector3 effectPos = player.transform.position;
+        Instantiate(CatchBleakEffect, effectPos, transform.rotation);
+        Instantiate(CatchSmokeEffect, effectPos, transform.rotation);
+    }
+
 }
