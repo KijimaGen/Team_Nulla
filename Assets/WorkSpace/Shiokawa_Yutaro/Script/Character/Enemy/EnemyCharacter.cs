@@ -170,7 +170,7 @@ public class EnemyCharacter : CharacterBase
     /// プレイヤーを見つけるかの処理
     /// </summary>
     /// <returns></returns>
-    private bool ViewAction()
+    protected virtual bool ViewAction()
     {
         Vector3 neckPos = neck.position;
         Vector3 viewPos = new Vector3(neckPos.x, neckPos.y, neckPos.z);
