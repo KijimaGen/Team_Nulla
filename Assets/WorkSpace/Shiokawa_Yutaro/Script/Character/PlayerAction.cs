@@ -277,6 +277,11 @@ public class PlayerAction : MonoBehaviour
                 comboStep++;
                 player.isAttacking = false;
                 TryAttackNearestEnemy().Forget();
+                if(comboStep == 3) {
+                    //Œø‰Ê‰¹‚ð–Â‚ç‚·
+                    AudioManager.instance.PlaySE(9);
+                }
+
                 return true;
             }
             else
