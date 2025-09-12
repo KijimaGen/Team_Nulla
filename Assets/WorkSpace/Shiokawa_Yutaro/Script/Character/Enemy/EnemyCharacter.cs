@@ -58,7 +58,7 @@ public class EnemyCharacter : CharacterBase
         SetStatus();
     }
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         //死んでたらリターン
         if (isDead) { Destroy(gameObject); return; }
@@ -340,7 +340,6 @@ public class EnemyCharacter : CharacterBase
             return;
         }
 
-        animator.SetTrigger("takeDistance");
 
         // 400ms待つ
         await UniTask.Delay(400);
