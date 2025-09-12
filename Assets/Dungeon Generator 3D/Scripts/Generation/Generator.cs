@@ -1879,6 +1879,7 @@ public class Generator : MonoBehaviour
         if(player != null)
         { 
             player = Instantiate(Player, PlayerSpawnRoom.transform.position, Quaternion.identity, gameObject.transform);
+            player.name = player.name.Replace("(Clone)", "");
         }
 
         if(bosses.Count > 0)

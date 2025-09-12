@@ -33,7 +33,7 @@ public abstract class CharacterBase : MonoBehaviour
     //所持アイテムの最大数
     private static readonly int _POSSESS_ITEM_MAX = 6;
 
-    protected Animator animator;
+    protected new Animation animation;
     protected Rigidbody rb;
 
     public bool isAttacking;
@@ -62,7 +62,7 @@ public abstract class CharacterBase : MonoBehaviour
         walkSpeed = speed;
         runSpeed = speed * 1.8f;
 
-        animator = GetComponent<Animator>();
+        animation = GetComponent<Animation>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -254,6 +254,7 @@ public abstract class CharacterBase : MonoBehaviour
 
     public void Attack(Vector3 targetDir)
     {
+        if (targetDir == null || this == null) return;
         Vector3 flatTargetPos = targetDir;
         flatTargetPos.y = transform.position.y; // 自分のY座標に固定
 
@@ -268,20 +269,20 @@ public abstract class CharacterBase : MonoBehaviour
     /// </summary>
     /// <param name="stateName"></param>
     /// <returns></returns>
-    protected async UniTask WaitUntilAnimationStateExits(string stateName)
-    {
-        // "Attack"ステートに入るまで待機
-        while (!animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
-        {
-            await UniTask.Yield();
-        }
+    //protected async UniTask WaitUntilAnimationStateExits(string stateName)
+    //{
+    //    // "Attack"ステートに入るまで待機
+    //    while (!animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+    //    {
+    //        await UniTask.Yield();
+    //    }
 
-        // "Attack"ステートを抜けるまで待機
-        while (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
-        {
-            await UniTask.Yield();
-        }
-    }
+    //    // "Attack"ステートを抜けるまで待機
+    //    while (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+    //    {
+    //        await UniTask.Yield();
+    //    }
+    //}
 
     public void IsAttackingOFF()
     {
