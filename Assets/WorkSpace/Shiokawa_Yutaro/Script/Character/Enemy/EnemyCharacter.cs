@@ -22,7 +22,7 @@ public class EnemyCharacter : CharacterBase
     float actionTime;
 
     [SerializeField] Transform neck;
-    [SerializeField] protected GameObject prefabBullet;
+    
     // ヒットエフェクト
     [SerializeField]
     private ParticleSystem hitEffect;
@@ -411,7 +411,8 @@ public class EnemyCharacter : CharacterBase
     {
         if (other.gameObject.tag == "Weapon")
         {
-            PlayerCharacter player = other.transform.root.Find("Player(Clone)").GetComponent<PlayerCharacter>();
+            PlayerCharacter player = other.transform.root.GetComponent<PlayerCharacter>();
+            if (player == null) return;
             if (player.isAttacking)
             {
                 Damage(this.GetComponent<Collider>());

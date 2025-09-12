@@ -58,7 +58,7 @@ public class MiniBoss_OZN : EnemyCharacter
         if (playerCatch) return;
         base.Update();
 
-        if (actionCatch && Vector3.Distance(player.transform.position, transform.position) <= 0.7f)
+        if (actionCatch && Vector3.Distance(player.transform.position, hand.position) <= 0.3f)
         {
             PlayerCatch();
         }

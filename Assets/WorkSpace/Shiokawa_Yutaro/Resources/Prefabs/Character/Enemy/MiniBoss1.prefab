@@ -1799,7 +1799,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAttacking: 0
   neck: {fileID: 1859764133971349616}
-  damageUI: {fileID: 3808801041788919963, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
+  hitEffect: {fileID: 8884371268655795233, guid: 20fda529c996a334da7fd65b48ea40df, type: 3}
+  damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 9046165473852016631}
   playerMoveParent: {fileID: 6566108518790389438}
   cameraMoveParent: {fileID: 7859043541971904693}

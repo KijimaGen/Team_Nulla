@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Enemy_LongRange : EnemyCharacter
 {
-
+    [SerializeField] protected GameObject prefabBullet;
     public override void Setup()
     {
         attackStrategies = new Dictionary<AttackType, AttackStrategy>

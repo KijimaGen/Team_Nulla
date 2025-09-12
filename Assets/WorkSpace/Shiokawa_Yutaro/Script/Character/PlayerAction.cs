@@ -307,7 +307,10 @@ public class PlayerAction : MonoBehaviour
         // UŒ‚ƒAƒjƒ[ƒVƒ‡ƒ“ŽÀs
         PlayAttackAnimation(comboStep);
 
-
+        if (comboStep == 3)
+        {
+            rb.velocity = transform.up * 6f;
+        }
         ParticleSystem effect = Instantiate(attackEfect, transform.position + Vector3.up * 0.3f, Quaternion.LookRotation(transform.forward));
         effect.transform.SetParent(transform);
         Destroy(effect.gameObject, 2);
@@ -321,7 +324,7 @@ public class PlayerAction : MonoBehaviour
 
         // ˆê”Ô‹ß‚¢“G‚ð‘I‘ð
         var nearestEnemy = hits
-            .Select(h => h.GetComponent<EnemyCharacter>())
+            .Select(e => e.GetComponent<EnemyCharacter>())
             .Where(e => e != null && !e.isDead)
             .OrderBy(e => Vector3.Distance(transform.position, e.transform.position))
             .FirstOrDefault();
@@ -329,6 +332,8 @@ public class PlayerAction : MonoBehaviour
         //if (nearestEnemy == null) return;
 
         player.Attack(nearestEnemy.transform.position);
+
+
 
         float stopDistance = 0.5f; //“G‚ÌŽè‘O‚ÅŽ~‚Ü‚é‹——£
         Vector3 dir = (nearestEnemy.transform.position - transform.position).normalized;
