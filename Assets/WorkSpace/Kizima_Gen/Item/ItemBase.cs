@@ -26,7 +26,10 @@ public abstract class ItemBase : MonoBehaviour{
     
     //回転の速度
     private float rotationSpeed = 90f;
-    
+
+    //自身の情報を提示するアイテム
+    [SerializeField]
+    private GameObject myStatusItem;
 
     /// <summary>
     /// 初期化処理(基底クラスに任せる)
@@ -57,6 +60,7 @@ public abstract class ItemBase : MonoBehaviour{
             //UIの文字を変えて表示をつける
             UIManager.instance.ChangeVisibleinteractCanvas(true);
             UIManager.instance.ChangeInteractText("GetItem");
+            myStatusItem.SetActive(true);
         }
     }
 
@@ -73,6 +77,7 @@ public abstract class ItemBase : MonoBehaviour{
             isPlayerInRange = false;
             //UIの表示を切る
             UIManager.instance.ChangeVisibleinteractCanvas(false);
+            myStatusItem.SetActive(false);
         }
     }
 
@@ -105,18 +110,18 @@ public abstract class ItemBase : MonoBehaviour{
 
     private void OnEnable() {
         //プレイヤーイベントを購読
-        PlayerOpenChester.OnInteract += TryOpenChest;
+        PlayerOpenChester.OnInteract += TryGetItem;
     }
 
     private void OnDisable() {
         //イベント購読解除
-        PlayerOpenChester.OnInteract -= TryOpenChest;
+        PlayerOpenChester.OnInteract -= TryGetItem;
     }
 
     /// <summary>
     /// 名前は完全なる嘘ですこれはアイテムを拾うためのスクリプト
     /// </summary>
-    private void TryOpenChest() {
+    private void TryGetItem() {
         //近くにプレイヤーいなければ何もしない
         if (!isPlayerInRange) return;
         if (isPlayerPosses) return;
@@ -125,5 +130,6 @@ public abstract class ItemBase : MonoBehaviour{
         UIManager.instance.ChangeVisibleinteractCanvas(false);
         AudioManager.instance.PlaySE(3);
         ItemUtility.GetItem(itemID);
+        myStatusItem.SetActive(false);
     }
 }
