@@ -223,7 +223,10 @@ public class EnemyCharacter : CharacterBase
             Vector3 dir = (player.transform.position - transform.position).normalized;
             // プレイヤーとの距離チェック
             float distance = Vector3.Distance(transform.position, player.transform.position);
-           // Debug.Log($"プレイヤーとの距離: {distance}");
+            Vector3 flatTargetPos = player.transform.position;
+            flatTargetPos.y = transform.position.y; // 高さを合わせる
+
+            transform.DOLookAt(flatTargetPos, 0.3f);
 
             if (distance < attackArea)
             {
@@ -231,9 +234,15 @@ public class EnemyCharacter : CharacterBase
                 await SetNextState(new AttackState());
                 break;
             }
+            else if(distance > 2)
+            {
+                rb.velocity = dir * speed * 4;
+                animation.Play("ダッシュ");
+            }
             else
             {
-                rb.velocity = dir * speed * 2;
+                rb.velocity = dir * speed * 1;
+                animation.Play("歩く");
             }
 
             // 0.1秒ごとにチェック（負荷軽減）
@@ -424,7 +433,7 @@ public class EnemyCharacter : CharacterBase
 
                
                 AudioManager.instance.PlaySE(0);
-                HitEffect(this.GetComponent<Collider>());
+                HitEffect(this.GetComponent<Collider>(),other.transform.position);
             }
         }
     }
@@ -444,8 +453,8 @@ public class EnemyCharacter : CharacterBase
 
     }
 
-    private void HitEffect(Collider collider) {
-        ParticleSystem hitEffectClone = Instantiate(hitEffect, collider.transform.position, Quaternion.identity);
+    private void HitEffect(Collider collider, Vector3 hitPos) {
+        ParticleSystem hitEffectClone = Instantiate(hitEffect, hitPos, Quaternion.identity);
         Destroy(hitEffectClone.gameObject, 2);
     }
 

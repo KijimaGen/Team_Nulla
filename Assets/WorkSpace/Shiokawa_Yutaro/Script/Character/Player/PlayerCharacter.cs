@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerCharacter : CharacterBase
 {
     private PlayerAction _playerAction;
-
+    
 
 
     public override void Setup()

@@ -17,6 +17,7 @@ public class MiniBoss_OZN : EnemyCharacter
     [SerializeField] private ParticleSystem pressEffect;
     [SerializeField] private ParticleSystem CatchBleakEffect;
     [SerializeField] private ParticleSystem CatchSmokeEffect;
+    [SerializeField] private ParticleSystem crossEffect;
 
     float attackChanceTime;
     float attackChanceInterval;
@@ -34,7 +35,7 @@ public class MiniBoss_OZN : EnemyCharacter
         };
 
         attackArea = 0.5f;
-        speed = 1.5f;
+        speed = 2f;
         maxHP = 10000;
         HP = maxHP;
         rawAttack = 5;
@@ -58,14 +59,23 @@ public class MiniBoss_OZN : EnemyCharacter
         if (playerCatch) return;
         base.Update();
 
-        if (actionCatch && Vector3.Distance(player.transform.position, hand.position) <= 0.3f)
+
+        float distXZ = Vector2.Distance(
+            new Vector2(player.transform.position.x, player.transform.position.z),
+            new Vector2(hand.position.x, hand.position.z)
+        );
+
+        float heightDiff = Mathf.Abs(hand.position.y - player.transform.position.y);
+
+        if (actionCatch && distXZ <= 0.4f && heightDiff >= 0.45f)
         {
             PlayerCatch();
         }
 
+        Debug.Log($"XZãóó£: {distXZ}, çÇÇ≥ç∑: {heightDiff}");
+
 
     }
-
     public void PlayerCatch()
     {
         rb.isKinematic = true;
@@ -108,7 +118,7 @@ public class MiniBoss_OZN : EnemyCharacter
     public override async UniTask GoingAttack()
     {
         Attack(player.transform.position);
-        int rand = Random.Range(0, 1);
+        int rand = Random.Range(0, 2);
 
         if(rand == 0)
         {
@@ -116,7 +126,7 @@ public class MiniBoss_OZN : EnemyCharacter
         }
         if(rand == 1)
         {
-           
+            animation.Play("çUåÇ1");
         }
 
         return;
@@ -167,7 +177,8 @@ public class MiniBoss_OZN : EnemyCharacter
     }
     public void Attack2_Effect()
     {
-
+        Quaternion rot = transform.rotation * Quaternion.Euler(0, -90, 0);
+        ParticleSystem effect = Instantiate(crossEffect, transform.position, rot);        
     }
     public void AttackCatch_Effect()
     {

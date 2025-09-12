@@ -41,8 +41,6 @@ public class PlayerAction : MonoBehaviour
     bool switchZRButton;
     bool switchBButton;
     bool switchYButton;
-
-    
     private void Start()
     {
         player = GetComponent<PlayerCharacter>();
@@ -263,16 +261,23 @@ public class PlayerAction : MonoBehaviour
     bool inputAttack;
     private bool AcceptAttack()
     {
-
         if (switchYButton && !inputAttack)
         {
+           
             player.SetSpeed(player.walkSpeed);
             isDashing = false;
             inputAttack = true;
             //効果音を鳴らす
             AudioManager.instance.PlaySE(4);
+            if (isJumping)
+            {
+                animation.Play("落下攻撃");
+                rb.velocity = Vector3.down;
+                player.isAttacking = true;
+                return true;
+            }
 
-            if (canCombo)
+            else if (canCombo)
             {
                 comboStep++;
                 player.isAttacking = false;
@@ -306,6 +311,7 @@ public class PlayerAction : MonoBehaviour
     {
         // 攻撃アニメーション実行
         PlayAttackAnimation(comboStep);
+        
 
         if (comboStep == 3)
         {
