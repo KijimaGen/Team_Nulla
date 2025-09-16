@@ -61,7 +61,7 @@ public class EnemyCharacter : CharacterBase
     protected virtual void Update()
     {
         //死んでたらリターン
-        if (isDead) { Destroy(gameObject); return; }
+        if (isDead) { Dead(); return; }
         if (!ViewAction()) return;
 
         StateTick().Forget();
@@ -166,6 +166,8 @@ public class EnemyCharacter : CharacterBase
         }
         return false;
     }
+
+    bool playerFound = false;
     /// <summary>
     /// プレイヤーを見つけるかの処理
     /// </summary>
@@ -174,9 +176,11 @@ public class EnemyCharacter : CharacterBase
     {
         Vector3 neckPos = neck.position;
         Vector3 viewPos = new Vector3(neckPos.x, neckPos.y, neckPos.z);
-        float viewAngle = 120;
+        float viewAngle = 240;
         float halfAngle = viewAngle / 2f;
         int rayCount = 30;
+
+        
 
         for (int i = 0; i < rayCount; i++)
         {
@@ -186,27 +190,72 @@ public class EnemyCharacter : CharacterBase
             Vector3 dir = rotation * transform.forward;
 
             Ray ray = new Ray(viewPos, dir);
-            RaycastHit[] hits = Physics.RaycastAll(ray, _ENEMY_VIEW_AREA);
-
-            foreach (var hit in hits)
+            if (Physics.Raycast(ray, out RaycastHit hit, _ENEMY_VIEW_AREA))
             {
                 if (hit.collider.CompareTag("Player"))
-                {                   
-
+                {
                     float dist = Vector3.Distance(neckPos, hit.transform.position);
-                    if (dist > _ENEMY_VIEW_AREA)
+                    if (dist <= _ENEMY_VIEW_AREA)
                     {
-                        return false;
+                        playerFound = true;
+                        break;
                     }
-
-                    else return true;
+                }
+                else
+                {
+                    playerFound = false;
                 }
             }
-            //Debug.DrawRay(viewPos, dir * _ENEMY_VIEW_AREA, Color.red);
+            if (playerFound) break;
         }
 
-        return false;
+        if (playerFound)
+        {
+            return true; // プレイヤーが視界内
+        }
+        else
+        {
+            Wandering(); // プレイヤーがいなければ徘徊
+            return false;
+        }
     }
+
+
+    Vector3 randomTarget;
+    float wanderCooldown = 0f;
+    bool hasTarget = false;
+    void Wandering()
+    {
+        // ターゲット更新
+        wanderCooldown -= Time.deltaTime;
+        if (wanderCooldown <= 0f || !hasTarget)
+        {
+            wanderCooldown = Random.Range(2f, 5f); // 次に動き出すまでの間隔
+            float radius = 7f;
+            Vector2 randomOffset = Random.insideUnitCircle * radius;
+            randomTarget = new Vector3(transform.position.x + randomOffset.x, transform.position.y, transform.position.z + randomOffset.y);
+            hasTarget = true;
+        }
+
+        // 移動処理
+        Vector3 dir = randomTarget - transform.position;
+        dir.y = 0f;
+
+        if (dir.magnitude > 0.5f) // 目的地まで距離がある
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 5f);
+            rb.velocity = transform.forward * speed;
+            animation.Play("歩く");
+        }
+        else
+        {
+            rb.velocity = Vector3.zero;
+            animation.Play("待機");
+            hasTarget = false; // 次の wanderCooldown で新しいターゲットを決める
+        }
+    }
+
+
     /// <summary>
     /// 追いかける
     /// </summary>
@@ -216,7 +265,8 @@ public class EnemyCharacter : CharacterBase
         while (true)
         {
             // プレイヤーが消えていたらループ終了
-            if (player == null) {
+            if (player == null)
+            {
                 Debug.Log("プレイヤーが消えたので追跡終了");
                 return;
             }
@@ -234,7 +284,7 @@ public class EnemyCharacter : CharacterBase
                 await SetNextState(new AttackState());
                 break;
             }
-            else if(distance > 2)
+            else if (distance > 2)
             {
                 rb.velocity = dir * speed * 4;
                 animation.Play("ダッシュ");
@@ -405,6 +455,7 @@ public class EnemyCharacter : CharacterBase
     /// </summary>
     public override void Dead()
     {
+        animation.Play("死ぬ");
     }
 
     public bool GetHitDamage()
@@ -456,6 +507,12 @@ public class EnemyCharacter : CharacterBase
     private void HitEffect(Collider collider, Vector3 hitPos) {
         ParticleSystem hitEffectClone = Instantiate(hitEffect, hitPos, Quaternion.identity);
         Destroy(hitEffectClone.gameObject, 2);
+
+        animation.Play("ダメージを受ける");
+        //ノックバックを与える
+        rb.velocity = Vector3.zero;
+        Vector3 playerDir = player.transform.position-transform.position;
+        rb.velocity = -hitPos.normalized * 1 + -playerDir * 1;
     }
 
 }

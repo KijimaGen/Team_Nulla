@@ -10,11 +10,13 @@ using UnityEngine.SceneManagement;
 
 public class TeleportPortal : MonoBehaviour{
 
+    private GameObject portal;
     //èâä˙à íu
     const float InitializePos = 0.5f;
 
 
     void Start(){
+        portal = GameObject.Find("PortalHole");
         transform.position = new Vector3(transform.position.x,InitializePos,transform.position.z);
     }
 
@@ -23,7 +25,7 @@ public class TeleportPortal : MonoBehaviour{
         if(collision.gameObject.tag == "Player") {
 
             await FadeManager.instance.FadeOut();
-            SceneManager.LoadScene("Main");
+            collision.transform.position = portal.transform.position;
         }
     }
 }

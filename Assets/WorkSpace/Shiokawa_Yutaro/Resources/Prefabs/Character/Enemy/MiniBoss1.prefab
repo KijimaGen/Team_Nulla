@@ -1735,6 +1735,7 @@ GameObject:
   - component: {fileID: 2082207461913500969}
   - component: {fileID: 2905687293857582373}
   - component: {fileID: 6127171009534240460}
+  - component: {fileID: 8367488247440317673}
   m_Layer: 7
   m_Name: MiniBoss1
   m_TagString: Untagged
@@ -1751,7 +1752,7 @@ Transform:
   m_GameObject: {fileID: 8766369257769884866}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.635, y: -7.894, z: -2.021}
+  m_LocalPosition: {x: -0.466, y: -7.894, z: -2.54}
   m_LocalScale: {x: 38, y: 38, z: 38}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1783,6 +1784,7 @@ MonoBehaviour:
   pressEffect: {fileID: 1723581694200074555, guid: 3ef0834c1feb6af46b3a90ed83171a6d, type: 3}
   CatchBleakEffect: {fileID: 552778988361774701, guid: 89d08519fd7a6c44295948da0e63f7a0, type: 3}
   CatchSmokeEffect: {fileID: 6553218122332861830, guid: 80a32c247e505f84588cf72d74634251, type: 3}
+  crossEffect: {fileID: 7231371048176646982, guid: 811eec657c9d69c40b5e6f74860f6006, type: 3}
 --- !u!136 &2082207461913500969
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1850,10 +1852,32 @@ Animation:
   - {fileID: 7400000, guid: 2eb92a697c725f5479ad00d0c2a49587, type: 2}
   - {fileID: 7400000, guid: aa118dee86c20aa45b31bb2778507c79, type: 2}
   - {fileID: 7400000, guid: 452964b91a49de2499a2354e08f307fb, type: 2}
+  - {fileID: 7400000, guid: c61b6e9f605a6e34baaf09fd777ac9bf, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!65 &8367488247440317673
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8766369257769884866}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 0.01, y: 0.02, z: 0.01}
+  m_Center: {x: 0, y: 0.01, z: 0}
 --- !u!1 &9163621504046912691
 GameObject:
   m_ObjectHideFlags: 0
