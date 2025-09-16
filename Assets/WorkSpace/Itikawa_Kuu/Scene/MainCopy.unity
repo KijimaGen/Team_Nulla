@@ -5359,8 +5359,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 283984266}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 1201853641}
 --- !u!1 &65442343
 GameObject:
   m_ObjectHideFlags: 0
@@ -13232,6 +13232,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1180048382}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 1656818139}
 --- !u!1 &102640435
@@ -14110,6 +14111,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1185516648}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 1610661338}
 --- !u!1 &112350087
@@ -14775,8 +14777,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1995238889}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 569668663}
 --- !u!1 &122345756
 GameObject:
   m_ObjectHideFlags: 0
@@ -17886,6 +17888,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1517308965}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 23651165}
 --- !u!1 &160521443
@@ -29289,6 +29292,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 576147484}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 1567757362}
 --- !u!1 &233618874
@@ -33706,8 +33710,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1561726620}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 1868435344}
 --- !u!1 &290037444
 GameObject:
   m_ObjectHideFlags: 0
@@ -36669,8 +36673,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 787746928}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 476693954}
 --- !u!1 &329149868
 GameObject:
   m_ObjectHideFlags: 0
@@ -38967,8 +38971,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1527394276}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 281574247}
 --- !u!1 &363508513
 GameObject:
   m_ObjectHideFlags: 0
@@ -48980,8 +48984,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 938049019}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 725983529}
 --- !u!1 &486457506
 GameObject:
   m_ObjectHideFlags: 0
@@ -57301,6 +57305,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1873785848}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 662390482}
 --- !u!1 &580359325
@@ -60637,8 +60642,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 542483025}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 1126318721}
 --- !u!1 &612636005
 GameObject:
   m_ObjectHideFlags: 0
@@ -66265,6 +66270,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1841072716}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 1714327884}
 --- !u!1 &674856744
@@ -69806,8 +69812,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 466365741}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 338337115}
 --- !u!1 &716776683
 GameObject:
   m_ObjectHideFlags: 0
@@ -83558,6 +83564,74 @@ Transform:
   - {fileID: 1333916151}
   m_Father: {fileID: 1441319510}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &896204538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 896204541}
+  - component: {fileID: 896204540}
+  - component: {fileID: 896204539}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &896204539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896204538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &896204540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896204538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &896204541
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896204538}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &896730448
 GameObject:
   m_ObjectHideFlags: 0
@@ -86370,8 +86444,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 2081546433}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 728217980}
 --- !u!1 &927234548
 GameObject:
   m_ObjectHideFlags: 0
@@ -86505,8 +86579,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 504671636}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 1569378176}
 --- !u!1 &927839648
 GameObject:
   m_ObjectHideFlags: 0
@@ -87276,8 +87350,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 976167858}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 375996508}
 --- !u!1 &943977007
 GameObject:
   m_ObjectHideFlags: 0
@@ -101882,6 +101956,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 977886378}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 624202884}
 --- !u!1 &1119505831
@@ -103005,6 +103080,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1134619543}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 747371650}
 --- !u!1 &1137686056
@@ -106760,6 +106836,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1264979523}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 993116687}
 --- !u!1 &1190728666
@@ -113562,8 +113639,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1428231586}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 994524571}
 --- !u!1 &1268470598
 GameObject:
   m_ObjectHideFlags: 0
@@ -117784,6 +117861,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1618966112}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 1497170607}
 --- !u!1 &1315719419
@@ -119830,8 +119908,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 998709147}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 830393331}
 --- !u!1 &1333785466
 GameObject:
   m_ObjectHideFlags: 0
@@ -128258,6 +128336,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1978368917}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 986337359}
 --- !u!1 &1378220900
@@ -133505,8 +133584,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 430083265}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 1263600089}
 --- !u!1 &1458043086
 GameObject:
   m_ObjectHideFlags: 0
@@ -142410,6 +142489,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 220819909}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 151235019}
 --- !u!1 &1563598925
@@ -142577,8 +142657,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 2062070959}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 1387149466}
 --- !u!1 &1566297023
 GameObject:
   m_ObjectHideFlags: 1
@@ -144997,6 +145077,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 667838588}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 2017784476}
 --- !u!1001 &1587185525
@@ -148470,6 +148551,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1124538976}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 824026201}
 --- !u!1 &1622868939
@@ -148903,6 +148985,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1616746598}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 1929283238}
 --- !u!1 &1627571053
@@ -150460,8 +150543,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 472476524}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 847366897}
 --- !u!1 &1648836632
 GameObject:
   m_ObjectHideFlags: 1
@@ -156763,8 +156846,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1687409177}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 245525227}
 --- !u!1 &1723742877
 GameObject:
   m_ObjectHideFlags: 0
@@ -157450,6 +157533,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1440085283}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 490514525}
 --- !u!1 &1727971967
@@ -157658,6 +157742,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 784906044}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 1980514247}
 --- !u!1 &1730049619
@@ -159041,8 +159126,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 100146447}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 1694071313}
 --- !u!1 &1744775604
 GameObject:
   m_ObjectHideFlags: 0
@@ -170175,6 +170260,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1087201310}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 1725453813}
 --- !u!1 &1825180085
@@ -177604,8 +177690,8 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 1045870785}
   prefabBullet: {fileID: 0}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
-  hand: {fileID: 1182312747}
 --- !u!1 &1916264292
 GameObject:
   m_ObjectHideFlags: 1
@@ -178888,6 +178974,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 687891575}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 1105037401}
 --- !u!1 &1936486417
@@ -192430,6 +192517,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 702503807}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 871931725}
 --- !u!1 &2086666695
@@ -196318,6 +196406,7 @@ MonoBehaviour:
   isAttacking: 0
   neck: {fileID: 784626876}
   prefabBullet: {fileID: 5394084448551094125, guid: 614a6e31abd693c4fb1272b055a55d55, type: 3}
+  hitEffect: {fileID: 0}
   damageUI: {fileID: 618523570093898575, guid: 3a1d37b947a900f4f99720450fed0a94, type: 3}
   hand: {fileID: 1362630131}
 --- !u!1 &2122817358
@@ -198646,3 +198735,4 @@ SceneRoots:
   - {fileID: 521609189}
   - {fileID: 1814134723}
   - {fileID: 1313380460}
+  - {fileID: 896204541}
