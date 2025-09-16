@@ -18,4 +18,7 @@ public class ItemAccessory : ItemBase {
         
     }
 
+    public override bool isWeapon() {
+        return false;
+    }
 }

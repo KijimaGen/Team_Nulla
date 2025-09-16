@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6312791999048016203}
-  - component: {fileID: 6067156924169744747}
   - component: {fileID: 4034657976122332711}
   - component: {fileID: 1143196210130320276}
+  - component: {fileID: 3554391371959317420}
   m_Layer: 3
   m_Name: OriginWeaponItem
   m_TagString: Untagged
@@ -37,22 +37,6 @@ Transform:
   - {fileID: 382151573920404879}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6067156924169744747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 889336967553201985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f5e9c16a98964b4993584c3467f5e4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGround: 0
-  itemID: -1
-  isPlayerPosses: 0
-  myStatusItem: {fileID: 841863111330607874}
 --- !u!54 &4034657976122332711
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -103,6 +87,22 @@ CapsuleCollider:
   m_Height: 5.13
   m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3554391371959317420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889336967553201985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08dc55aef5d29ac43a1bf698445d3e5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGround: 0
+  itemID: -1
+  isPlayerPosses: 0
+  myStatusItem: {fileID: 841863111330607874}
 --- !u!1 &5077578472043129355
 GameObject:
   m_ObjectHideFlags: 0

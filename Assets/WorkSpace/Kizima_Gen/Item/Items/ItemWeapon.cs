@@ -27,4 +27,7 @@ public class ItemWeapon : ItemBase {
         return AttackValue;
     }
 
+    public override bool isWeapon() {
+       return true;
+    }
 }

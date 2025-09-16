@@ -32,6 +32,13 @@ public abstract class ItemBase : MonoBehaviour{
     private GameObject myStatusItem;
 
     /// <summary>
+    /// 自分が武器かどうか
+    /// </summary>
+    /// <returns></returns>
+    public abstract bool isWeapon(); 
+
+
+    /// <summary>
     /// 初期化処理(基底クラスに任せる)
     /// </summary>
     public abstract void Initialize();
@@ -96,9 +103,8 @@ public abstract class ItemBase : MonoBehaviour{
 
         //プレイヤーに触れていたら自身を未使用状態にする
 
-        if (isPlayerPosses)
-            transform.localPosition = new Vector3(0,2,0);
-        else
+        
+        if(!isGround)
             Fall();
         
             //Y軸回転
