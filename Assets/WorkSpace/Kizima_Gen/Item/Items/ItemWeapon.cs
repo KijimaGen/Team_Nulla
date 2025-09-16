@@ -9,9 +9,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemWeapon : ItemBase {
-   
+    //©g‚ÌUŒ‚—Í
+    private int AttackValue;
+
+    /// <summary>
+    /// ‰Šú‰»ˆ—
+    /// </summary>
     public override void Initialize() {
         
+    }
+
+    /// <summary>
+    /// UŒ‚—Í‚ğ“n‚·
+    /// </summary>
+    /// <returns></returns>
+    public int GetAttackValue() {
+        return AttackValue;
     }
 
 }

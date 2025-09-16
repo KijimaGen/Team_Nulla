@@ -27,15 +27,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 889336967553201985}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.40448925, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: -0.52041364, z: 0, w: 0.8539143}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1965184028838505820}
   - {fileID: 6962241572970095891}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -62.72, z: 0}
 --- !u!114 &6067156924169744747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,6 +227,30 @@ PrefabInstance:
     - target: {fileID: 4580668706527187276, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4955541970264216236, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f10f04ec9c02e774e99d2694f89669e4, type: 3}
+    - target: {fileID: 6360493391295660229, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6360493391295660229, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 357
+      objectReference: {fileID: 0}
+    - target: {fileID: 6360493391295660229, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -344
+      objectReference: {fileID: 0}
+    - target: {fileID: 6731059741195934984, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_text
+      value: "\u826F\u304F\u898B\u304B\u3051\u308B\u30CD\u30C3\u30AF\u30EC\u30B9\n\u3064\u3051\u308B\u3068\u306A\u3093\u3068\u306A\u304F\u529B\u304C\u6E67\u3044\u3066\u304F\u308B"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7811683473543528507, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_text
+      value: NeckRess
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

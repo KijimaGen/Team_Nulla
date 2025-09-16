@@ -9,6 +9,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemAccessory : ItemBase {
+
+
+    /// <summary>
+    /// ‰Šú‰»ˆ—
+    /// </summary>
     public override void Initialize() {
         
     }

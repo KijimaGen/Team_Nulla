@@ -12,10 +12,10 @@ public class ItemManager : SystemObject{
     //アイテムを呼び出す先の参照
     [SerializeField] Transform _useRoot;
     [SerializeField] Transform _unuseRoot;
-    [SerializeField] ItemBase originItem;
+    
 
    
-    [SerializeField] List<GameObject> items;
+    [SerializeField] List<ItemBase> originItemList;
 
     //使用、不使用リスト
     List<ItemBase> _useList = new List<ItemBase>();
@@ -33,7 +33,7 @@ public class ItemManager : SystemObject{
     public override void Initialize() {
         instance = this;
         for (int i = 0; i < _ITEM_MAX; i++) {
-            ItemBase item = Instantiate(originItem, _unuseRoot);
+            ItemBase item = Instantiate(originItemList[Random.Range(0,originItemList.Count)], _unuseRoot);
             item.Initialize();
             
             //IDを指定して、アイテムを未使用状態にしておく

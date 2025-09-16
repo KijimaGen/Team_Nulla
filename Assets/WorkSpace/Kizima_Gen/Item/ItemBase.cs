@@ -132,4 +132,6 @@ public abstract class ItemBase : MonoBehaviour{
         ItemUtility.GetItem(itemID);
         myStatusItem.SetActive(false);
     }
+
+
 }
