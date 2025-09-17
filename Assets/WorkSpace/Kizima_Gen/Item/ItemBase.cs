@@ -5,7 +5,11 @@
  * @date 2025/7/9
  */
 
+using TMPro;
 using UnityEngine;
+using static GameConst;
+using static CommonModule;
+using UnityEngine.UI;
 
 public abstract class ItemBase : MonoBehaviour{
 
@@ -30,18 +34,35 @@ public abstract class ItemBase : MonoBehaviour{
     //自身の情報を提示するアイテム
     [SerializeField]
     private GameObject myStatusItem;
+    //自身のレアリティ
+    protected Rarity rarity;
+
+    //自身のレアリティのテキスト
+    [SerializeField]
+    private TextMeshProUGUI RarityText;
+
+    //自身のアイコン
+    [SerializeField]
+    private Image myIcon;
 
     /// <summary>
     /// 自分が武器かどうか
     /// </summary>
     /// <returns></returns>
-    public abstract bool isWeapon(); 
+    public abstract bool isWeapon();
 
 
     /// <summary>
     /// 初期化処理(基底クラスに任せる)
     /// </summary>
-    public abstract void Initialize();
+    public virtual void Initialize() {
+        //レアリティをランダム抽選
+        rarity = GetRandomRarity();
+        //
+        RarityText.text = "Rarity : " + RareToString(rarity);
+        EffectManager.instance.InstantiateEffectFromRare(this.transform, rarity);
+    }
+
 
     /// <summary>
     /// 落下処理
@@ -98,25 +119,19 @@ public abstract class ItemBase : MonoBehaviour{
 
 
     private void Update() {
-        
-        
-
         //プレイヤーに触れていたら自身を未使用状態にする
-
-        
         if(!isGround)
             Fall();
         
-            //Y軸回転
-            transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
-            
-        
+        //Y軸回転
+        transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
     }
 
 
     private void OnEnable() {
         //プレイヤーイベントを購読
         PlayerOpenChester.OnInteract += TryGetItem;
+        myStatusItem.SetActive(false);
     }
 
     private void OnDisable() {

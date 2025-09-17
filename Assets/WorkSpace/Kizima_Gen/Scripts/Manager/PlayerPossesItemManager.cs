@@ -14,7 +14,7 @@ public class PlayerPossesItemManager : SystemObject {
     //プレイヤーが持てるアイテムのマックス
     int PlayerAccessoryMax = 5;
     //プレイヤーが持つアイテムのリスト
-    private List<ItemAccessory> playerAccessories = new List<ItemAccessory>();
+    //private List<PowerUpItem> playerAccessories = new List<PowerUpItem>();
     //持ってるアイテムの加算したいステータス一覧
     float HP;
     float Attack;

@@ -59,7 +59,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2389876268108705823}
   - {fileID: 282061247104508779}
@@ -83,6 +83,7 @@ MonoBehaviour:
   originItemList:
   - {fileID: 3554391371959317420, guid: 10d4ea970afa43244b2f89b7f00c36ff, type: 3}
   - {fileID: 6067156924169744747, guid: cc1c93c8b64abc74d964986189b9ef17, type: 3}
+  - {fileID: 7227811167851095641, guid: c6c4617494a60c84ba252611a0efccc9, type: 3}
 --- !u!1 &6117380134151482461
 GameObject:
   m_ObjectHideFlags: 0

@@ -415,31 +415,43 @@ public class EnemyCharacter : CharacterBase
             PlayerCharacter player = other.transform.root.Find("Player(Clone)").GetComponent<PlayerCharacter>();
             if (player.isAttacking)
             {
-                Damage(this.GetComponent<Collider>());
+                
+                
 
-                //プレイヤーがアイテムを持っているときに持っている数分ダメージが上がる
-                HP -= rawAttack * 
-                    ItemManager.instance.GetHasPlayerItemCount() + 1;
-                //↑+1は一個だけの時に等倍になっちゃうので
+                //プレイヤーの持ち物の攻撃力を足す
+                //ダメージ計算
+                float damage = rawAttack + player.GetWeaponAttack() + player.GetAccessaryAttack();
 
-               
+                //乱数を作成
+                damage += Random.Range(-5, 6);
+
+                //さすがに0ダメージは可愛そうだと思う
+                if(damage <= 0) {
+                    damage = 1;
+                }
+
+                //ダメージを与える
+                HP -= damage;
+
+                //ダメージ表示
+                Damage(this.GetComponent<Collider>(),(int)damage);
+
                 AudioManager.instance.PlaySE(0);
                 HitEffect(this.GetComponent<Collider>());
             }
         }
     }
-    public void Damage(Collider collider)
+    public void Damage(Collider collider , int damage)
     {
 
         DamageUI DUI = damageUI;
         if (DUI != null) {
             DamageUI createObject = Instantiate(DUI, collider.bounds.center - Camera.main.transform.forward * 0.2f, Quaternion.identity);
             // 計算
-            int totalAttack = (int)rawAttack * (ItemManager.instance.GetHasPlayerItemCount() + 1);
-
-            // テキストに表示
             
-            createObject.ChangeDamageText(totalAttack.ToString());
+            // テキストに表示
+
+            createObject.ChangeDamageText(damage.ToString());
         }
 
     }

@@ -23,8 +23,7 @@ public class ItemUtility{
     }
 
     public static void RemoveItem(int ID, Vector3 removePos) {
-        //‚±‚±‚ÅYŽ²‰ÁŽZ‚µ‚Ä–„‚Ü‚ç‚È‚¢‚æ‚¤‚É‚·‚é
-        removePos.y += 1;
+        
 
         ItemManager.instance.RemoveItem(ID, removePos);
     }

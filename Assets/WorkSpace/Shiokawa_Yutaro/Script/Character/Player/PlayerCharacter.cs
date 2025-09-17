@@ -30,6 +30,17 @@ public class PlayerCharacter : CharacterBase
     {
         //プレイヤーの操作の呼び出し
         _playerAction.AcceptInput();
+
+        //座標の下限
+        if(transform.position.y < -1) { 
+            
+        }
+
+        //座標の上限
+        if (transform.position.y > 1.5) {
+
+        }
+       
     }
 
     /// <summary>
@@ -79,7 +90,6 @@ public class PlayerCharacter : CharacterBase
                 ItemUtility.RemoveItem(possessWeapon.itemID, transform.position);
             
             possessWeapon = getItem;
-            Debug.Log(getItem.name + "[" + getItem.itemID + "] を手に入れました");
 
             return;
         }
@@ -91,11 +101,36 @@ public class PlayerCharacter : CharacterBase
             //アイテム枠にアイテムがあれば一旦スルー
             if (possessItemList[i] != null) continue;
             possessItemList[i] = getItem;
-            Debug.Log(getItem.name + "[" + getItem.itemID + "] を手に入れました");
 
             return;
         }
 
-        Debug.Log("なんも手に入れられませんでした★");
+    }
+
+    /// <summary>
+    /// 持っているアイテムの攻撃力をもらう
+    /// </summary>
+    /// <returns></returns>
+    public float GetWeaponAttack() {
+        //もしなんも持ってなかったら0を返してあげる
+        if(possessWeapon == null) return 0f;
+
+        return possessWeapon.GetComponent<ItemWeapon>().GetAttackValue();
+    }
+
+    /// <summary>
+    /// 持っているアイテムの攻撃力をもらう
+    /// </summary>
+    /// <returns></returns>
+    public float GetAccessaryAttack() {
+        int AccessaryAttackSum = 0;
+        for(int i = 0,max = _POSSESS_ITEM_MAX;i < max;i++) {
+            if(possessItemList[i] == null) continue;
+            
+            //このis演算子はpossessItemList[i]がPowerUpItem型かどうかを検知してくれる
+            if(possessItemList[i] is PowerUpItem)
+                AccessaryAttackSum += (int)((PowerUpItem) possessItemList[i]).GetAttackValue();
+        }
+        return AccessaryAttackSum;
     }
 }

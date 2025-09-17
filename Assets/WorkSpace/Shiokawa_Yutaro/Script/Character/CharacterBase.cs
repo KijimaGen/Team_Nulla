@@ -33,7 +33,7 @@ public abstract class CharacterBase : MonoBehaviour
     //ŠƒAƒCƒeƒ€‚ÌÅ‘å”
     public static readonly int _POSSESS_ITEM_MAX = 5;
     //Š•Ší
-    public ItemBase possessWeapon { get; protected set; }
+    public static ItemBase possessWeapon { get; protected set; }
 
     protected Animator animator;
     protected Rigidbody rb;

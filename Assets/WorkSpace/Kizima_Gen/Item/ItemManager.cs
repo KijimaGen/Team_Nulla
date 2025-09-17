@@ -147,6 +147,10 @@ public class ItemManager : SystemObject{
     /// </summary>
     /// <param name="ID"></param>
     public void RemoveItem(int ID,Vector3 removePos) {
+
+        //‚±‚±‚ÅYŽ²‰ÁŽZ‚µ‚Ä–„‚Ü‚ç‚È‚¢‚æ‚¤‚É‚·‚é
+        removePos.y += 0.1f;
+
         _useList[ID].gameObject.transform.position = removePos;
         _useList[ID].isPlayerPosses = false;
         _useList[ID].gameObject.SetActive(true);
