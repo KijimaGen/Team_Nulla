@@ -31,12 +31,13 @@ public class Enemy_LongRange : EnemyCharacter
 
         //成功したら、攻撃のチャージが完了するかどうか
         //if (!await ChargeTime(attackTime, attackName)) return;
+        animation.Play("攻撃1");
 
         Attack(player.transform.position);
 
         for (int i = 0; i < bulletCount; i++) {
             if (this == null || player == null || hand == null) return;
-
+            if (GetHitDamage()) return;
             Vector3 bulletRotation = (player.transform.position - hand.position).normalized;
             bulletRotation.x += Random.Range(-0.1f, 0.1f);
             bulletRotation.y += Random.Range(-0.1f, 0.1f);

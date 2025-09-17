@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,5 +20,16 @@ public class Enemy_GoingAttack : EnemyCharacter
         rawAttack = 5;
         rawDefense = 0;
         base.Setup();
+    }
+
+    public override async UniTask GoingAttack()
+    {
+        animation.Play("攻撃1");
+
+        Attack(player.transform.position);
+
+        // アニメーションの終了を待つ（基底のクラスの関数）
+        // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
+
     }
 }

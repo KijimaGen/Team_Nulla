@@ -628,7 +628,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3265976966314390337}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 674d6fc5d80bb1a4e83989b5c1e04755, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -660,6 +660,7 @@ Animation:
   - {fileID: 7400000, guid: beb9715a3e923084e8417c915387cd6a, type: 2}
   - {fileID: 7400000, guid: f9f28b324086deb43996ecb7f715773a, type: 2}
   - {fileID: 7400000, guid: 3192238e1a5df1e4992fcdee461ef3f5, type: 2}
+  - {fileID: 7400000, guid: 4f4fb0dd52b0a6c4abbf7fdad1dc3273, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
@@ -1079,7 +1080,7 @@ Transform:
   - {fileID: 6312554713147380037}
   - {fileID: 483921581218880857}
   m_Father: {fileID: 5038491687698855470}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -64.165, y: -4.479, z: 4.035}
 --- !u!1 &5242343486320028389
 GameObject:
   m_ObjectHideFlags: 0

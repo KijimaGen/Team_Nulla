@@ -36,11 +36,14 @@ public class PlayerAction : MonoBehaviour
 
     [SerializeField] ParticleSystem jumpEfect;
 
+    [SerializeField] ParticleSystem specialEffect;
+
 
     Vector2 switchLStickValue;
     bool switchZRButton;
     bool switchBButton;
     bool switchYButton;
+    bool switchXButton;
     private void Start()
     {
         player = GetComponent<PlayerCharacter>();
@@ -295,9 +298,18 @@ public class PlayerAction : MonoBehaviour
                 TryAttackNearestEnemy().Forget();
                 return true;
             }
-
-           
         }
+        else if (switchXButton)
+        {
+            player.SetSpeed(player.walkSpeed);
+            isDashing = false;
+            inputAttack = true;
+            animation.Play("必殺");
+            player.isAttacking = true;
+
+            return true;
+        }
+
         else
         {
             return false;
@@ -311,7 +323,7 @@ public class PlayerAction : MonoBehaviour
     {
         // 攻撃アニメーション実行
         PlayAttackAnimation(comboStep);
-        
+        rb.velocity = Vector3.zero;
 
         if (comboStep == 3)
         {
@@ -370,6 +382,10 @@ public class PlayerAction : MonoBehaviour
         animation.Play("コンボ" + step);
     }
 
+    public void SpecialAttackEffect()
+    {
+        Instantiate(specialEffect,transform.position + transform.up * 0.5f, Quaternion.identity);
+    }
     /// <summary>
     /// 視点操作
     /// </summary>
@@ -456,7 +472,17 @@ public class PlayerAction : MonoBehaviour
         {
             switchYButton = false;
         }
-
+    }
+    public void SwitchX(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            switchXButton = true;
+        }
+        else
+        {
+            switchXButton = false;
+        }
     }
     public void SwitchZR(InputAction.CallbackContext context)
     {

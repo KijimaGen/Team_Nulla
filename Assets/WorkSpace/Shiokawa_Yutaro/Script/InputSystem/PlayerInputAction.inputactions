@@ -271,7 +271,7 @@
                 {
                     "name": "",
                     "id": "d5363469-3114-4da9-b5bd-059ea402b274",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -294,6 +294,17 @@
                     "name": "",
                     "id": "195d841a-c698-45fe-950e-d33aa7860f88",
                     "path": "<SwitchProControllerHID>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchSpecialAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f4f62ec3-3727-4946-91b9-5c2675dbde5f",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

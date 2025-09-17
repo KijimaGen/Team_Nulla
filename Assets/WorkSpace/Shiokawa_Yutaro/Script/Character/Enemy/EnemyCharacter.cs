@@ -71,6 +71,7 @@ public class EnemyCharacter : CharacterBase
 
     private async UniTask StateTick()
     {
+        hitDamage = false;
         RotateTowardsPlayer();
 
         if (!ExecuteAction()) return;
@@ -168,6 +169,7 @@ public class EnemyCharacter : CharacterBase
     }
 
     bool playerFound = false;
+    float playerSeeTime = 0f;
     /// <summary>
     /// プレイヤーを見つけるかの処理
     /// </summary>
@@ -197,13 +199,19 @@ public class EnemyCharacter : CharacterBase
                     float dist = Vector3.Distance(neckPos, hit.transform.position);
                     if (dist <= _ENEMY_VIEW_AREA)
                     {
+                        playerSeeTime = 0;
                         playerFound = true;
                         break;
                     }
                 }
                 else
                 {
-                    playerFound = false;
+                    playerSeeTime += Time.deltaTime;
+                    if(playerSeeTime >= 10)
+                    {
+                        playerFound = false;
+                        playerSeeTime = 0;
+                    }
                 }
             }
             if (playerFound) break;
@@ -308,6 +316,7 @@ public class EnemyCharacter : CharacterBase
     /// <returns></returns>
     public async UniTask StartAttack(int attackType)
     {
+        if(hitDamage)return;
         var selectedType = (AttackType)attackType;
 
         // もし同じ攻撃タイプだったら通常攻撃に強制変更
@@ -475,6 +484,7 @@ public class EnemyCharacter : CharacterBase
             if (player == null) return;
             if (player.isAttacking)
             {
+                playerFound = true;
                 Damage(this.GetComponent<Collider>());
 
                 //プレイヤーがアイテムを持っているときに持っている数分ダメージが上がる
@@ -505,8 +515,10 @@ public class EnemyCharacter : CharacterBase
     }
 
     private void HitEffect(Collider collider, Vector3 hitPos) {
+        hitDamage = true;
         ParticleSystem hitEffectClone = Instantiate(hitEffect, hitPos, Quaternion.identity);
         Destroy(hitEffectClone.gameObject, 2);
+
 
         animation.Play("ダメージを受ける");
         //ノックバックを与える
