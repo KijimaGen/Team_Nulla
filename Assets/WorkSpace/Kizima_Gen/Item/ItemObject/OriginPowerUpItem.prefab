@@ -53,6 +53,7 @@ MonoBehaviour:
   isPlayerPosses: 0
   myStatusItem: {fileID: 7961681397300233118}
   RarityText: {fileID: 4518729009938488447}
+  myIcon: {fileID: 0}
   AttackText: {fileID: 5319511171729291516}
 --- !u!135 &5923354411171800338
 SphereCollider:
@@ -142,6 +143,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6312791999048016203}
     m_Modifications:
+    - target: {fileID: 675660284116047169, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 6fc622a4b6d28004d8492f52dc6df10b, type: 2}
+    - target: {fileID: 675660284116047169, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 7604716415748479257, guid: 6fc622a4b6d28004d8492f52dc6df10b, type: 2}
+    - target: {fileID: 675660284116047169, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2318236267996776622, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -250,9 +263,45 @@ PrefabInstance:
       propertyPath: m_text
       value: "\u826F\u304F\u898B\u304B\u3051\u308B\u30CD\u30C3\u30AF\u30EC\u30B9\n\u3064\u3051\u308B\u3068\u306A\u3093\u3068\u306A\u304F\u529B\u304C\u6E67\u3044\u3066\u304F\u308B"
       objectReference: {fileID: 0}
+    - target: {fileID: 6731059741195934984, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 6fc622a4b6d28004d8492f52dc6df10b, type: 2}
+    - target: {fileID: 6731059741195934984, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 7604716415748479257, guid: 6fc622a4b6d28004d8492f52dc6df10b, type: 2}
+    - target: {fileID: 6731059741195934984, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7811683473543528507, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
       propertyPath: m_text
       value: NeckRess
+      objectReference: {fileID: 0}
+    - target: {fileID: 7811683473543528507, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 6fc622a4b6d28004d8492f52dc6df10b, type: 2}
+    - target: {fileID: 7811683473543528507, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 7604716415748479257, guid: 6fc622a4b6d28004d8492f52dc6df10b, type: 2}
+    - target: {fileID: 7811683473543528507, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9081260568053297602, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 6fc622a4b6d28004d8492f52dc6df10b, type: 2}
+    - target: {fileID: 9081260568053297602, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 7604716415748479257, guid: 6fc622a4b6d28004d8492f52dc6df10b, type: 2}
+    - target: {fileID: 9081260568053297602, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
