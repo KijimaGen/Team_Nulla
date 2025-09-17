@@ -21,4 +21,10 @@ public class ItemUtility{
     public static void GetItem(int ID) {
         ItemManager.instance.GetItem(ID);
     }
+
+    public static void RemoveItem(int ID, Vector3 removePos) {
+        
+
+        ItemManager.instance.RemoveItem(ID, removePos);
+    }
 }

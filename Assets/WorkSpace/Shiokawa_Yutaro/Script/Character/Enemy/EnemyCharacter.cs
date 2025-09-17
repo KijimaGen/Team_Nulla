@@ -22,7 +22,7 @@ public class EnemyCharacter : CharacterBase
     float actionTime;
 
     [SerializeField] Transform neck;
-    
+    [SerializeField] protected GameObject prefabBullet;
     // ヒットエフェクト
     [SerializeField]
     private ParticleSystem hitEffect;
@@ -58,10 +58,10 @@ public class EnemyCharacter : CharacterBase
         SetStatus();
     }
     // Update is called once per frame
-    protected virtual void Update()
+    void Update()
     {
         //死んでたらリターン
-        if (isDead) { Dead(); return; }
+        if (isDead) { Destroy(gameObject); return; }
         if (!ViewAction()) return;
 
         StateTick().Forget();
@@ -71,7 +71,6 @@ public class EnemyCharacter : CharacterBase
 
     private async UniTask StateTick()
     {
-        hitDamage = false;
         RotateTowardsPlayer();
 
         if (!ExecuteAction()) return;
@@ -167,22 +166,17 @@ public class EnemyCharacter : CharacterBase
         }
         return false;
     }
-
-    bool playerFound = false;
-    float playerSeeTime = 0f;
     /// <summary>
     /// プレイヤーを見つけるかの処理
     /// </summary>
     /// <returns></returns>
-    protected virtual bool ViewAction()
+    private bool ViewAction()
     {
         Vector3 neckPos = neck.position;
         Vector3 viewPos = new Vector3(neckPos.x, neckPos.y, neckPos.z);
-        float viewAngle = 240;
+        float viewAngle = 120;
         float halfAngle = viewAngle / 2f;
         int rayCount = 30;
-
-        
 
         for (int i = 0; i < rayCount; i++)
         {
@@ -192,78 +186,27 @@ public class EnemyCharacter : CharacterBase
             Vector3 dir = rotation * transform.forward;
 
             Ray ray = new Ray(viewPos, dir);
-            if (Physics.Raycast(ray, out RaycastHit hit, _ENEMY_VIEW_AREA))
+            RaycastHit[] hits = Physics.RaycastAll(ray, _ENEMY_VIEW_AREA);
+
+            foreach (var hit in hits)
             {
                 if (hit.collider.CompareTag("Player"))
-                {
+                {                   
+
                     float dist = Vector3.Distance(neckPos, hit.transform.position);
-                    if (dist <= _ENEMY_VIEW_AREA)
+                    if (dist > _ENEMY_VIEW_AREA)
                     {
-                        playerSeeTime = 0;
-                        playerFound = true;
-                        break;
+                        return false;
                     }
-                }
-                else
-                {
-                    playerSeeTime += Time.deltaTime;
-                    if(playerSeeTime >= 10)
-                    {
-                        playerFound = false;
-                        playerSeeTime = 0;
-                    }
+
+                    else return true;
                 }
             }
-            if (playerFound) break;
+            //Debug.DrawRay(viewPos, dir * _ENEMY_VIEW_AREA, Color.red);
         }
 
-        if (playerFound)
-        {
-            return true; // プレイヤーが視界内
-        }
-        else
-        {
-            Wandering(); // プレイヤーがいなければ徘徊
-            return false;
-        }
+        return false;
     }
-
-
-    Vector3 randomTarget;
-    float wanderCooldown = 0f;
-    bool hasTarget = false;
-    void Wandering()
-    {
-        // ターゲット更新
-        wanderCooldown -= Time.deltaTime;
-        if (wanderCooldown <= 0f || !hasTarget)
-        {
-            wanderCooldown = Random.Range(2f, 5f); // 次に動き出すまでの間隔
-            float radius = 7f;
-            Vector2 randomOffset = Random.insideUnitCircle * radius;
-            randomTarget = new Vector3(transform.position.x + randomOffset.x, transform.position.y, transform.position.z + randomOffset.y);
-            hasTarget = true;
-        }
-
-        // 移動処理
-        Vector3 dir = randomTarget - transform.position;
-        dir.y = 0f;
-
-        if (dir.magnitude > 0.5f) // 目的地まで距離がある
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 5f);
-            rb.velocity = transform.forward * speed;
-            animation.Play("歩く");
-        }
-        else
-        {
-            rb.velocity = Vector3.zero;
-            animation.Play("待機");
-            hasTarget = false; // 次の wanderCooldown で新しいターゲットを決める
-        }
-    }
-
-
     /// <summary>
     /// 追いかける
     /// </summary>
@@ -273,18 +216,14 @@ public class EnemyCharacter : CharacterBase
         while (true)
         {
             // プレイヤーが消えていたらループ終了
-            if (player == null)
-            {
+            if (player == null) {
                 Debug.Log("プレイヤーが消えたので追跡終了");
                 return;
             }
             Vector3 dir = (player.transform.position - transform.position).normalized;
             // プレイヤーとの距離チェック
             float distance = Vector3.Distance(transform.position, player.transform.position);
-            Vector3 flatTargetPos = player.transform.position;
-            flatTargetPos.y = transform.position.y; // 高さを合わせる
-
-            transform.DOLookAt(flatTargetPos, 0.3f);
+           // Debug.Log($"プレイヤーとの距離: {distance}");
 
             if (distance < attackArea)
             {
@@ -292,15 +231,9 @@ public class EnemyCharacter : CharacterBase
                 await SetNextState(new AttackState());
                 break;
             }
-            else if (distance > 2)
-            {
-                rb.velocity = dir * speed * 4;
-                animation.Play("ダッシュ");
-            }
             else
             {
-                rb.velocity = dir * speed * 1;
-                animation.Play("歩く");
+                rb.velocity = dir * speed * 2;
             }
 
             // 0.1秒ごとにチェック（負荷軽減）
@@ -316,7 +249,6 @@ public class EnemyCharacter : CharacterBase
     /// <returns></returns>
     public async UniTask StartAttack(int attackType)
     {
-        if(hitDamage)return;
         var selectedType = (AttackType)attackType;
 
         // もし同じ攻撃タイプだったら通常攻撃に強制変更
@@ -408,6 +340,7 @@ public class EnemyCharacter : CharacterBase
             return;
         }
 
+        animator.SetTrigger("takeDistance");
 
         // 400ms待つ
         await UniTask.Delay(400);
@@ -464,7 +397,6 @@ public class EnemyCharacter : CharacterBase
     /// </summary>
     public override void Dead()
     {
-        animation.Play("死ぬ");
     }
 
     public bool GetHitDamage()
@@ -480,51 +412,53 @@ public class EnemyCharacter : CharacterBase
     {
         if (other.gameObject.tag == "Weapon")
         {
-            PlayerCharacter player = other.transform.root.GetComponent<PlayerCharacter>();
-            if (player == null) return;
+            PlayerCharacter player = other.transform.root.Find("Player(Clone)").GetComponent<PlayerCharacter>();
             if (player.isAttacking)
             {
-                playerFound = true;
-                Damage(this.GetComponent<Collider>());
+                
+                
 
-                //プレイヤーがアイテムを持っているときに持っている数分ダメージが上がる
-                HP -= rawAttack * 
-                    ItemManager.instance.GetHasPlayerItemCount() + 1;
-                //↑+1は一個だけの時に等倍になっちゃうので
+                //プレイヤーの持ち物の攻撃力を足す
+                //ダメージ計算
+                float damage = rawAttack + player.GetWeaponAttack() + player.GetAccessaryAttack();
 
-               
+                //乱数を作成
+                damage += Random.Range(-5, 6);
+
+                //さすがに0ダメージは可愛そうだと思う
+                if(damage <= 0) {
+                    damage = 1;
+                }
+
+                //ダメージを与える
+                HP -= damage;
+
+                //ダメージ表示
+                Damage(this.GetComponent<Collider>(),(int)damage);
+
                 AudioManager.instance.PlaySE(0);
-                HitEffect(this.GetComponent<Collider>(),other.transform.position);
+                HitEffect(this.GetComponent<Collider>());
             }
         }
     }
-    public void Damage(Collider collider)
+    public void Damage(Collider collider , int damage)
     {
 
         DamageUI DUI = damageUI;
         if (DUI != null) {
             DamageUI createObject = Instantiate(DUI, collider.bounds.center - Camera.main.transform.forward * 0.2f, Quaternion.identity);
             // 計算
-            int totalAttack = (int)rawAttack * (ItemManager.instance.GetHasPlayerItemCount() + 1);
-
-            // テキストに表示
             
-            createObject.ChangeDamageText(totalAttack.ToString());
+            // テキストに表示
+
+            createObject.ChangeDamageText(damage.ToString());
         }
 
     }
 
-    private void HitEffect(Collider collider, Vector3 hitPos) {
-        hitDamage = true;
-        ParticleSystem hitEffectClone = Instantiate(hitEffect, hitPos, Quaternion.identity);
+    private void HitEffect(Collider collider) {
+        ParticleSystem hitEffectClone = Instantiate(hitEffect, collider.transform.position, Quaternion.identity);
         Destroy(hitEffectClone.gameObject, 2);
-
-
-        animation.Play("ダメージを受ける");
-        //ノックバックを与える
-        rb.velocity = Vector3.zero;
-        Vector3 playerDir = player.transform.position-transform.position;
-        rb.velocity = -hitPos.normalized * 1 + -playerDir * 1;
     }
 
 }

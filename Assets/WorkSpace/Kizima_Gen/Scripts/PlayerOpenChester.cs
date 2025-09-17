@@ -10,9 +10,7 @@ public class PlayerOpenChester : MonoBehaviour {
     public delegate void InteractAction();
     // 宝箱などに通知するイベント
     public static event InteractAction OnInteract;
-    //雑
-    [SerializeField]
-    private List<GameObject> itemRoots = new List<GameObject>();
+    
 
 
     private void Awake() {
@@ -21,15 +19,10 @@ public class PlayerOpenChester : MonoBehaviour {
 
     // Input Systemのイベントで呼ばれる
     public void HandleInteractInput(InputAction.CallbackContext context) {
-        Debug.Log("★ HandleInteractInput が呼ばれたかチェック");
         if (context.performed) {
-            Debug.Log("プレイヤーがインタラクトボタンを押した");
             OnInteract?.Invoke();
         }
         
     }
 
-    public List<GameObject> GetItemRoots() {
-        return itemRoots;
-    }
 }
