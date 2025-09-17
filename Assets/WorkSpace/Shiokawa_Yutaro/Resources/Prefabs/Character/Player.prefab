@@ -3836,7 +3836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc4defc02ed99f44f8fcfd78c22729a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDashing: 0
+  isDashing: 1
   isAvoiding: 0
   isCounter: 0
   attackEfect: {fileID: 7075662119902662680, guid: f74d6d68090453340b8266c1213cb0dc, type: 3}

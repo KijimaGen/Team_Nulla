@@ -75,11 +75,12 @@ public class Bullet : MonoBehaviour
 
                 render.material.color = Color.red;
             }
-            else if(playerCol is not SphereCollider)
-            {
+            else if (playerCol is not SphereCollider) {
                 //エフェクト出して消えるよ～～～～～～～～～～～～ん
                 Instantiate(BulletEffect, transform.position, transform.rotation);
                 Destroy(gameObject);
+                //playerCol.GetComponent<HPGaugeUI>().DamageProcess();
+                //playerCol.GetComponent<HPGaugeUI>().DamageGaugeDown();
             }
             else {
                 //エフェクト出して消えるのにぇん！
@@ -90,11 +91,11 @@ public class Bullet : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision) {
-        if(collision.gameObject.tag != "Player") {
-            //エフェクト出して消えるペコ！
-            Instantiate(BulletEffect, transform.position, transform.rotation);
-            Destroy(gameObject);
-        }
-    }
+    //private void OnCollisionEnter(Collision collision) {
+    //    if(collision.gameObject.tag != "Player") {
+    //        //エフェクト出して消えるペコ！
+    //        Instantiate(BulletEffect, transform.position, transform.rotation);
+    //        Destroy(gameObject);
+    //    }
+    //}
 }

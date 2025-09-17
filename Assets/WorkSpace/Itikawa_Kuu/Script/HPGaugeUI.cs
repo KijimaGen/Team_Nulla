@@ -38,21 +38,22 @@ public class HPGaugeUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //GaugeDown();
         HPImage.rectTransform.sizeDelta = gauge;
-
-        DamageImage.rectTransform.sizeDelta = gauge;
-
-        //yield return new WaitForSeconds(waitTime);
     }
 
-    //IEnumerator GaugeDown() {
+    public void DamageGaugeDown() {
+        DamageImage.rectTransform.sizeDelta = gauge;
+    }
 
+    //public void DamageProcess() {
+    //    gauge.x -= damage;
+    //    Invoke(nameof(DamageGaugeDown), waitTime);
     //}
 
-    private void OnTriggerEnter(Collider collider) {
-        if (collider.tag == "Bullet") {
+    private void OnCollisionEnter(Collision collider) {
+        if (collider.gameObject.tag == "Bullet") {
             gauge.x -= damage;
+            Invoke(nameof(DamageGaugeDown), waitTime);
         }
     }
 }
