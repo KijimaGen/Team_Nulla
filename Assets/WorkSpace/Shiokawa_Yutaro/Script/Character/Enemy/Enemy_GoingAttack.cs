@@ -32,4 +32,10 @@ public class Enemy_GoingAttack : EnemyCharacter
         // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
 
     }
+
+    protected override void HitEffect(Vector3 hitPos)
+    {
+        animation.Play("ダメージを受ける");
+        base.HitEffect(hitPos);
+    }
 }

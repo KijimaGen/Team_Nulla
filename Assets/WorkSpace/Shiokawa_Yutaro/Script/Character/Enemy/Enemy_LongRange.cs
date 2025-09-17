@@ -53,4 +53,9 @@ public class Enemy_LongRange : EnemyCharacter
         // アニメーションの終了を待つ（基底のクラスの関数）
         // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
     }
+    protected override void HitEffect(Vector3 hitPos)
+    {
+        animation.Play("ダメージを受ける");
+        base.HitEffect(hitPos);
+    }
 }
