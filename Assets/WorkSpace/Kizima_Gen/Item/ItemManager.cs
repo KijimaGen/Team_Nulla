@@ -12,10 +12,10 @@ public class ItemManager : SystemObject{
     //アイテムを呼び出す先の参照
     [SerializeField] Transform _useRoot;
     [SerializeField] Transform _unuseRoot;
-    [SerializeField] ItemBase originItem;
+    
 
    
-    [SerializeField] List<GameObject> items;
+    [SerializeField] List<ItemBase> originItemList;
 
     //使用、不使用リスト
     List<ItemBase> _useList = new List<ItemBase>();
@@ -33,7 +33,7 @@ public class ItemManager : SystemObject{
     public override void Initialize() {
         instance = this;
         for (int i = 0; i < _ITEM_MAX; i++) {
-            ItemBase item = Instantiate(originItem, _unuseRoot);
+            ItemBase item = Instantiate(originItemList[Random.Range(0,originItemList.Count)], _unuseRoot);
             item.Initialize();
             
             //IDを指定して、アイテムを未使用状態にしておく
@@ -101,22 +101,18 @@ public class ItemManager : SystemObject{
     public void GetItem(int ID) {
         //ここで一旦デストロイしてあるアイテムをなくしておく
         _useList.RemoveAll(item => item == null || item.Equals(null));
-        player = GameObject.Find("Player(Clone)");
+        
 
         ItemBase getItem = _useList.Find(item => item.itemID == ID);
         if (getItem == null) return;
 
         if (_useList.Contains(getItem)) {
-            _useList.Remove(getItem);
-            _unuseList.Add(getItem);
-
             
-
-            getItem.transform.SetParent(player.transform);
-            getItem.transform.position = player.transform.position;
-            getItem.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+            //プレイヤーにアイテムを渡す
+            player = GameObject.Find("Player(Clone)");
+            player.GetComponent<PlayerCharacter>().GetItem(GetItemFromList(ID));
             getItem.isPlayerPosses = true;
-            Debug.Log(getItem.gameObject.name + getItem.itemID + "を獲得しました");
+            getItem.gameObject.SetActive(false);
         }
 
     }
@@ -144,5 +140,34 @@ public class ItemManager : SystemObject{
                 count++;
         }
         return count;
+    }
+
+    /// <summary>
+    /// ID、座標指定でアイテムを野に放つ
+    /// </summary>
+    /// <param name="ID"></param>
+    public void RemoveItem(int ID,Vector3 removePos) {
+
+        //ここでY軸加算して埋まらないようにする
+        removePos.y += 0.1f;
+
+        _useList[ID].gameObject.transform.position = removePos;
+        _useList[ID].isPlayerPosses = false;
+        _useList[ID].gameObject.SetActive(true);
+    }
+
+
+    /// <summary>
+    /// ID指定でアイテムを引き渡す
+    /// </summary>
+    /// <param name="ID"></param>
+    /// <returns></returns>
+    private ItemBase GetItemFromList(int ID) {
+        //使用中のアイテムリストからIDが一致するものを返す
+        for(int i = 0,max  = _useList.Count; i < max; i++) {
+            if (_useList[i].itemID == ID)
+                return _useList[i];
+        }
+        return null;
     }
 }
