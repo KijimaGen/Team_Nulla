@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class MiniBoss_OZN : EnemyCharacter
 {
+    /*
     [SerializeField] private Transform hand;
     private bool actionCatch;
     private bool playerCatch;
@@ -186,5 +187,5 @@ public class MiniBoss_OZN : EnemyCharacter
         Instantiate(CatchBleakEffect, effectPos, transform.rotation);
         Instantiate(CatchSmokeEffect, effectPos, transform.rotation);
     }
-
+    */
 }
