@@ -10,8 +10,7 @@ using System.Linq;
 using UnityEngine.InputSystem.HID;
 
 
-public class EnemyCharacter : CharacterBase
-{
+public class EnemyCharacter : CharacterBase {
     /// <summary>
     /// エネミーの視野範囲
     /// </summary>
@@ -22,7 +21,7 @@ public class EnemyCharacter : CharacterBase
     float actionTime;
 
     [SerializeField] Transform neck;
-    [SerializeField] protected GameObject prefabBullet;
+
     // ヒットエフェクト
     [SerializeField]
     private ParticleSystem hitEffect;
@@ -41,8 +40,7 @@ public class EnemyCharacter : CharacterBase
     bool hitDamage;
     public DamageUI damageUI;
 
-    public override void Setup()
-    {
+    public override void Setup() {
         // ステート登録
         stateMap = new Dictionary<Action, StateBase<EnemyCharacter>>
         {
@@ -58,10 +56,9 @@ public class EnemyCharacter : CharacterBase
         SetStatus();
     }
     // Update is called once per frame
-    void Update()
-    {
+    protected virtual void Update() {
         //死んでたらリターン
-        if (isDead) { Destroy(gameObject); return; }
+        if (isDead) { Dead(); return; }
         if (!ViewAction()) return;
 
         StateTick().Forget();
@@ -69,8 +66,8 @@ public class EnemyCharacter : CharacterBase
 
     private Action previousAction = Action.Max;
 
-    private async UniTask StateTick()
-    {
+    private async UniTask StateTick() {
+        hitDamage = false;
         RotateTowardsPlayer();
 
         if (!ExecuteAction()) return;
@@ -79,14 +76,12 @@ public class EnemyCharacter : CharacterBase
 
         Dictionary<Action, float> actionWeights = new();
 
-        if (playerDistance < attackArea * 2)
-        {
+        if (playerDistance < attackArea * 2) {
             // プレイヤーが近い：攻撃っぽい行動を強調
             actionWeights[Action.Attack] = 100f;
             actionWeights[Action.Chase] = 20f;
         }
-        else
-        {
+        else {
             // プレイヤーが遠い：様子見や接近系が中心
             actionWeights[Action.Idel] = 50f;
             actionWeights[Action.Chase] = 40f;
@@ -101,17 +96,14 @@ public class EnemyCharacter : CharacterBase
         await SetNextState(nextState);
     }
 
-    public async UniTask SetNextState(StateBase<EnemyCharacter> nextState)
-    {
-        if (currentState != null)
-        {
+    public async UniTask SetNextState(StateBase<EnemyCharacter> nextState) {
+        if (currentState != null) {
             await currentState.Exit(this);
         }
 
         currentState = nextState;
 
-        if (currentState != null)
-        {
+        if (currentState != null) {
             await currentState.Enter(this);
             await currentState.Execute(this);
         }
@@ -119,8 +111,7 @@ public class EnemyCharacter : CharacterBase
         action = false;
     }
 
-    private Action GetRandomWeightedAction(Dictionary<Action, float> weights, Action exclude)
-    {
+    private Action GetRandomWeightedAction(Dictionary<Action, float> weights, Action exclude) {
         // 1. 前回と同じ行動は除く
         var filteredWeights = weights
             .Where(kvp => kvp.Key != exclude)
@@ -135,8 +126,7 @@ public class EnemyCharacter : CharacterBase
         // 4. ランダム値を超えるまで累計していって、一致したところを選ぶ
         float cumulative = 0f;
 
-        foreach (var kvp in filteredWeights)
-        {
+        foreach (var kvp in filteredWeights) {
             cumulative += kvp.Value;
             if (rand <= cumulative)
                 return kvp.Key;
@@ -151,70 +141,110 @@ public class EnemyCharacter : CharacterBase
     /// アクションを実行する時間
     /// </summary>
     /// <returns></returns>
-    private bool ExecuteAction()
-    {
+    private bool ExecuteAction() {
 
         if (action) return false;
 
         actionTime += Time.deltaTime;
         float actionInterval = UnityEngine.Random.Range(2, 4);
-        if (actionTime >= actionInterval)
-        {
+        if (actionTime >= actionInterval) {
             actionTime = 0;
             action = true;
             return true;
         }
         return false;
     }
+
+    bool playerFound = false;
+    float playerSeeTime = 0f;
     /// <summary>
     /// プレイヤーを見つけるかの処理
     /// </summary>
     /// <returns></returns>
-    private bool ViewAction()
-    {
+    protected virtual bool ViewAction() {
         Vector3 neckPos = neck.position;
         Vector3 viewPos = new Vector3(neckPos.x, neckPos.y, neckPos.z);
-        float viewAngle = 120;
+        float viewAngle = 240;
         float halfAngle = viewAngle / 2f;
         int rayCount = 30;
 
-        for (int i = 0; i < rayCount; i++)
-        {
-            float t = (float)i / (rayCount - 1);
+
+
+        for (int i = 0; i < rayCount; i++) {
+            float t = (float) i / (rayCount - 1);
             float angle = Mathf.Lerp(-halfAngle, halfAngle, t);
             Quaternion rotation = Quaternion.Euler(0, angle, 0);
             Vector3 dir = rotation * transform.forward;
 
             Ray ray = new Ray(viewPos, dir);
-            RaycastHit[] hits = Physics.RaycastAll(ray, _ENEMY_VIEW_AREA);
-
-            foreach (var hit in hits)
-            {
-                if (hit.collider.CompareTag("Player"))
-                {                   
-
+            if (Physics.Raycast(ray, out RaycastHit hit, _ENEMY_VIEW_AREA)) {
+                if (hit.collider.CompareTag("Player")) {
                     float dist = Vector3.Distance(neckPos, hit.transform.position);
-                    if (dist > _ENEMY_VIEW_AREA)
-                    {
-                        return false;
+                    if (dist <= _ENEMY_VIEW_AREA) {
+                        playerSeeTime = 0;
+                        playerFound = true;
+                        break;
                     }
-
-                    else return true;
+                }
+                else {
+                    playerSeeTime += Time.deltaTime;
+                    if (playerSeeTime >= 10) {
+                        playerFound = false;
+                        playerSeeTime = 0;
+                    }
                 }
             }
-            //Debug.DrawRay(viewPos, dir * _ENEMY_VIEW_AREA, Color.red);
+            if (playerFound) break;
         }
 
-        return false;
+        if (playerFound) {
+            return true; // プレイヤーが視界内
+        }
+        else {
+            Wandering(); // プレイヤーがいなければ徘徊
+            return false;
+        }
     }
+
+
+    Vector3 randomTarget;
+    float wanderCooldown = 0f;
+    bool hasTarget = false;
+    void Wandering() {
+        // ターゲット更新
+        wanderCooldown -= Time.deltaTime;
+        if (wanderCooldown <= 0f || !hasTarget) {
+            wanderCooldown = Random.Range(2f, 5f); // 次に動き出すまでの間隔
+            float radius = 7f;
+            Vector2 randomOffset = Random.insideUnitCircle * radius;
+            randomTarget = new Vector3(transform.position.x + randomOffset.x, transform.position.y, transform.position.z + randomOffset.y);
+            hasTarget = true;
+        }
+
+        // 移動処理
+        Vector3 dir = randomTarget - transform.position;
+        dir.y = 0f;
+
+        if (dir.magnitude > 0.5f) // 目的地まで距離がある
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 5f);
+            rb.velocity = transform.forward * speed;
+            animation.Play("歩く");
+        }
+        else {
+            rb.velocity = Vector3.zero;
+            animation.Play("待機");
+            hasTarget = false; // 次の wanderCooldown で新しいターゲットを決める
+        }
+    }
+
+
     /// <summary>
     /// 追いかける
     /// </summary>
     /// <returns></returns>
-    public async UniTask StartChase()
-    {
-        while (true)
-        {
+    public async UniTask StartChase() {
+        while (true) {
             // プレイヤーが消えていたらループ終了
             if (player == null) {
                 Debug.Log("プレイヤーが消えたので追跡終了");
@@ -223,17 +253,23 @@ public class EnemyCharacter : CharacterBase
             Vector3 dir = (player.transform.position - transform.position).normalized;
             // プレイヤーとの距離チェック
             float distance = Vector3.Distance(transform.position, player.transform.position);
-           // Debug.Log($"プレイヤーとの距離: {distance}");
+            Vector3 flatTargetPos = player.transform.position;
+            flatTargetPos.y = transform.position.y; // 高さを合わせる
 
-            if (distance < attackArea)
-            {
+            transform.DOLookAt(flatTargetPos, 0.3f);
+
+            if (distance < attackArea) {
                 // 攻撃に移るなど
                 await SetNextState(new AttackState());
                 break;
             }
-            else
-            {
-                rb.velocity = dir * speed * 2;
+            else if (distance > 2) {
+                rb.velocity = dir * speed * 4;
+                animation.Play("ダッシュ");
+            }
+            else {
+                rb.velocity = dir * speed * 1;
+                animation.Play("歩く");
             }
 
             // 0.1秒ごとにチェック（負荷軽減）
@@ -247,32 +283,28 @@ public class EnemyCharacter : CharacterBase
     /// 攻撃をする範囲と攻撃の実行
     /// </summary>
     /// <returns></returns>
-    public async UniTask StartAttack(int attackType)
-    {
-        var selectedType = (AttackType)attackType;
+    public async UniTask StartAttack(int attackType) {
+        if (hitDamage) return;
+        var selectedType = (AttackType) attackType;
 
         // もし同じ攻撃タイプだったら通常攻撃に強制変更
-        if (lastAttackType == selectedType)
-        {
+        if (lastAttackType == selectedType) {
             Debug.Log("同じ攻撃だったので当てに行く攻撃に切り替え");
             selectedType = AttackType.Going;
         }
 
         rb.velocity = Vector3.zero;
         //selectedType = AttackType.Counter;
-        if (attackStrategies.TryGetValue(selectedType, out var strategy))
-        {
+        if (attackStrategies.TryGetValue(selectedType, out var strategy)) {
             lastAttackType = selectedType;
             await strategy.Execute(this);
         }
-        else
-        {
+        else {
             Debug.LogWarning($"未定義の攻撃タイプ: {selectedType}");
         }
     }
 
-    public override async UniTask GoingAttack()
-    {
+    public override async UniTask GoingAttack() {
         //ここの文の書き方がきもいからなんか変えたい
         const float attackTime = 2;
         const string attackName = "攻撃当てる";
@@ -283,12 +315,11 @@ public class EnemyCharacter : CharacterBase
         Attack(player.transform.position);
 
         // アニメーションの終了を待つ（基底のクラスの関数）
-       // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
+        // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
 
     }
 
-    public override async UniTask LongRangeAttack()
-    {
+    public override async UniTask LongRangeAttack() {
         const int bulletCount = 10;
         const float interval = 0.5f;
 
@@ -302,8 +333,7 @@ public class EnemyCharacter : CharacterBase
         // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
     }
 
-    public override UniTask CounterAttack()
-    {
+    public override UniTask CounterAttack() {
         return UniTask.CompletedTask;
     }
     /// <summary>
@@ -312,21 +342,18 @@ public class EnemyCharacter : CharacterBase
     /// <param name="time"></param>
     /// <param name="warningLineName"></param>
     /// <returns></returns>
-    private async UniTask<bool> ChargeTime(float time, string warningLineName)
-    {
+    private async UniTask<bool> ChargeTime(float time, string warningLineName) {
         float currentChargeTime = 0f;
 
         //攻撃のチャージ時間
-        while (currentChargeTime <= time)
-        {
+        while (currentChargeTime <= time) {
             currentChargeTime += Time.deltaTime;
             await UniTask.DelayFrame(1);
         }
 
         return true;
     }
-    public override async UniTask TakeDistance()
-    {
+    public override async UniTask TakeDistance() {
 
         //プレイヤーから一定の距離を取る処理（ワンちゃん崖に落ちのでどうしよう）
         //崖に落ちるくらいなら地面の中心に戻す×
@@ -334,13 +361,11 @@ public class EnemyCharacter : CharacterBase
         //後ろの距離を取る地点の取得
         Vector3 fallPoint = transform.localPosition + -transform.forward * 4f;
 
-        if (!CheckGrounded(fallPoint / 2))
-        {
+        if (!CheckGrounded(fallPoint / 2)) {
             //Debug.Log("後ろには飛べない");
             return;
         }
 
-        animator.SetTrigger("takeDistance");
 
         // 400ms待つ
         await UniTask.Delay(400);
@@ -353,8 +378,7 @@ public class EnemyCharacter : CharacterBase
     /// <summary>
     /// 首をプレイヤーに向かせる
     /// </summary>
-    public void RotateTowardsPlayer()
-    {
+    public void RotateTowardsPlayer() {
         if (actionCategory == Action.Attack) return;
         Vector3 targetDir = player.transform.position - transform.position;
         targetDir.y = 0f; // 水平方向のみに限定
@@ -364,23 +388,20 @@ public class EnemyCharacter : CharacterBase
 
         //首の回る最大数
         float maxAngle = 40;
-        if (Mathf.Abs(angle) <= maxAngle)
-        {
+        if (Mathf.Abs(angle) <= maxAngle) {
 
             Vector3 lookTarget = player.transform.position + Vector3.up * 0.5f;
             neck.transform.rotation = Quaternion.LookRotation(lookTarget - neck.position);
 
         }
-        else
-        {
+        else {
             // 首の範囲を超えたら体をゆっくり回す
             Quaternion targetRot = Quaternion.LookRotation(targetDir);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 3f); // ←回転速度
         }
     }
 
-    private Vector3 PickRandomDirection()
-    {
+    private Vector3 PickRandomDirection() {
         float radius = 7f;
         Vector2 randomOffset = UnityEngine.Random.insideUnitCircle * radius;
         return new Vector3(transform.position.x + randomOffset.x, transform.position.y, transform.position.z + randomOffset.y);
@@ -388,37 +409,30 @@ public class EnemyCharacter : CharacterBase
     /// <summary>
     /// プレイヤーかどうか
     /// </summary>
-    public override bool IsPlayer()
-    {
+    public override bool IsPlayer() {
         return false;
     }
     /// <summary>
     /// 死亡時処理
     /// </summary>
-    public override void Dead()
-    {
+    public override void Dead() {
+        animation.Play("死ぬ");
     }
 
-    public bool GetHitDamage()
-    {
+    public bool GetHitDamage() {
         return hitDamage;
     }
-    public void SetHitDamage(bool set)
-    {
+    public void SetHitDamage(bool set) {
         hitDamage = set;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Weapon")
-        {
-            PlayerCharacter player = other.transform.root.Find("Player(Clone)").GetComponent<PlayerCharacter>();
-            if (player.isAttacking)
-            {
+    private void OnTriggerEnter(Collider other) {
+        if (other.gameObject.tag == "Weapon") {
+            PlayerCharacter player = other.transform.root.GetComponent<PlayerCharacter>();
+            if (player == null) return;
+            if (player.isAttacking) {
+                playerFound = true;
                 
-                
-
-                //プレイヤーの持ち物の攻撃力を足す
                 //ダメージ計算
                 float damage = rawAttack + player.GetWeaponAttack() + player.GetAccessaryAttack();
 
@@ -426,39 +440,42 @@ public class EnemyCharacter : CharacterBase
                 damage += Random.Range(-5, 6);
 
                 //さすがに0ダメージは可愛そうだと思う
-                if(damage <= 0) {
+                if (damage <= 0) {
                     damage = 1;
                 }
 
-                //ダメージを与える
-                HP -= damage;
-
-                //ダメージ表示
                 Damage(this.GetComponent<Collider>(),(int)damage);
 
+                HP -= damage;    
+
                 AudioManager.instance.PlaySE(0);
-                HitEffect(this.GetComponent<Collider>());
+                HitEffect(other.transform.position);
             }
         }
     }
-    public void Damage(Collider collider , int damage)
-    {
+    public void Damage(Collider collider, int damage) {
 
         DamageUI DUI = damageUI;
         if (DUI != null) {
             DamageUI createObject = Instantiate(DUI, collider.bounds.center - Camera.main.transform.forward * 0.2f, Quaternion.identity);
             // 計算
-            
+
             // テキストに表示
 
             createObject.ChangeDamageText(damage.ToString());
         }
-
     }
 
-    private void HitEffect(Collider collider) {
-        ParticleSystem hitEffectClone = Instantiate(hitEffect, collider.transform.position, Quaternion.identity);
+    protected virtual void HitEffect(Vector3 hitPos) {
+        hitDamage = true;
+        ParticleSystem hitEffectClone = Instantiate(hitEffect, hitPos, Quaternion.identity);
         Destroy(hitEffectClone.gameObject, 2);
+
+
+        //ノックバックを与える
+        rb.velocity = Vector3.zero;
+        Vector3 playerDir = player.transform.position - transform.position;
+        rb.velocity = -hitPos.normalized * 1 + -playerDir * 1;
     }
 
 }
