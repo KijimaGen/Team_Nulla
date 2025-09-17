@@ -120,11 +120,11 @@ public class MiniBoss_OZN : EnemyCharacter
         Attack(player.transform.position);
         int rand = Random.Range(0, 2);
 
-        if(rand == 0)
+        if (rand == 0)
         {
             animation.Play("Ç¬Ç©Ç›îªíË");
         }
-        if(rand == 1)
+        if (rand == 1)
         {
             animation.Play("çUåÇ1");
         }
@@ -142,7 +142,7 @@ public class MiniBoss_OZN : EnemyCharacter
         }
         if (rand == 1)
         {
-           
+
         }
 
         return;
@@ -178,7 +178,7 @@ public class MiniBoss_OZN : EnemyCharacter
     public void Attack2_Effect()
     {
         Quaternion rot = transform.rotation * Quaternion.Euler(0, -90, 0);
-        ParticleSystem effect = Instantiate(crossEffect, transform.position, rot);        
+        ParticleSystem effect = Instantiate(crossEffect, transform.position, rot);
     }
     public void AttackCatch_Effect()
     {
@@ -187,4 +187,8 @@ public class MiniBoss_OZN : EnemyCharacter
         Instantiate(CatchSmokeEffect, effectPos, transform.rotation);
     }
 
+    protected override void HitEffect(Vector3 hitPos)
+    {
+        base.HitEffect(hitPos);
+    }
 }
