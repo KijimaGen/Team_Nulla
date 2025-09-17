@@ -5,7 +5,11 @@
  * @date 2025/7/9
  */
 
+using TMPro;
 using UnityEngine;
+using static GameConst;
+using static CommonModule;
+using UnityEngine.UI;
 
 public abstract class ItemBase : MonoBehaviour{
 
@@ -26,12 +30,39 @@ public abstract class ItemBase : MonoBehaviour{
     
     //回転の速度
     private float rotationSpeed = 90f;
-    
+
+    //自身の情報を提示するアイテム
+    [SerializeField]
+    private GameObject myStatusItem;
+    //自身のレアリティ
+    protected Rarity rarity;
+
+    //自身のレアリティのテキスト
+    [SerializeField]
+    private TextMeshProUGUI RarityText;
+
+    //自身のアイコン
+    [SerializeField]
+    private Image myIcon;
+
+    /// <summary>
+    /// 自分が武器かどうか
+    /// </summary>
+    /// <returns></returns>
+    public abstract bool isWeapon();
+
 
     /// <summary>
     /// 初期化処理(基底クラスに任せる)
     /// </summary>
-    public abstract void Initialize();
+    public virtual void Initialize() {
+        //レアリティをランダム抽選
+        rarity = GetRandomRarity();
+        //
+        RarityText.text = "Rarity : " + RareToString(rarity);
+        EffectManager.instance.InstantiateEffectFromRare(this.transform, rarity);
+    }
+
 
     /// <summary>
     /// 落下処理
@@ -57,6 +88,7 @@ public abstract class ItemBase : MonoBehaviour{
             //UIの文字を変えて表示をつける
             UIManager.instance.ChangeVisibleinteractCanvas(true);
             UIManager.instance.ChangeInteractText("GetItem");
+            myStatusItem.SetActive(true);
         }
     }
 
@@ -73,6 +105,7 @@ public abstract class ItemBase : MonoBehaviour{
             isPlayerInRange = false;
             //UIの表示を切る
             UIManager.instance.ChangeVisibleinteractCanvas(false);
+            myStatusItem.SetActive(false);
         }
     }
 
@@ -86,37 +119,30 @@ public abstract class ItemBase : MonoBehaviour{
 
 
     private void Update() {
-        
-        
-
         //プレイヤーに触れていたら自身を未使用状態にする
-
-        if (isPlayerPosses)
-            transform.localPosition = new Vector3(0,2,0);
-        else
+        if(!isGround)
             Fall();
         
-            //Y軸回転
-            transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
-            
-        
+        //Y軸回転
+        transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
     }
 
 
     private void OnEnable() {
         //プレイヤーイベントを購読
-        PlayerOpenChester.OnInteract += TryOpenChest;
+        PlayerOpenChester.OnInteract += TryGetItem;
+        myStatusItem.SetActive(false);
     }
 
     private void OnDisable() {
         //イベント購読解除
-        PlayerOpenChester.OnInteract -= TryOpenChest;
+        PlayerOpenChester.OnInteract -= TryGetItem;
     }
 
     /// <summary>
     /// 名前は完全なる嘘ですこれはアイテムを拾うためのスクリプト
     /// </summary>
-    private void TryOpenChest() {
+    private void TryGetItem() {
         //近くにプレイヤーいなければ何もしない
         if (!isPlayerInRange) return;
         if (isPlayerPosses) return;
@@ -125,5 +151,8 @@ public abstract class ItemBase : MonoBehaviour{
         UIManager.instance.ChangeVisibleinteractCanvas(false);
         AudioManager.instance.PlaySE(3);
         ItemUtility.GetItem(itemID);
+        myStatusItem.SetActive(false);
     }
+
+
 }

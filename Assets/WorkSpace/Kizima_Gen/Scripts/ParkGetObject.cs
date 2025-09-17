@@ -5,7 +5,7 @@
  * @date 2025/9/10
  */
 using UnityEngine;
-using static UnityEditor.Progress;
+
 
 public class ParkGetObject : MonoBehaviour{
 

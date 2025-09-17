@@ -29,9 +29,11 @@ public abstract class CharacterBase : MonoBehaviour
 
     public float runSpeed { get; protected set; } = -1;
     public float walkSpeed { get; protected set; } = -1;
-    public List<int> possessItemList { get; protected set; } = null;
+    public List<ItemBase> possessItemList { get; protected set; } = null;
     //ŠƒAƒCƒeƒ€‚ÌÅ‘å”
-    private static readonly int _POSSESS_ITEM_MAX = 6;
+    public static readonly int _POSSESS_ITEM_MAX = 5;
+    //Š•Ší
+    public static ItemBase possessWeapon { get; protected set; }
 
     protected new Animation animation;
     protected Rigidbody rb;
@@ -216,14 +218,6 @@ public abstract class CharacterBase : MonoBehaviour
         return possessItemList.Count < _POSSESS_ITEM_MAX;
     }
 
-    public void AddItem(int addItemID)
-    {
-        possessItemList.Add(addItemID);
-    }
-    public void RemoveItem(int removeItemID)
-    {
-        possessItemList.Remove(removeItemID);
-    }
 
     protected bool CheckGrounded(Vector3 dir)
     {
