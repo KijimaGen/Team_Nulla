@@ -22,7 +22,7 @@ public class EnemyCharacter : CharacterBase
     float actionTime;
 
     [SerializeField] Transform neck;
-    [SerializeField] protected GameObject prefabBullet;
+    //[SerializeField] protected GameObject prefabBullet;
     // ヒットエフェクト
     [SerializeField]
     private ParticleSystem hitEffect;
@@ -340,7 +340,7 @@ public class EnemyCharacter : CharacterBase
             return;
         }
 
-        animator.SetTrigger("takeDistance");
+        //animator.SetTrigger("takeDistance");
 
         // 400ms待つ
         await UniTask.Delay(400);
