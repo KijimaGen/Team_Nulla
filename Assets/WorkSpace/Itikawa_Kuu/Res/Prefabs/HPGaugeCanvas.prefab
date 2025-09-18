@@ -87,7 +87,6 @@ GameObject:
   - component: {fileID: 6142580014835298537}
   - component: {fileID: 8439638833108804415}
   - component: {fileID: 1983931049770996199}
-  - component: {fileID: 4690437242473928660}
   m_Layer: 5
   m_Name: HPGaugeCanvas
   m_TagString: Untagged
@@ -180,20 +179,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4690437242473928660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7888560988392717633}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3edf8a1b4f714c40835b04bdf97a42e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HPImage: {fileID: 3079093225672806899}
-  DamageImage: {fileID: 6454935446829421369}
 --- !u!1 &8578375013957274959
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,7 +196,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9103168933412855427
 RectTransform:
   m_ObjectHideFlags: 0

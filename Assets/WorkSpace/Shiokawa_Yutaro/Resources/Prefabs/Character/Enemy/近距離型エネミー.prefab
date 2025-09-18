@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 4012454104794412892}
   m_Layer: 7
   m_Name: "\u8FD1\u8DDD\u96E2\u578B\u30A8\u30CD\u30DF\u30FC"
-  m_TagString: Untagged
+  m_TagString: GoingAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

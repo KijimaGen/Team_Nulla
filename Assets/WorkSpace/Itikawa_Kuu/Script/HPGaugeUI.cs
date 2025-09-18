@@ -12,13 +12,17 @@ public class HPGaugeUI : MonoBehaviour
     [SerializeField]
     private Image DamageImage;
     // 最大HP
-    private float MaxHP = 10;
+    private float MaxHP = 100;
     // HP1当たりの幅
     private float HP1Width = 0;
     // 赤ゲージが動き出すまでの時間
     private float waitTime = 0.5f;
-    // デバッグ用仮ダメージ
+    // 総合ダメージ
     private float damage = 0;
+    // 弾の威力
+    private float bulletDamage = 1;
+    // 近接の威力
+    private float punchDamage = 1;
 
     Vector2 gauge;
 
@@ -30,9 +34,7 @@ public class HPGaugeUI : MonoBehaviour
         // ゲージの幅を最大HPで割る
         HP1Width = gauge.x / MaxHP;
 
-        // 仮
-        damage = HP1Width * 1;
-
+        //bulletDamage = Enemy_LongRange.Setup();
     }
 
     // Update is called once per frame
@@ -41,19 +43,34 @@ public class HPGaugeUI : MonoBehaviour
         HPImage.rectTransform.sizeDelta = gauge;
     }
 
-    public void DamageGaugeDown() {
-        DamageImage.rectTransform.sizeDelta = gauge;
-    }
+    //public void DamageGaugeDown() {
+    //    DamageImage.rectTransform.sizeDelta = gauge;
+    //}
 
     //public void DamageProcess() {
     //    gauge.x -= damage;
     //    Invoke(nameof(DamageGaugeDown), waitTime);
     //}
 
-    private void OnCollisionEnter(Collision collider) {
-        if (collider.gameObject.tag == "Bullet") {
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.tag == "Bullet") {
+            // 弾のダメージ
+            damage = HP1Width * bulletDamage;
             gauge.x -= damage;
-            Invoke(nameof(DamageGaugeDown), waitTime);
+            //Invoke(nameof(DamageGaugeDown), waitTime);
+        }
+    }
+
+    private void OnTriggerEnter(Collider collider) {
+        if (collider.gameObject.tag == "Bullet") {
+            // 弾のダメージ
+            damage = HP1Width * bulletDamage;
+            gauge.x -= damage;
+        }
+        if (collider.gameObject.tag == "GoingAttack") {
+            // 近接のダメージ
+            damage = HP1Width * punchDamage;
+            gauge.x -= damage;
         }
     }
 }
