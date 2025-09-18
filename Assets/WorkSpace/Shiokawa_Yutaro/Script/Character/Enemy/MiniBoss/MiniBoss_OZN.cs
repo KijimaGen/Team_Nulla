@@ -24,6 +24,7 @@ public class MiniBoss_OZN : EnemyCharacter
     bool attackChance;
     bool success;
 
+    float currentRawAttack;
 
     public override void Setup()
     {
@@ -36,10 +37,12 @@ public class MiniBoss_OZN : EnemyCharacter
 
         attackArea = 0.5f;
         speed = 2f;
-        maxHP = 10000;
+        maxHP = 500;
         HP = maxHP;
-        rawAttack = 5;
+        rawAttack = 10;
         rawDefense = 0;
+
+        currentRawAttack = rawAttack;
         base.Setup();
     }
 
@@ -93,7 +96,7 @@ public class MiniBoss_OZN : EnemyCharacter
         player.transform.rotation = Quaternion.Euler(0, 0, 0);
         actionCatch = false;
         playerCatch = true;
-
+        rawAttack = currentRawAttack * 5;
         animation.Play("Ç¬Ç©Ç›ê¨å˜");
     }
     public void PlayerRelease()
@@ -122,10 +125,12 @@ public class MiniBoss_OZN : EnemyCharacter
 
         if (rand == 0)
         {
+            
             animation.Play("Ç¬Ç©Ç›îªíË");
         }
         if (rand == 1)
         {
+            rawAttack = currentRawAttack;
             animation.Play("çUåÇ1");
         }
 
@@ -138,6 +143,7 @@ public class MiniBoss_OZN : EnemyCharacter
 
         if (rand == 0)
         {
+            rawAttack = currentRawAttack * 2;
             animation.Play("îÚÇ—çûÇ›çUåÇ");
         }
         if (rand == 1)

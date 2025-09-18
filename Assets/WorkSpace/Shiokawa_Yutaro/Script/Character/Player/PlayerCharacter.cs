@@ -16,7 +16,7 @@ public class PlayerCharacter : CharacterBase
         transform.SetParent(null);
         _playerAction = GetComponent<PlayerAction>();
         speed = 2.5f;
-        maxHP = 10;
+        maxHP = 100;
         HP = maxHP;
         rawAttack = 5;
         rawDefense = 0;
@@ -41,7 +41,7 @@ public class PlayerCharacter : CharacterBase
 
         //ç¿ïWÇÃâ∫å¿
         if(transform.position.y < -1) {
-            SceneManager.LoadScene("Main");
+            //SceneManager.LoadScene("Main");
         }
 
         //ç¿ïWÇÃè„å¿

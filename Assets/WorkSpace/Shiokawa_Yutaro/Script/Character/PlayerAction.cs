@@ -18,6 +18,7 @@ public class PlayerAction : MonoBehaviour
     private float dashThreshold = 0.1f; // 0.25秒以上でダッシュ扱い
     private bool isJumping = false;
     public bool isAvoiding = false;
+    public bool isJustAvoiding = false;
     public bool isCounter = false;
 
     private float AvoidingCoolInterval = 1f;
@@ -30,9 +31,7 @@ public class PlayerAction : MonoBehaviour
     private bool inputShiftButton;
 
 
-    private bool special;
     [SerializeField] private Image specialGauge;
-    private float hitPoint;
 
     private PlayerCharacter player;
 
@@ -104,6 +103,7 @@ public class PlayerAction : MonoBehaviour
             player.SetSpeed(player.walkSpeed);
             isDashing = false;
             isAvoiding = false;
+            isJustAvoiding = false;
             isCounter = false;
             animation.Play("待機");
             
@@ -206,6 +206,9 @@ public class PlayerAction : MonoBehaviour
     {
         isAvoiding = true;
         Debug.Log("回避発動！");
+
+        isJustAvoiding = true;
+
         // プレイヤーの前方向に瞬間的に動かす（例: 回避ロール）
         Vector3 dodgeDir = AcceptDirInput().normalized;
         if (dodgeDir == Vector3.zero)

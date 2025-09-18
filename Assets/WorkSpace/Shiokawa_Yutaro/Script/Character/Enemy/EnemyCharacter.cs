@@ -444,7 +444,7 @@ public class EnemyCharacter : CharacterBase {
                 playerFound = true;
 
                 //ダメージ計算
-                float damage = rawAttack + player.GetWeaponAttack() + player.GetAccessaryAttack();
+                float damage = player.rawAttack + player.GetWeaponAttack() + player.GetAccessaryAttack();
 
                 //乱数を作成
                 damage += Random.Range(-5, 6);
@@ -479,7 +479,7 @@ public class EnemyCharacter : CharacterBase {
 
                 playerFound = true;
 
-                float damage = rawAttack + player.GetWeaponAttack() + player.GetAccessaryAttack();
+                float damage = player.rawAttack + player.GetWeaponAttack() + player.GetAccessaryAttack();
                 damage += Random.Range(-5, 6);
 
                 if (damage <= 0) damage = 1;

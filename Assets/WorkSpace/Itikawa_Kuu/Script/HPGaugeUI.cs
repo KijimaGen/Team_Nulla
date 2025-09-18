@@ -1,46 +1,58 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+using DG.Tweening.Core.Easing;
 
 public class HPGaugeUI : MonoBehaviour
 {
-    // •\–Ê‚ÌHPƒQ[ƒW
+    // è¡¨é¢ã®HPã‚²ãƒ¼ã‚¸
     [SerializeField]
     private Image HPImage;
-    // ƒ_ƒ[ƒW‚ğó‚¯‚½‚Ì™X‚ÉŒ¸‚éƒQ[ƒW
+    // ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸæ™‚ã®å¾ã€…ã«æ¸›ã‚‹ã‚²ãƒ¼ã‚¸
     [SerializeField]
     private Image DamageImage;
-    // Å‘åHP
+    // æœ€å¤§HP
     private float MaxHP = 100;
-    // HP1“–‚½‚è‚Ì•
+    // HP1å½“ãŸã‚Šã®å¹…
     private float HP1Width = 0;
-    // ÔƒQ[ƒW‚ª“®‚«o‚·‚Ü‚Å‚ÌŠÔ
+    // èµ¤ã‚²ãƒ¼ã‚¸ãŒå‹•ãå‡ºã™ã¾ã§ã®æ™‚é–“
     private float waitTime = 0.5f;
-    // ‘‡ƒ_ƒ[ƒW
-    private float damage = 0;
-    // ’e‚ÌˆĞ—Í
+    // ç·åˆãƒ€ãƒ¡ãƒ¼ã‚¸
+   //private float damage = 0;
+    // å¼¾ã®å¨åŠ›
     private float bulletDamage = 1;
-    // ‹ßÚ‚ÌˆĞ—Í
+    // è¿‘æ¥ã®å¨åŠ›
     private float punchDamage = 1;
 
     Vector2 gauge;
 
+    PlayerAction playerAction;
+    PlayerCharacter player;
+
     // Start is called before the first frame update
     void Start()
     {
-        // ƒQ[ƒW‚Ì•‚Æ‚‚³
+        playerAction = GetComponent<PlayerAction>();
+        player = GetComponent<PlayerCharacter>();
+        // ã‚²ãƒ¼ã‚¸ã®å¹…ã¨é«˜ã•
         gauge = HPImage.rectTransform.sizeDelta;
-        // ƒQ[ƒW‚Ì•‚ğÅ‘åHP‚ÅŠ„‚é
-        HP1Width = gauge.x / MaxHP;
+        // ã‚²ãƒ¼ã‚¸ã®å¹…ã‚’æœ€å¤§HPã§å‰²ã‚‹
+        HP1Width = gauge.x / player.maxHP;
 
         //bulletDamage = Enemy_LongRange.Setup();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         HPImage.rectTransform.sizeDelta = gauge;
+        if(Time.timeScale <= 1)
+        {
+            Time.timeScale += 0.01f;
+        }
     }
 
     //public void DamageGaugeDown() {
@@ -54,23 +66,58 @@ public class HPGaugeUI : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "Bullet") {
-            // ’e‚Ìƒ_ƒ[ƒW
-            damage = HP1Width * bulletDamage;
-            gauge.x -= damage;
-            //Invoke(nameof(DamageGaugeDown), waitTime);
+            // å¼¾ã®ãƒ€ãƒ¡ãƒ¼ã‚¸
+            SetDamage(bulletDamage);
         }
     }
 
     private void OnTriggerEnter(Collider collider) {
-        if (collider.gameObject.tag == "Bullet") {
-            // ’e‚Ìƒ_ƒ[ƒW
-            damage = HP1Width * bulletDamage;
-            gauge.x -= damage;
+
+        if (collider.gameObject.tag == "Enemy" && collider is BoxCollider)
+        {
+            if (playerAction.isJustAvoiding)
+            {
+                Time.timeScale = 0.2f;
+                return;
+            }
+            if (playerAction.isAvoiding) return;
+
+            //if (collider.gameObject.tag == "Bullet") {
+            //    // å¼¾ã®ãƒ€ãƒ¡ãƒ¼ã‚¸
+            //    damage = HP1Width * bulletDamage;
+            //    gauge.x -= damage;
+            //}
+
+
+            EnemyCharacter enemy = collider.GetComponent<EnemyCharacter>();
+            // è¿‘æ¥ã®ãƒ€ãƒ¡ãƒ¼ã‚¸            
+            SetDamage(enemy.rawAttack);
         }
-        if (collider.gameObject.tag == "GoingAttack") {
-            // ‹ßÚ‚Ìƒ_ƒ[ƒW
-            damage = HP1Width * punchDamage;
-            gauge.x -= damage;
-        }
+    }
+
+    float duration = 0.2f;
+    float HcurrentRate = 1.0f;
+    private void UpdateFillAmount(Image frontImage, ref float currentRate, float targetRate, float duration, Image burnImage = null)
+    {
+        // 0ã€œ1ã®ç¯„å›²ã«åˆ¶é™
+        targetRate = Mathf.Clamp01(targetRate);
+
+        // DOTweenã§FillAmountã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
+        frontImage.DOFillAmount(targetRate, duration).OnComplete(() =>
+        {
+            if (burnImage == null) return;
+            burnImage.DOFillAmount(targetRate, duration).SetDelay(0.3f);
+        });
+
+        // currentRateã®æ›´æ–°
+        currentRate = targetRate;
+    }
+
+    public void SetDamage(float _damage)
+    {
+        float damage = Mathf.Max(_damage - player.rawDefense, 1);
+        player.SetHP(player.GetHP() - damage);
+        float targetRate = HcurrentRate - _damage / player.maxHP;
+        UpdateFillAmount(HPImage, ref HcurrentRate, targetRate, duration, DamageImage);
     }
 }
