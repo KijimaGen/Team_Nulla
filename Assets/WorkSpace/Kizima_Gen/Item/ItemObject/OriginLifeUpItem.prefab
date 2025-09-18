@@ -101,7 +101,7 @@ MonoBehaviour:
   isPlayerPosses: 0
   myStatusItem: {fileID: 7961681397300233118}
   RarityText: {fileID: 4518729009938488447}
-  myIcon: {fileID: 0}
+  myIcon: {fileID: 21300000, guid: 9080dcd88548ab34fb34bc6c2f10dd0c, type: 3}
   LifeUpText: {fileID: 5319511171729291516}
 --- !u!1 &5077578472043129355
 GameObject:

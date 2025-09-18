@@ -30,6 +30,8 @@ public class UIManager : SystemObject {
     public override void Initialize() {
         instance = this;
         interactCanvas.enabled = false;
+        //ƒV[ƒ“‘JˆÚ‚µ‚Ä‚à‰ó‚ê‚È‚¢
+        DontDestroyOnLoad(this.gameObject);
     }
 
     /// <summary>

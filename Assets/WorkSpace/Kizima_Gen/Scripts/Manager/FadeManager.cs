@@ -27,7 +27,13 @@ public class FadeManager : SystemObject {
     /// <returns></returns>
     public override void Initialize() {
         instance = this;
-        
+
+        // シーンロード時のイベント登録（重複登録を防ぐため一度解除してから登録）
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        //シーン遷移しても壊れない
+        DontDestroyOnLoad(this.gameObject);
     }
 
     /// <summary>
@@ -70,5 +76,15 @@ public class FadeManager : SystemObject {
         }
         targetColor.a = targetAlpha;
         _fadeImage.color = targetColor;
+    }
+
+    /// <summary>
+    /// シーンが切り替わったときのための物
+    /// </summary>
+    /// <param name="scene"></param>
+    /// <param name="mode"></param>
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        //フェードイン
+        _ = FadeIn();
     }
 }

@@ -24,8 +24,12 @@ public class ItemManager : SystemObject{
     //アイテムの最大数
     const int _ITEM_MAX = 256;
 
-    //デバッグ用のplayer
+    //player
     private GameObject player;
+    //プレイヤーのアクセサリーリスト
+    private List<ItemBase> playerItemList = new List<ItemBase>(5); 
+    //プレイヤーの所持アイテム
+    private ItemBase playerWeapon;
 
     /// <summary>
     /// 初期化
@@ -40,8 +44,15 @@ public class ItemManager : SystemObject{
             item.SetItemID(i);
             _unuseList.Add(item);
         }
-        player = GameObject.Find("Player(Clone)");
+
+        //possessItemListに空を詰める
+        for (int i = 0, max = 5; i < max; i++) {
+            playerItemList.Add(null);
+        }
+
         _useList.RemoveAll(item => item == null || item.Equals(null));
+        //シーン遷移しても壊れない
+        DontDestroyOnLoad(this.gameObject);
 
     }
 
@@ -109,7 +120,7 @@ public class ItemManager : SystemObject{
         if (_useList.Contains(getItem)) {
             
             //プレイヤーにアイテムを渡す
-            player = GameObject.Find("Player(Clone)");
+            player = GameObject.FindWithTag("Player");
             player.GetComponent<PlayerCharacter>().GetItem(GetItemFromList(ID));
             getItem.isPlayerPosses = true;
             getItem.gameObject.SetActive(false);
@@ -132,6 +143,10 @@ public class ItemManager : SystemObject{
 
     }
 
+    /// <summary>
+    /// プレイヤーが持っているアイテムの数
+    /// </summary>
+    /// <returns></returns>
     public int GetHasPlayerItemCount() {
         int count = 0;
         //for分を回してその中にisPlayerPossesがtrueなアイテムがあるかを返す
@@ -170,4 +185,18 @@ public class ItemManager : SystemObject{
         }
         return null;
     }
+
+    /// <summary>
+    /// プレイヤーの持っているアイテムを保持する
+    /// </summary>
+    public void SetPlayerItems(List<ItemBase> itemList,ItemBase weapon) {
+        playerItemList = itemList;
+        playerWeapon = weapon;
+    }
+
+
+    //プレイヤーのアイテムを渡す
+    public List<ItemBase> GetPlayerItems() {  return playerItemList; }
+    //プレイヤーの武器を渡す
+    public ItemBase GetPlayerWeapon() { return playerWeapon; }
 }

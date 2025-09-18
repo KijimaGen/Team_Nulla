@@ -1,7 +1,9 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerCharacter : CharacterBase
 {
@@ -24,6 +26,10 @@ public class PlayerCharacter : CharacterBase
         for(int i = 0,max = _POSSESS_ITEM_MAX; i < max; i++) {
             possessItemList.Add(null);
         }
+        //アイテムを返してもらう
+        possessItemList = ItemManager.instance.GetPlayerItems();
+        //武器ももらう
+        possessWeapon = ItemManager.instance.GetPlayerWeapon();
 
         SetStatus();
     }
@@ -34,8 +40,8 @@ public class PlayerCharacter : CharacterBase
         _playerAction.AcceptInput();
 
         //座標の下限
-        if(transform.position.y < -1) { 
-            
+        if(transform.position.y < -1) {
+            SceneManager.LoadScene("Main");
         }
 
         //座標の上限
@@ -134,5 +140,21 @@ public class PlayerCharacter : CharacterBase
                 AccessaryAttackSum += (int)((PowerUpItem) possessItemList[i]).GetAttackValue();
         }
         return AccessaryAttackSum;
+    }
+
+    /// <summary>
+    /// 他のところで保持しておいてもらったアイテム群を再び回収
+    /// </summary>
+    public void GetItemSlot(List<ItemBase> itemList, ItemBase weapon) {
+        possessItemList = itemList;
+        possessWeapon = weapon;
+    }
+
+
+
+
+    private void OnDisable() {
+        //自身が壊されるタイミングでアイテムマネージャーにアイテムを渡す
+        ItemManager.instance.SetPlayerItems(possessItemList, possessWeapon);
     }
 }

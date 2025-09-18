@@ -29,7 +29,7 @@ public abstract class CharacterBase : MonoBehaviour
 
     public float runSpeed { get; protected set; } = -1;
     public float walkSpeed { get; protected set; } = -1;
-    public List<ItemBase> possessItemList { get; protected set; } = null;
+    public static List<ItemBase> possessItemList { get; protected set; } = null;
     //ŠƒAƒCƒeƒ€‚ÌÅ‘å”
     public static readonly int _POSSESS_ITEM_MAX = 5;
     //Š•Ší

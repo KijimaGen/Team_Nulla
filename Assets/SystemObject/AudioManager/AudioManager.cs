@@ -23,6 +23,8 @@ public class AudioManager : SystemObject{
 
     public override void Initialize() {
        instance = this;
+        //ƒV[ƒ“‘JˆÚ‚µ‚Ä‚à‰ó‚ê‚È‚¢
+        DontDestroyOnLoad(this.gameObject);
     }
 
 
