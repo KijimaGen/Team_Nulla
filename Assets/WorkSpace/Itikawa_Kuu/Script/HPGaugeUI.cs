@@ -16,13 +16,16 @@ public class HPGaugeUI : MonoBehaviour
     // HP1当たりの幅
     private float HP1Width = 0;
     // 赤ゲージが動き出すまでの時間
-    private float waitTime = 0.5f;
+    //private float waitTime = 0.5f;
     // 総合ダメージ
     private float damage = 0;
     // 弾の威力
     private float bulletDamage = 1;
     // 近接の威力
     private float punchDamage = 1;
+
+    // HP
+    public static float HP = 100;
 
     Vector2 gauge;
 
@@ -33,7 +36,6 @@ public class HPGaugeUI : MonoBehaviour
         gauge = HPImage.rectTransform.sizeDelta;
         // ゲージの幅を最大HPで割る
         HP1Width = gauge.x / MaxHP;
-
         //bulletDamage = Enemy_LongRange.Setup();
     }
 

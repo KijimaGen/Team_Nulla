@@ -25,7 +25,8 @@ public class TeleportPortal : MonoBehaviour{
         if(collision.gameObject.tag == "Player") {
 
             await FadeManager.instance.FadeOut();
-            collision.transform.position = portal.transform.position;
+            //collision.transform.position = portal.transform.position;
+            SceneManager.LoadScene("Main");
         }
     }
 }
