@@ -10,12 +10,25 @@ using UnityEngine.SceneManagement;
 
 public class SystemManager : SystemObject {
     public List<SystemObject> systemObjectList = null;
+
+    public static SystemManager instance;
     private void Awake() {
+
+        if(instance != null) {
+            Destroy(this.gameObject);
+            return;
+        }
+
         Initialize();
         Application.targetFrameRate = 30;
         MasterdataManager.LoadAllData();
         //フェードイン
         _ = FadeManager.instance.FadeIn();
+        //インスタンスを作成
+        instance = this;
+
+        //シーン遷移しても壊れない
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public override void Initialize() {

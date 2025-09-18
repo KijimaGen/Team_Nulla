@@ -43,7 +43,7 @@ public abstract class ItemBase : MonoBehaviour{
 
     //自身のアイコン
     [SerializeField]
-    private Image myIcon;
+    private Sprite myIcon;
 
     /// <summary>
     /// 自分が武器かどうか
