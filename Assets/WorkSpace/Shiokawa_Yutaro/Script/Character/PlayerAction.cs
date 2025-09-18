@@ -29,6 +29,11 @@ public class PlayerAction : MonoBehaviour
 
     private bool inputShiftButton;
 
+
+    private bool special;
+    [SerializeField] private Image specialGauge;
+    private float hitPoint;
+
     private PlayerCharacter player;
 
     [SerializeField] ParticleSystem attackEfect;
@@ -37,6 +42,10 @@ public class PlayerAction : MonoBehaviour
     [SerializeField] ParticleSystem jumpEfect;
 
     [SerializeField] ParticleSystem specialEffect;
+
+    [SerializeField] Image switchZRButtonImage;
+    [SerializeField] Image switchYButtonImage;
+    [SerializeField] Image switchXButtonImage;
 
 
     Vector2 switchLStickValue;
@@ -467,21 +476,26 @@ public class PlayerAction : MonoBehaviour
         if (context.performed)
         {
             switchYButton = true;
+            switchYButtonImage.color = new Color32(100, 100, 100,255);
         }
         else
         {
             switchYButton = false;
+            switchYButtonImage.color = new Color32(255, 255, 255, 255);
         }
     }
     public void SwitchX(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && specialGauge.fillAmount == 1)
         {
+            specialGauge.fillAmount = 0;
             switchXButton = true;
+            switchXButtonImage.color = new Color32(100, 100, 100, 255);
         }
         else
         {
             switchXButton = false;
+            switchXButtonImage.color = new Color32(255, 255, 255, 255);
         }
     }
     public void SwitchZR(InputAction.CallbackContext context)
@@ -489,10 +503,12 @@ public class PlayerAction : MonoBehaviour
         if (context.performed)
         {
             switchZRButton = true;
+            switchZRButtonImage.color = new Color32(100, 100, 100, 255);
         }
         else
         {
             switchZRButton = false;
+            switchZRButtonImage.color = new Color32(255, 255, 255, 255);
         }
     }
     public void SwitchLStickMove(InputAction.CallbackContext context)
@@ -512,5 +528,10 @@ public class PlayerAction : MonoBehaviour
     /// </summary>
     public void PlayDashSound() {
         AudioManager.instance.PlaySE(7);
+    }
+
+    public float AddHitPoint(float value)
+    {
+        return specialGauge.fillAmount += value;
     }
 }

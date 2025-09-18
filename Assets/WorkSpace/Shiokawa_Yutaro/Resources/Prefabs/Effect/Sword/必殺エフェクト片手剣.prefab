@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 2144067478947734298}
   - component: {fileID: 328044881396264341}
   - component: {fileID: 8450154281960323661}
+  - component: {fileID: 2485828876557676490}
   m_Layer: 0
-  m_Name: "\u5FC5\u6BBA\u30A8\u30D5\u30A7\u30AF\u30C8"
-  m_TagString: Untagged
+  m_Name: "\u5FC5\u6BBA\u30A8\u30D5\u30A7\u30AF\u30C8\u7247\u624B\u5263"
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5006,6 +5007,27 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!65 &2485828876557676490
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839298761249148775}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.6, y: 2.6, z: 2.6}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2163824202989754933
 GameObject:
   m_ObjectHideFlags: 0

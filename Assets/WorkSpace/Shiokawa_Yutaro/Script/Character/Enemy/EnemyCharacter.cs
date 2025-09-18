@@ -412,11 +412,17 @@ public class EnemyCharacter : CharacterBase {
     public override bool IsPlayer() {
         return false;
     }
+
+    bool onDead;
     /// <summary>
     /// 死亡時処理
     /// </summary>
     public override void Dead() {
+        if(onDead) return;
+        rb.velocity = -transform.forward * 2 + Vector3.up * 2;
         animation.Play("死ぬ");
+        Destroy(gameObject, 1);
+        onDead = true;
     }
 
     public bool GetHitDamage() {
@@ -427,12 +433,16 @@ public class EnemyCharacter : CharacterBase {
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.gameObject.tag == "Weapon") {
+        if (other.gameObject.tag == "Weapon")
+        {
+
             PlayerCharacter player = other.transform.root.GetComponent<PlayerCharacter>();
+            PlayerAction playerAction = other.transform.root.GetComponent<PlayerAction>();
             if (player == null) return;
-            if (player.isAttacking) {
+            if (player.isAttacking)
+            {
                 playerFound = true;
-                
+
                 //ダメージ計算
                 float damage = rawAttack + player.GetWeaponAttack() + player.GetAccessaryAttack();
 
@@ -440,26 +450,56 @@ public class EnemyCharacter : CharacterBase {
                 damage += Random.Range(-5, 6);
 
                 //さすがに0ダメージは可愛そうだと思う
-                if (damage <= 0) {
+                if (damage <= 0)
+                {
                     damage = 1;
                 }
 
-                Damage(this.GetComponent<Collider>(),(int)damage);
+                Damage(this.GetComponent<Collider>(), (int)damage);
 
-                HP -= damage;    
+                HP -= damage;
+                playerAction.AddHitPoint(damage*0.01f);
 
                 AudioManager.instance.PlaySE(0);
                 HitEffect(other.transform.position);
             }
         }
     }
+
+    private float lastHitTime = -999f;
+    private float hitInterval = 0.5f; // 0.5秒に1回ダメージ
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.name == "必殺エフェクト片手剣(Clone)")
+        {
+            if (Time.time - lastHitTime > hitInterval)
+            {
+                lastHitTime = Time.time;
+
+                playerFound = true;
+
+                float damage = rawAttack + player.GetWeaponAttack() + player.GetAccessaryAttack();
+                damage += Random.Range(-5, 6);
+
+                if (damage <= 0) damage = 1;
+
+                Damage(this.GetComponent<Collider>(), (int)damage);
+                HP -= damage;
+
+                AudioManager.instance.PlaySE(0);
+                HitEffect(other.transform.position);
+            }
+        }
+    }
+
     public void Damage(Collider collider, int damage) {
 
         DamageUI DUI = damageUI;
         if (DUI != null) {
             DamageUI createObject = Instantiate(DUI, collider.bounds.center - Camera.main.transform.forward * 0.2f, Quaternion.identity);
             // 計算
-
+            
             // テキストに表示
 
             createObject.ChangeDamageText(damage.ToString());
