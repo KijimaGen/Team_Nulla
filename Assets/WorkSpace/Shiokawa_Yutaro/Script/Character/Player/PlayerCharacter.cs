@@ -154,6 +154,11 @@ public class PlayerCharacter : CharacterBase
 
 
     private void OnDisable() {
+        SendItemList();
+    }
+
+    //アイテムリストを送る
+    public void SendItemList() {
         //自身が壊されるタイミングでアイテムマネージャーにアイテムを渡す
         ItemManager.instance.SetPlayerItems(possessItemList, possessWeapon);
     }

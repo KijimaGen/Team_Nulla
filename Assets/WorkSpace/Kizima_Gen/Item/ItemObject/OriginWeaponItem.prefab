@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3554391371959317420}
   m_Layer: 3
   m_Name: OriginWeaponItem
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,6 +103,7 @@ MonoBehaviour:
   isPlayerPosses: 0
   myStatusItem: {fileID: 841863111330607874}
   RarityText: {fileID: 6586150592800222435}
+  myIcon: {fileID: 0}
   AttackText: {fileID: 3171033575006029920}
 --- !u!1 &5077578472043129355
 GameObject:
