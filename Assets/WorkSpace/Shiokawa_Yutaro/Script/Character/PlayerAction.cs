@@ -88,7 +88,7 @@ public class PlayerAction : MonoBehaviour
         if (AcceptMove()) return;
 
     }
-
+    float justAvoidingTime = 0.05f;
     /// <summary>
     /// 移動の受付、内部処理
     /// </summary>
@@ -114,6 +114,10 @@ public class PlayerAction : MonoBehaviour
 
         if (isDashing)
         {
+            Vector3 v = rb.velocity;
+            v.y = 0;
+            rb.velocity = v;
+
             player.SetSpeed(player.runSpeed);
             TriggerDash();
             //Debug.Log("ダッシュの開幕時間 : " + shiftPressTime);
@@ -127,6 +131,10 @@ public class PlayerAction : MonoBehaviour
             else if (shiftPressTime < dashThreshold)
             {
                 TriggerDodge(player);
+            }
+            if(shiftPressTime > justAvoidingTime)
+            {
+                isJustAvoiding = false;
             }
             
         }
@@ -198,6 +206,7 @@ public class PlayerAction : MonoBehaviour
         return Physics.Raycast(origin, Vector3.down, rayLength);
     }
 
+    
     /// <summary>
     /// 回避処理
     /// </summary>
@@ -205,9 +214,8 @@ public class PlayerAction : MonoBehaviour
     private void TriggerDodge(PlayerCharacter player)
     {
         isAvoiding = true;
-        Debug.Log("回避発動！");
-
         isJustAvoiding = true;
+
 
         // プレイヤーの前方向に瞬間的に動かす（例: 回避ロール）
         Vector3 dodgeDir = AcceptDirInput().normalized;
@@ -235,6 +243,7 @@ public class PlayerAction : MonoBehaviour
         //アニメーション(一度だけ)
 
         animation.Play("ダッシュ");
+        
         //Debug.Log("プレイやーがダッシュ発動");
         isCounter = true;
     }
@@ -358,8 +367,7 @@ public class PlayerAction : MonoBehaviour
             .Where(e => e != null && !e.isDead)
             .OrderBy(e => Vector3.Distance(transform.position, e.transform.position))
             .FirstOrDefault();
-
-        //if (nearestEnemy == null) return;
+        if (nearestEnemy == null) return;
 
         player.Attack(nearestEnemy.transform.position);
 

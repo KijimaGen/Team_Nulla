@@ -22,7 +22,7 @@ public class HPGaugeUI : MonoBehaviour
     // 総合ダメージ
    //private float damage = 0;
     // 弾の威力
-    private float bulletDamage = 1;
+    private float bulletDamage = 5;
     // 近接の威力
     private float punchDamage = 1;
 
@@ -51,7 +51,7 @@ public class HPGaugeUI : MonoBehaviour
         HPImage.rectTransform.sizeDelta = gauge;
         if(Time.timeScale <= 1)
         {
-            Time.timeScale += 0.01f;
+            Time.timeScale += 0.02f;
         }
     }
 
@@ -72,7 +72,11 @@ public class HPGaugeUI : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider collider) {
-
+        if (collider.gameObject.tag == "Bullet")
+        {
+            // 弾のダメージ
+            SetDamage(bulletDamage);
+        }
         if (collider.gameObject.tag == "Enemy" && collider is BoxCollider)
         {
             if (playerAction.isJustAvoiding)

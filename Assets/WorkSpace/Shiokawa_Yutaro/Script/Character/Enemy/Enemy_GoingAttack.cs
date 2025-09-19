@@ -14,11 +14,11 @@ public class Enemy_GoingAttack : EnemyCharacter
         };
 
         attackArea = 0.5f;
-        speed = 1.5f;
-        maxHP = 15;
+        speed = Random.Range(1, 3);
+        maxHP = Random.Range(20, 40);
         HP = maxHP;
-        rawAttack = 5;
-        rawDefense = 0;
+        rawAttack = Random.Range(3, 10); ;
+        rawDefense = Random.Range(1, 5); ;
         base.Setup();
     }
 
@@ -33,9 +33,17 @@ public class Enemy_GoingAttack : EnemyCharacter
 
     }
 
-    protected override void HitEffect(Vector3 hitPos)
+    protected override void HitEffect(Vector3 hitPos, float damage)
     {
-        animation.Play("ダメージを受ける");
-        base.HitEffect(hitPos);
+        if (damage > HP / 3)
+        {
+            animation.Play("ダメージを受ける");
+        }
+
+        base.HitEffect(hitPos, damage);
+    }
+    public override void Dead()
+    {
+        base.Dead();
     }
 }
