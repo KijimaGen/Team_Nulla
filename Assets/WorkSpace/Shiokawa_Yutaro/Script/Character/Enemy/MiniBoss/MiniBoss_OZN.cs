@@ -19,6 +19,8 @@ public class MiniBoss_OZN : EnemyCharacter
     [SerializeField] private ParticleSystem CatchSmokeEffect;
     [SerializeField] private ParticleSystem crossEffect;
 
+    [SerializeField] private GameObject warp;
+
     float attackChanceTime;
     float attackChanceInterval;
     bool attackChance;
@@ -70,12 +72,10 @@ public class MiniBoss_OZN : EnemyCharacter
 
         float heightDiff = Mathf.Abs(hand.position.y - player.transform.position.y);
 
-        if (actionCatch && distXZ <= 0.4f && heightDiff >= 0.45f)
+        if (actionCatch && distXZ <= 0.4f && heightDiff >= 0.45f && player.GetComponent<Collider>().enabled == true)
         {
             PlayerCatch();
         }
-
-        Debug.Log($"XZãóó£: {distXZ}, çÇÇ≥ç∑: {heightDiff}");
 
 
     }
@@ -193,8 +193,14 @@ public class MiniBoss_OZN : EnemyCharacter
         Instantiate(CatchSmokeEffect, effectPos, transform.rotation);
     }
 
-    protected override void HitEffect(Vector3 hitPos)
+    protected override void HitEffect(Vector3 hitPos,float damage)
     {
-        base.HitEffect(hitPos);
+        base.HitEffect(hitPos,damage);
+    }
+
+    public override void Dead()
+    {
+        Destroy(gameObject);
+        Instantiate(warp,new Vector3(0, -7.46f, 0),Quaternion.identity);
     }
 }

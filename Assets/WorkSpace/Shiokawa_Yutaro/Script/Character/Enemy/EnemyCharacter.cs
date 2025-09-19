@@ -58,7 +58,7 @@ public class EnemyCharacter : CharacterBase {
     // Update is called once per frame
     protected virtual void Update() {
         //死んでたらリターン
-        if (isDead) { Dead(); return; }
+        if (isDead) { animation.Play("死ぬ"); return; }
         if (!ViewAction()) return;
 
         StateTick().Forget();
@@ -418,10 +418,8 @@ public class EnemyCharacter : CharacterBase {
     /// 死亡時処理
     /// </summary>
     public override void Dead() {
-        if(onDead) return;
         rb.velocity = -transform.forward * 2 + Vector3.up * 2;
-        animation.Play("死ぬ");
-        Destroy(gameObject, 1);
+        Destroy(gameObject);
         onDead = true;
     }
 
@@ -461,7 +459,7 @@ public class EnemyCharacter : CharacterBase {
                 playerAction.AddHitPoint(damage*0.01f);
 
                 AudioManager.instance.PlaySE(0);
-                HitEffect(other.transform.position);
+                HitEffect(other.transform.position,damage);
             }
         }
     }
@@ -488,7 +486,7 @@ public class EnemyCharacter : CharacterBase {
                 HP -= damage;
 
                 AudioManager.instance.PlaySE(0);
-                HitEffect(other.transform.position);
+                HitEffect(other.transform.position,damage);
             }
         }
     }
@@ -506,16 +504,19 @@ public class EnemyCharacter : CharacterBase {
         }
     }
 
-    protected virtual void HitEffect(Vector3 hitPos) {
+    protected virtual void HitEffect(Vector3 hitPos , float damage) {
         hitDamage = true;
         ParticleSystem hitEffectClone = Instantiate(hitEffect, hitPos, Quaternion.identity);
         Destroy(hitEffectClone.gameObject, 2);
 
-
-        //ノックバックを与える
-        rb.velocity = Vector3.zero;
-        Vector3 playerDir = player.transform.position - transform.position;
-        rb.velocity = -hitPos.normalized * 1 + -playerDir * 1;
+        if(damage > HP / 3)
+        {
+            //ノックバックを与える
+            rb.velocity = Vector3.zero;
+            Vector3 playerDir = player.transform.position - transform.position;
+            rb.velocity = Vector3.up + -playerDir * 2;
+        }
+        
     }
 
 }

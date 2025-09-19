@@ -15,11 +15,11 @@ public class Enemy_LongRange : EnemyCharacter
         };
 
         attackArea = 4;
-        speed = 1;
-        maxHP = 10;
+        speed = Random.Range(1, 3);
+        maxHP = Random.Range(20,40);
         HP = maxHP;
-        rawAttack = 5;
-        rawDefense = 0;
+        rawAttack = Random.Range(3, 10); ;
+        rawDefense = Random.Range(1, 5); ;
         base.Setup();
     }
 
@@ -53,9 +53,17 @@ public class Enemy_LongRange : EnemyCharacter
         // アニメーションの終了を待つ（基底のクラスの関数）
         // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
     }
-    protected override void HitEffect(Vector3 hitPos)
+    protected override void HitEffect(Vector3 hitPos, float damage)
     {
-        animation.Play("ダメージを受ける");
-        base.HitEffect(hitPos);
+        if (damage > HP / 3)
+        {
+            animation.Play("ダメージを受ける");
+        }
+            
+        base.HitEffect(hitPos,damage);
+    }
+    public override void Dead()
+    {
+        base.Dead();
     }
 }

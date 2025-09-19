@@ -11,10 +11,12 @@ using UnityEngine.SceneManagement;
 public class TeleportPortal : MonoBehaviour{
     //èâä˙à íu
     const float InitializePos = 0.5f;
-
+    //à⁄ìÆêÊ
+    private GameObject hole;
+    [SerializeField] EnemyCharacter[] MiniBoss;
 
     void Start(){
-        
+        hole = GameObject.Find("PortalHole");
         transform.position = new Vector3(transform.position.x,InitializePos,transform.position.z);
     }
 
@@ -24,8 +26,13 @@ public class TeleportPortal : MonoBehaviour{
 
             await FadeManager.instance.FadeOut();
 
-            SceneManager.LoadScene("Main");
+           // SceneManager.LoadScene("Main");
+           collision.gameObject.transform.position = hole.transform.position;
+           collision.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            await FadeManager.instance.FadeIn(3);
 
+            Instantiate(MiniBoss[0]);
+            hole.SetActive(false);
         }
     }
 }
