@@ -48,4 +48,16 @@ public class GameOver : MonoBehaviour {
     public void Down(InputAction.CallbackContext context) {
         Exit.Select();
     }
+
+    public void Push()
+    {
+        if (selectObject.name == "Retry")
+        {
+            SceneManager.LoadScene("Main");
+        }
+        else if (selectObject.name == "Exit")
+        {
+            Application.Quit();
+        }
+    }
 }
