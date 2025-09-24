@@ -26,7 +26,7 @@ public class TeleportPortal : MonoBehaviour{
 
             await FadeManager.instance.FadeOut();
 
-           // SceneManager.LoadScene("Main");
+           SceneManager.LoadScene("Main");
            collision.gameObject.transform.position = hole.transform.position;
            collision.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             await FadeManager.instance.FadeIn(3);

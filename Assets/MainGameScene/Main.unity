@@ -146065,6 +146065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ea509f3bf483f46b37f10fc6a99bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MiniBoss: []
 --- !u!54 &2091790105
 Rigidbody:
   m_ObjectHideFlags: 0
