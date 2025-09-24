@@ -251,8 +251,8 @@ public class PlayerAction : MonoBehaviour
     /// <returns></returns>
     public Vector3 AcceptDirInput()
     {
-        float moveX = 0;
-        float moveZ = 0;
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveZ = Input.GetAxisRaw("Vertical");
 
         Vector3 input = new Vector3(switchLStickValue.x + moveX, 0, switchLStickValue.y + moveZ);
         input = Vector3.ClampMagnitude(input, 1f); // éŒÇﬂà⁄ìÆÇï‚ê≥
