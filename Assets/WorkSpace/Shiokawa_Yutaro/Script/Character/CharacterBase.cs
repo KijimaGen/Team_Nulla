@@ -88,9 +88,6 @@ public abstract class CharacterBase : MonoBehaviour
     {
         speed = setValue;
     }
-
-    public float GetSpeed() { return speed; }
-
     /// <summary>
     /// UŒ‚—Íæ“¾
     /// </summary>
@@ -290,6 +287,5 @@ public abstract class CharacterBase : MonoBehaviour
     public abstract UniTask LongRangeAttack();
     public abstract UniTask TakeDistance();
     public abstract UniTask CounterAttack();
-
 }
 

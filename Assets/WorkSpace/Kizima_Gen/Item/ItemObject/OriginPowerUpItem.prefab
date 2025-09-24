@@ -53,7 +53,7 @@ MonoBehaviour:
   isPlayerPosses: 0
   myStatusItem: {fileID: 7961681397300233118}
   RarityText: {fileID: 4518729009938488447}
-  myIcon: {fileID: 21300000, guid: f10f04ec9c02e774e99d2694f89669e4, type: 3}
+  myIcon: {fileID: 0}
   AttackText: {fileID: 5319511171729291516}
 --- !u!135 &5923354411171800338
 SphereCollider:

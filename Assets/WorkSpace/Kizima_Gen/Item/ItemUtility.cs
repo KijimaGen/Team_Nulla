@@ -23,11 +23,8 @@ public class ItemUtility{
     }
 
     public static void RemoveItem(int ID, Vector3 removePos) {
+        
+
         ItemManager.instance.RemoveItem(ID, removePos);
     }
-
-    //プレイヤーのアイテムを渡す
-    public static List<ItemBase> GetPlayerItems() { return ItemManager.instance.GetPlayerItems(); }
-    //プレイヤーの武器を渡す
-    public static ItemBase GetPlayerWeapon() { return ItemManager.instance.GetPlayerWeapon(); }
 }

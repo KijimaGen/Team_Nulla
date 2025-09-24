@@ -6,8 +6,6 @@
  */
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-
 public class ItemManager : SystemObject{
     public static ItemManager instance;
 
@@ -56,9 +54,6 @@ public class ItemManager : SystemObject{
         //シーン遷移しても壊れない
         DontDestroyOnLoad(this.gameObject);
 
-        //シーンマネージャーにシーン遷移したときに処理を呼んでもらう 
-        SceneManager.sceneLoaded += OnSceneLoaded;
-
     }
 
     /// <summary>
@@ -87,8 +82,8 @@ public class ItemManager : SystemObject{
     /// </summary>
     /// <param name="ID"></param>
     public void UnuseItem(int ID) {
-        if (GetItemFromList(ID) == null) return;
-        ItemBase item = GetItemFromList(ID);
+        if (_useList[ID] ==  null) return;
+        ItemBase item = _useList[ID];
 
         if (_useList.Contains(item)) {
             _useList.Remove(item);
@@ -204,20 +199,4 @@ public class ItemManager : SystemObject{
     public List<ItemBase> GetPlayerItems() {  return playerItemList; }
     //プレイヤーの武器を渡す
     public ItemBase GetPlayerWeapon() { return playerWeapon; }
-
-    /// <summary>
-    /// シーン遷移時にアイテムを不使用状態にする
-    /// </summary>
-    /// <param name="scene"></param>
-    /// <param name="mode"></param>
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        for(int i = 0, max = _useList.Count; i < max; i++) {
-            //プレイヤーが持っている物だったらスルー
-            if (GetItemFromList(_useList[i].itemID).isPlayerPosses) continue;
-
-            //不使用状態にする
-            UnuseItem(_useList[i].itemID);
-        }
-    }
-
 }
