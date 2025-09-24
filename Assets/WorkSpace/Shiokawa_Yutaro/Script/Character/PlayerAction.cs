@@ -53,12 +53,7 @@ public class PlayerAction : MonoBehaviour
         player = this.GetComponent<PlayerCharacter>();
 
         rb = GetComponent<Rigidbody>();
-        animation = GetComponent<Animation>();
-
-        foreach (AnimationState state in animation)
-        {
-            Debug.Log("登録済みアニメーション: " + state.name);
-        }
+        //animation = GetComponent<Animation>();
 
     }
 
@@ -102,7 +97,7 @@ public class PlayerAction : MonoBehaviour
             isAvoiding = false;
             isJustAvoiding = false;
             isCounter = false;
-            animation.Play("待機");
+           // animation.Play("待機");
 
             return false;
         }
@@ -138,7 +133,7 @@ public class PlayerAction : MonoBehaviour
         else
         {
             shiftPressTime = 0f;
-            animation.Play("歩く");
+            //animation.Play("歩く");
 
         }
 
@@ -239,7 +234,7 @@ public class PlayerAction : MonoBehaviour
         //effect.transform.SetParent(transform);
         //アニメーション(一度だけ)
 
-        animation.Play("ダッシュ");
+        //animation.Play("ダッシュ");
 
         //Debug.Log("プレイやーがダッシュ発動");
         isCounter = true;
@@ -292,7 +287,7 @@ public class PlayerAction : MonoBehaviour
             AudioManager.instance.PlaySE(4);
             if (isJumping)
             {
-                animation.Play("落下攻撃");
+                //animation.Play("落下攻撃");
                 rb.velocity = Vector3.down;
                 player.isAttacking = true;
                 return true;
@@ -323,7 +318,7 @@ public class PlayerAction : MonoBehaviour
             player.SetSpeed(player.walkSpeed);
             isDashing = false;
             inputAttack = true;
-            animation.Play("必殺");
+            //animation.Play("必殺");
             player.isAttacking = true;
 
             return true;
@@ -397,7 +392,7 @@ public class PlayerAction : MonoBehaviour
     private void PlayAttackAnimation(int step)
     {
         player.isAttacking = true;
-        animation.Play("コンボ" + step);
+        //animation.Play("コンボ" + step);
     }
 
     public void SpecialAttackEffect()
