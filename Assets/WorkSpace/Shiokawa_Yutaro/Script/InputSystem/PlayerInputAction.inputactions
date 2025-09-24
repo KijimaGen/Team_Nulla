@@ -9,7 +9,7 @@
                     "name": "SwitchMove",
                     "type": "Value",
                     "id": "ae10a443-aa44-45e7-ac9e-f60c074754c6",
-                    "expectedControlType": "Stick",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -18,7 +18,7 @@
                     "name": "SwitchCameraMove",
                     "type": "Value",
                     "id": "ef2fae67-626d-4e3c-9ab7-5ab6a7084e5d",
-                    "expectedControlType": "Stick",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -72,6 +72,15 @@
                     "name": "OpenMenu",
                     "type": "Button",
                     "id": "c866685b-e2c5-4f2f-9b1a-6420ad5b6c65",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CloseMenu",
+                    "type": "Button",
+                    "id": "b51cac48-eedc-4dd8-b7dd-e8d393372da9",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -228,7 +237,7 @@
                 {
                     "name": "",
                     "id": "6fc49e01-2baf-4202-a21b-32af964f86c2",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -371,7 +380,7 @@
                 {
                     "name": "",
                     "id": "0fc29764-35fe-4353-9b1e-e301b297e510",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -420,6 +429,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "OpenMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "537dc598-fad0-47e1-948a-400d55f393e8",
+                    "path": "<Keyboard>/v",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CloseMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b613b3c3-60f3-44aa-9fed-e5d59bd48d91",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CloseMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "af0e7659-1af8-4744-8977-39b9a9795dcd",
+                    "path": "<NPad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CloseMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

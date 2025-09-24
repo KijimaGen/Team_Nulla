@@ -49,9 +49,9 @@ public class HPGaugeUI : MonoBehaviour
     void Update()
     {
         HPImage.rectTransform.sizeDelta = gauge;
-        if(Time.timeScale <= 1)
+        if(Time.timeScale <= 1 && !playerAction.isJustAvoiding)
         {
-            Time.timeScale += 0.02f;
+            //Time.timeScale += 0.02f;
         }
     }
 
@@ -81,7 +81,7 @@ public class HPGaugeUI : MonoBehaviour
         {
             if (playerAction.isJustAvoiding)
             {
-                Time.timeScale = 0.2f;
+                //Time.timeScale = 0.2f;
                 return;
             }
             if (playerAction.isAvoiding) return;

@@ -1,9 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+using static ItemUtility;
 
 public class PlayerCharacter : CharacterBase
 {
@@ -18,7 +16,7 @@ public class PlayerCharacter : CharacterBase
         speed = 2.5f;
         maxHP = 100;
         HP = maxHP;
-        rawAttack = 500;
+        rawAttack = 5;
         rawDefense = 0;
         possessItemList = new List<ItemBase>(_POSSESS_ITEM_MAX);
 
@@ -95,7 +93,7 @@ public class PlayerCharacter : CharacterBase
         if (getItem.isWeapon()) {
             //
             if(possessWeapon != null)
-                ItemUtility.RemoveItem(possessWeapon.itemID, transform.position);
+                RemoveItem(possessWeapon.itemID, transform.position);
             
             possessWeapon = getItem;
 
@@ -161,5 +159,16 @@ public class PlayerCharacter : CharacterBase
     public void SendItemList() {
         //自身が壊されるタイミングでアイテムマネージャーにアイテムを渡す
         ItemManager.instance.SetPlayerItems(possessItemList, possessWeapon);
+    }
+    /// <summary>
+    /// ID指定でアイテムを捨てる
+    /// </summary>
+    /// <param name="index"></param>
+    public void RemoveItemFromList(int index)
+    {
+        //アイテムを野に放つ
+        if (possessItemList[index] == null) return;
+        RemoveItem(possessItemList[index].itemID, transform.position);
+        possessItemList[index] = null;
     }
 }

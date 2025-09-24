@@ -88,6 +88,10 @@ public abstract class CharacterBase : MonoBehaviour
     {
         speed = setValue;
     }
+    public float GetSpeed()
+    {
+        return speed;
+    }
     /// <summary>
     /// UŒ‚—Íæ“¾
     /// </summary>
