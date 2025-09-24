@@ -1,11 +1,7 @@
- using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using System.Linq;
-using static UnityEngine.GraphicsBuffer;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -54,7 +50,7 @@ public class PlayerAction : MonoBehaviour
     bool switchXButton;
     private void Start()
     {
-        player = GetComponent<PlayerCharacter>();
+        player = this.GetComponent<PlayerCharacter>();
 
         rb = GetComponent<Rigidbody>();
         animation = GetComponent<Animation>();
@@ -63,11 +59,12 @@ public class PlayerAction : MonoBehaviour
         {
             Debug.Log("登録済みアニメーション: " + state.name);
         }
+
     }
 
     public void AcceptInput()
     {
-
+        if (player == null) return;
         if (isJumping && IsGrounded())
         {
             isJumping = false;
@@ -78,7 +75,7 @@ public class PlayerAction : MonoBehaviour
             TryPickupItem();
         }
 
-        
+
 
         //攻撃の受付
         if (AcceptAttack()) return;
@@ -106,10 +103,10 @@ public class PlayerAction : MonoBehaviour
             isJustAvoiding = false;
             isCounter = false;
             animation.Play("待機");
-            
+
             return false;
         }
-        
+
         AcceptDirChange(inputDir);
 
         if (isDashing)
@@ -132,17 +129,17 @@ public class PlayerAction : MonoBehaviour
             {
                 TriggerDodge(player);
             }
-            if(shiftPressTime > justAvoidingTime)
+            if (shiftPressTime > justAvoidingTime)
             {
                 isJustAvoiding = false;
             }
-            
+
         }
         else
         {
             shiftPressTime = 0f;
             animation.Play("歩く");
-            
+
         }
 
 
@@ -206,7 +203,7 @@ public class PlayerAction : MonoBehaviour
         return Physics.Raycast(origin, Vector3.down, rayLength);
     }
 
-    
+
     /// <summary>
     /// 回避処理
     /// </summary>
@@ -243,7 +240,7 @@ public class PlayerAction : MonoBehaviour
         //アニメーション(一度だけ)
 
         animation.Play("ダッシュ");
-        
+
         //Debug.Log("プレイやーがダッシュ発動");
         isCounter = true;
     }
@@ -254,8 +251,8 @@ public class PlayerAction : MonoBehaviour
     /// <returns></returns>
     public Vector3 AcceptDirInput()
     {
-        float moveX = Input.GetAxisRaw("Horizontal"); // ←→
-        float moveZ = Input.GetAxisRaw("Vertical");   // ↑↓
+        float moveX = 0;
+        float moveZ = 0;
 
         Vector3 input = new Vector3(switchLStickValue.x + moveX, 0, switchLStickValue.y + moveZ);
         input = Vector3.ClampMagnitude(input, 1f); // 斜め移動を補正
@@ -287,7 +284,7 @@ public class PlayerAction : MonoBehaviour
     {
         if (switchYButton && !inputAttack)
         {
-           
+
             player.SetSpeed(player.walkSpeed);
             isDashing = false;
             inputAttack = true;
@@ -306,7 +303,8 @@ public class PlayerAction : MonoBehaviour
                 comboStep++;
                 player.isAttacking = false;
                 TryAttackNearestEnemy().Forget();
-                if(comboStep == 3) {
+                if (comboStep == 3)
+                {
                     //効果音を鳴らす
                     AudioManager.instance.PlaySE(9);
                 }
@@ -335,7 +333,7 @@ public class PlayerAction : MonoBehaviour
         {
             return false;
         }
-        
+
         //ExecuteAction(GetPlayer(), NORMAL_ATTACK_ACTION_ID);
         //今持ってる武器を参照したい
 
@@ -404,7 +402,7 @@ public class PlayerAction : MonoBehaviour
 
     public void SpecialAttackEffect()
     {
-        Instantiate(specialEffect,transform.position + transform.up * 0.5f, Quaternion.identity);
+        Instantiate(specialEffect, transform.position + transform.up * 0.5f, Quaternion.identity);
     }
     /// <summary>
     /// 視点操作
@@ -463,7 +461,6 @@ public class PlayerAction : MonoBehaviour
         // アイテムを消す
         Destroy(item.gameObject);
     }
-
     private float attackRange;       // 攻撃できる範囲
     private int enemyLayer;
 
