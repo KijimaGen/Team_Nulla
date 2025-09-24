@@ -1,9 +1,13 @@
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using static ItemUtility;
+
 
 public class PlayerCharacter : CharacterBase
 {
@@ -106,6 +110,13 @@ public class PlayerCharacter : CharacterBase
         //アイテムだったら…
         //とりあえず先頭に置かせて！
         for(int i = 0,max = _POSSESS_ITEM_MAX; i < max; i++) {
+
+            //アイテムリストの4番目がヌルじゃない == アイテムを限界まで持っている
+            if (possessItemList[4] != null) {
+                Menu.instance.OpenMenu(new InputAction.CallbackContext());
+            }
+
+
             //アイテム枠にアイテムがあれば一旦スルー
             if (possessItemList[i] != null) continue;
             possessItemList[i] = getItem;
@@ -161,5 +172,15 @@ public class PlayerCharacter : CharacterBase
     public void SendItemList() {
         //自身が壊されるタイミングでアイテムマネージャーにアイテムを渡す
         ItemManager.instance.SetPlayerItems(possessItemList, possessWeapon);
+    }
+
+    /// <summary>
+    /// ID指定でアイテムを捨てる
+    /// </summary>
+    /// <param name="index"></param>
+    public void RemoveItemFromList(int index) {
+        //アイテムを野に放つ
+        RemoveItem(possessItemList[index].itemID, transform.position);
+        possessItemList[index] = null;
     }
 }

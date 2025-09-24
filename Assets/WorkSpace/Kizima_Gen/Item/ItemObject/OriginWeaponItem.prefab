@@ -103,7 +103,7 @@ MonoBehaviour:
   isPlayerPosses: 0
   myStatusItem: {fileID: 841863111330607874}
   RarityText: {fileID: 6586150592800222435}
-  myIcon: {fileID: 0}
+  myIcon: {fileID: 21300000, guid: fc38bf2080f33014da8f5d37e8cb7334, type: 3}
   AttackText: {fileID: 3171033575006029920}
 --- !u!1 &5077578472043129355
 GameObject:
