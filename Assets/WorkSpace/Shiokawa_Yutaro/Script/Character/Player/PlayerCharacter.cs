@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.SearchService;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -31,9 +32,9 @@ public class PlayerCharacter : CharacterBase
             possessItemList.Add(null);
         }
         //アイテムを返してもらう
-        possessItemList = ItemManager.instance.GetPlayerItems();
+        possessItemList = GetPlayerItems();
         //武器ももらう
-        possessWeapon = ItemManager.instance.GetPlayerWeapon();
+        possessWeapon = GetPlayerWeapon();
 
         SetStatus();
     }
@@ -94,12 +95,12 @@ public class PlayerCharacter : CharacterBase
     /// <summary>
     /// アイテムを手に入れる時に呼ばれる処理
     /// </summary>
-    public void GetItem(ItemBase getItem) {
+    public async void GetItem(ItemBase getItem) {
         //拾ったアイテムが武器だったら今持っているのと入れ替え
         if (getItem.isWeapon()) {
             //
             if(possessWeapon != null)
-                ItemUtility.RemoveItem(possessWeapon.itemID, transform.position);
+                RemoveItem(possessWeapon.itemID, transform.position);
             
             possessWeapon = getItem;
 
@@ -113,13 +114,14 @@ public class PlayerCharacter : CharacterBase
 
             //アイテムリストの4番目がヌルじゃない == アイテムを限界まで持っている
             if (possessItemList[4] != null) {
-                Menu.instance.OpenMenu(new InputAction.CallbackContext());
+                await Menu.instance.SwapItemInMenu(getItem);
             }
 
 
-            //アイテム枠にアイテムがあれば一旦スルー
+            //アイテム枠にアイテムがあればスルー
             if (possessItemList[i] != null) continue;
-            possessItemList[i] = getItem;
+            //アイテムゲット
+            GetItem(getItem, i);
 
             return;
         }
@@ -161,9 +163,6 @@ public class PlayerCharacter : CharacterBase
         possessWeapon = weapon;
     }
 
-
-
-
     private void OnDisable() {
         SendItemList();
     }
@@ -182,5 +181,10 @@ public class PlayerCharacter : CharacterBase
         //アイテムを野に放つ
         RemoveItem(possessItemList[index].itemID, transform.position);
         possessItemList[index] = null;
+    }
+
+    public void GetItem(ItemBase getItem,int itemListIndex) {
+        //アイテムをぶち込む
+        possessItemList[itemListIndex] = getItem;
     }
 }

@@ -4,9 +4,11 @@
  * @author kijima
  * @date 2025/9/18
  */
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -25,7 +27,7 @@ public class Menu : MonoBehaviour{
     private GameObject menuParent;
 
     //インデックス(リストの矢印)
-    private int Index;
+    private int index;
 
     //枠
     [SerializeField]
@@ -36,6 +38,9 @@ public class Menu : MonoBehaviour{
 
     //自身のインスタンス(他で参照したいものとかあるので)
     public static Menu instance { get; private set; }
+
+    //入力されたかどうか
+    private InputAction decideAction;
 
     //各種ステータステキスト
     [SerializeField]
@@ -49,7 +54,12 @@ public class Menu : MonoBehaviour{
 
     void Start(){
        menuParent.SetActive(false);
-       Index = 0;
+       index = 0;
+
+        //プレイヤーを探す
+        GameObject player = GameObject.FindWithTag("Player");
+        var playerInput = player.GetComponent<PlayerInput>();
+        decideAction = playerInput.actions["Decide"]; 
         instance = this;
     }
 
@@ -58,8 +68,8 @@ public class Menu : MonoBehaviour{
         for(int i = 0; i < ImageList.Count; i++) {
             ImageList[i].color = Color.white;
         }
-        if(Index < ImageList.Count)
-            ImageList[Index].color = Color.red;
+        if(index < ImageList.Count)
+            ImageList[index].color = Color.red;
     }
 
 
@@ -147,9 +157,9 @@ public class Menu : MonoBehaviour{
     /// </summary>
     public void IncreaceIndex(InputAction.CallbackContext context) {
         if (context.performed) {
-            Index++;
-            if (Index >= ImageList.Count) {
-                Index = 0;
+            index++;
+            if (index >= ImageList.Count) {
+                index = 0;
             }
         }
     }
@@ -158,9 +168,9 @@ public class Menu : MonoBehaviour{
     /// </summary>
     public void DecreaseIndex(InputAction.CallbackContext context) {
         if (context.performed) {
-            Index--;
-            if (Index < 0) {
-                Index = ImageList.Count - 1;
+            index--;
+            if (index < 0) {
+                index = ImageList.Count - 1;
             }
         }
     }
@@ -170,16 +180,64 @@ public class Menu : MonoBehaviour{
     /// </summary>
     public void Decide(InputAction.CallbackContext context) {
         if (context.performed) {
-            if (!isOpenMenu) return;
-            //プレイヤーを探す
-            GameObject player = GameObject.FindWithTag("Player");
-            //アイテムリストをキャッシュして受け取る
-            player.GetComponent<PlayerCharacter>().SendItemList();
-            player.GetComponent<PlayerCharacter>().RemoveItemFromList(Index);
-            //アイコンを更新
-            itemIcon[Index].sprite = null;
+            TryDecide();
+
+            if (isOpenMenu) { 
+                RemoveItemInMenu();
+            }
 
         }
+    }
+    /// <summary>
+    /// Decideが呼ばれたかどうか
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    private bool TryDecide() {
+        if (!isOpenMenu) return false;
+
+        RemoveItemInMenu();
+        return true;
+    }
+
+    /// <summary>
+    /// インデックスを返す
+    /// </summary>
+    /// <returns></returns>
+    public int GetIndex() {
+        return index;
+    }
+
+    public async UniTask SwapItemInMenu(ItemBase getItem) {
+        //メニューを開く
+        OpenMenu(new InputAction.CallbackContext());
+        
+        //決定ボタンまち
+        while (TryDecide()) {
+            
+            //拾おうとしたアイテムを拾う
+            //プレイヤーを探す
+            GameObject player = GameObject.FindWithTag("Player");
+            player.GetComponent<PlayerCharacter>().GetItem(getItem, index);
+
+            //10待ち
+            await UniTask.Delay(10);
+        }
+
+
+    }
+
+    /// <summary>
+    /// こちらでアイテムを捨てる
+    /// </summary>
+    private void RemoveItemInMenu() {
+        //プレイヤーを探す
+        GameObject player = GameObject.FindWithTag("Player");
+        //アイテムリストをキャッシュして受け取る
+        player.GetComponent<PlayerCharacter>().SendItemList();
+        player.GetComponent<PlayerCharacter>().RemoveItemFromList(index);
+        //アイコンを更新
+        itemIcon[index].sprite = null;
     }
 
 }

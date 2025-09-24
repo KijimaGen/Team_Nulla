@@ -140,13 +140,13 @@ public abstract class ItemBase : MonoBehaviour{
     }
 
     /// <summary>
-    /// アイテムを拾うためのスクリプト
+    /// アイテムを拾うための処理
     /// </summary>
     private void TryGetItem() {
         //近くにプレイヤーいなければ何もしない
         if (!isPlayerInRange) return;
         if (isPlayerPosses) return;
-        if(Menu.instance.isOpenMenu) { return; }
+        if (Menu.instance.isOpenMenu)  return; 
 
         //UIの表示を切る
         UIManager.instance.ChangeVisibleinteractCanvas(false);

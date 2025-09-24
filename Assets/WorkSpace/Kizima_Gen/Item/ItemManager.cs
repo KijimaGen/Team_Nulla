@@ -94,6 +94,9 @@ public class ItemManager : SystemObject{
             _useList.Remove(item);
             _unuseList.Add(item);
 
+            Debug.Log($"item = {item}, destroyed? {(item == null ? "yes" : "no")}");
+            Debug.Log($"unuseRoot = {_unuseRoot}, destroyed? {(_unuseRoot == null ? "yes" : "no")}");
+
             item.transform.SetParent(_unuseRoot);
             
         }
@@ -211,12 +214,15 @@ public class ItemManager : SystemObject{
     /// <param name="scene"></param>
     /// <param name="mode"></param>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        for(int i = 0, max = _useList.Count; i < max; i++) {
-            //プレイヤーが持っている物だったらスルー
-            if (GetItemFromList(_useList[i].itemID).isPlayerPosses) continue;
+        // コピーを作ってから回す
+        var tempList = new List<ItemBase>(_useList);
 
-            //不使用状態にする
-            UnuseItem(_useList[i].itemID);
+        for (int i = 0; i < tempList.Count; i++) {
+            // プレイヤーが持っている物だったらスルー
+            if (tempList[i].isPlayerPosses) continue;
+
+            // 不使用状態にする
+            UnuseItem(tempList[i].itemID);
         }
     }
 
