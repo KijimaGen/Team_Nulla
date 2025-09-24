@@ -49,6 +49,9 @@ public class GameOver : MonoBehaviour {
         Exit.Select();
     }
 
+    /// <summary>
+    /// OnClick
+    /// </summary>
     public void Push()
     {
         if (selectObject.name == "Retry")
@@ -57,6 +60,7 @@ public class GameOver : MonoBehaviour {
         }
         else if (selectObject.name == "Exit")
         {
+            Debug.Log("ÉQÅ[ÉÄèIóπ");
             Application.Quit();
         }
     }

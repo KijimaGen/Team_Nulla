@@ -60,7 +60,7 @@ public abstract class ItemBase : MonoBehaviour{
         rarity = GetRandomRarity();
         //
         RarityText.text = "Rarity : " + RareToString(rarity);
-        EffectManager.instance.InstantiateEffectFromRare(this.transform, rarity);
+        //EffectManager.instance.InstantiateEffectFromRare(this.transform, rarity);
     }
 
 
