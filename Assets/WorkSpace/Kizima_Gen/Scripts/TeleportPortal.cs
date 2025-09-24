@@ -8,31 +8,56 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TeleportPortal : MonoBehaviour{
+public class TeleportPortal : MonoBehaviour
+{
     //èâä˙à íu
     const float InitializePos = 0.5f;
     //à⁄ìÆêÊ
-    private GameObject hole;
+    public GameObject hole;
     [SerializeField] EnemyCharacter[] MiniBoss;
 
-    void Start(){
-        hole = GameObject.Find("PortalHole");
-        transform.position = new Vector3(transform.position.x,InitializePos,transform.position.z);
+    void Start()
+    {
+        transform.position = new Vector3(transform.position.x, transform.position.y + InitializePos, transform.position.z);
     }
 
-    
-    private async void OnCollisionEnter(Collision collision) {
-        if(collision.gameObject.tag == "Player") {
+
+    private async void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
 
             await FadeManager.instance.FadeOut();
 
-           // SceneManager.LoadScene("Main");
-           collision.gameObject.transform.position = hole.transform.position;
-           collision.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            await FadeManager.instance.FadeIn(3);
+            if (MiniBoss_OZN.MiniBossGame)
+            {
+                Destroy(collision.gameObject);
+                MiniBoss_OZN.MiniBossGame = false;
 
-            Instantiate(MiniBoss[0]);
-            hole.SetActive(false);
+                EnemyCharacter[] enemies = GameObject.FindObjectsOfType<EnemyCharacter>();
+                for (int i = 0; i < enemies.Length; i++)
+                {
+                    Destroy(enemies[i].gameObject);
+                }
+
+                Generator.instance.RunProgram();
+                await FadeManager.instance.FadeIn(3);
+            }
+            else
+            {
+                GameObject portal = Instantiate(hole, new Vector3(0, -7.4f, 4.8f), Quaternion.identity);
+                // SceneManager.LoadScene("Main");
+                collision.gameObject.transform.position = portal.transform.position;
+                collision.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+                Destroy(portal);
+                await FadeManager.instance.FadeIn(3);
+
+                Instantiate(MiniBoss[0]);
+                //
+            }
+            Destroy(this);
+
         }
     }
 }

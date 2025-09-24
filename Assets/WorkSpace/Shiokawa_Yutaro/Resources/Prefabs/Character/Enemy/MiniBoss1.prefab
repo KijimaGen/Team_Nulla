@@ -1785,6 +1785,7 @@ MonoBehaviour:
   CatchBleakEffect: {fileID: 552778988361774701, guid: 89d08519fd7a6c44295948da0e63f7a0, type: 3}
   CatchSmokeEffect: {fileID: 6553218122332861830, guid: 80a32c247e505f84588cf72d74634251, type: 3}
   crossEffect: {fileID: 7231371048176646982, guid: 811eec657c9d69c40b5e6f74860f6006, type: 3}
+  warp: {fileID: 5267432302529654360, guid: d6080cf360fe3044d9d3d9de7a608f7c, type: 3}
 --- !u!136 &2082207461913500969
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -27,7 +27,7 @@ public class MiniBoss_OZN : EnemyCharacter
     bool success;
 
     float currentRawAttack;
-
+    static public bool MiniBossGame;
     public override void Setup()
     {
         attackStrategies = new Dictionary<AttackType, AttackStrategy>
@@ -46,9 +46,8 @@ public class MiniBoss_OZN : EnemyCharacter
 
         currentRawAttack = rawAttack;
         base.Setup();
+        MiniBossGame = true;
     }
-
-
 
     //private void Update()
     //{
@@ -125,7 +124,7 @@ public class MiniBoss_OZN : EnemyCharacter
 
         if (rand == 0)
         {
-            
+
             animation.Play("‚Â‚©‚Ý”»’è");
         }
         if (rand == 1)
@@ -193,14 +192,15 @@ public class MiniBoss_OZN : EnemyCharacter
         Instantiate(CatchSmokeEffect, effectPos, transform.rotation);
     }
 
-    protected override void HitEffect(Vector3 hitPos,float damage)
+    protected override void HitEffect(Vector3 hitPos, float damage)
     {
-        base.HitEffect(hitPos,damage);
+        base.HitEffect(hitPos, damage);
     }
 
     public override void Dead()
     {
         Destroy(gameObject);
-        Instantiate(warp,new Vector3(0, -7.46f, 0),Quaternion.identity);
+        GameObject portal = Instantiate(warp, new Vector3(0, -7.46f, 0), Quaternion.identity);
+        portal.transform.position = new Vector3(0, -8, 0);
     }
 }
