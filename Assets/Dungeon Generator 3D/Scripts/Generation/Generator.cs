@@ -84,8 +84,10 @@ public class Generator : MonoBehaviour
     public int AmountOfAdjacentRoomsToConnect { get => amountOfAdjacentRoomsToConnect; }
     public GenerationSettings GenerationSettings { get => generationSettings; }
 
+    public static Generator instance;
     private void Awake()
     {
+        instance = this;
         RunProgram();
     }
 

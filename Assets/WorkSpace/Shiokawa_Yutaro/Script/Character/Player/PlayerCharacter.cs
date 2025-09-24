@@ -18,7 +18,7 @@ public class PlayerCharacter : CharacterBase
         speed = 2.5f;
         maxHP = 100;
         HP = maxHP;
-        rawAttack = 5;
+        rawAttack = 500;
         rawDefense = 0;
         possessItemList = new List<ItemBase>(_POSSESS_ITEM_MAX);
 

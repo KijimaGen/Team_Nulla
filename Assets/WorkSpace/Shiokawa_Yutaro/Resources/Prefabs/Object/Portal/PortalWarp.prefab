@@ -9844,6 +9844,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ea509f3bf483f46b37f10fc6a99bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hole: {fileID: 5267432302529654360, guid: a6826bb433fe008439b639de926222b9, type: 3}
   MiniBoss:
   - {fileID: 8113690394703261168, guid: 7ee80720b2027eb41a8562f6fa2e1de9, type: 3}
 --- !u!1 &7194853992939688545
