@@ -7,7 +7,6 @@ using static UnityEngine.GraphicsBuffer;
 
 public class CameraMove : MonoBehaviour
 {
-    private PlayerCharacter player;
     private float angleX = 20f;
     private float rotateSpeed = 3f;     // マウス感度
 
@@ -17,10 +16,11 @@ public class CameraMove : MonoBehaviour
 
     Vector2 switchRStickValue;
     [SerializeField] Transform neck;
+    [SerializeField] PlayerCharacter player;
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindWithTag("Player").GetComponent<PlayerCharacter>();
+       // player = GameObject.FindWithTag("Player").GetComponent<PlayerCharacter>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
