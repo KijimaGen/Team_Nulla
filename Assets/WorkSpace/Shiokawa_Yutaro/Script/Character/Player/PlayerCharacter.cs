@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using static ItemUtility;
 
@@ -112,7 +113,7 @@ public class PlayerCharacter : CharacterBase
 
             //アイテムリストの4番目がヌルじゃない == アイテムを限界まで持っている
             if (possessItemList[4] != null) {
-
+                Menu.instance.OpenMenu(new InputAction.CallbackContext());
             }
 
 

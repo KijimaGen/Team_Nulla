@@ -35,7 +35,7 @@ public class Menu : MonoBehaviour{
     public bool isOpenMenu;
 
     //自身のインスタンス(他で参照したいものとかあるので)
-    public static Menu Instance { get; private set; }
+    public static Menu instance { get; private set; }
 
     //各種ステータステキスト
     [SerializeField]
@@ -50,7 +50,7 @@ public class Menu : MonoBehaviour{
     void Start(){
        menuParent.SetActive(false);
        Index = 0;
-        Instance = this;
+        instance = this;
     }
 
     void Update(){

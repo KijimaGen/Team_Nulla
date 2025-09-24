@@ -146,7 +146,7 @@ public abstract class ItemBase : MonoBehaviour{
         //近くにプレイヤーいなければ何もしない
         if (!isPlayerInRange) return;
         if (isPlayerPosses) return;
-        if(Menu.Instance.isOpenMenu) { return; }
+        if(Menu.instance.isOpenMenu) { return; }
 
         //UIの表示を切る
         UIManager.instance.ChangeVisibleinteractCanvas(false);
