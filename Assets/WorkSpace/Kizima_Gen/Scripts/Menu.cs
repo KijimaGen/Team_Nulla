@@ -7,6 +7,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using TMPro;
 using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
@@ -51,6 +52,8 @@ public class Menu : MonoBehaviour{
     private TextMeshProUGUI DefenceText;
     [SerializeField]
     private TextMeshProUGUI SpeedText;
+
+    int? selectedIndex = null;
 
     void Start(){
        menuParent.SetActive(false);
@@ -180,25 +183,16 @@ public class Menu : MonoBehaviour{
     /// </summary>
     public void Decide(InputAction.CallbackContext context) {
         if (context.performed) {
-            TryDecide();
-
+           
             if (isOpenMenu) { 
                 RemoveItemInMenu();
             }
 
+            //インデックスを指定
+            selectedIndex = index;
         }
     }
-    /// <summary>
-    /// Decideが呼ばれたかどうか
-    /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
-    private bool TryDecide() {
-        if (!isOpenMenu) return false;
-
-        RemoveItemInMenu();
-        return true;
-    }
+    
 
     /// <summary>
     /// インデックスを返す
@@ -209,21 +203,26 @@ public class Menu : MonoBehaviour{
     }
 
     public async UniTask SwapItemInMenu(ItemBase getItem) {
+
+        //インデックスを指定するための物を作る
+        selectedIndex = null;
+
         //メニューを開く
         OpenMenu(new InputAction.CallbackContext());
         
         //決定ボタンまち
-        while (TryDecide()) {
+        while (selectedIndex == null) {
             
-            //拾おうとしたアイテムを拾う
-            //プレイヤーを探す
-            GameObject player = GameObject.FindWithTag("Player");
-            player.GetComponent<PlayerCharacter>().GetItem(getItem, index);
-
-            //10待ち
-            await UniTask.Delay(10);
+            //1触れ待ち
+            await UniTask.DelayFrame(1);
         }
 
+        //拾おうとしたアイテムを拾う
+        //プレイヤーを探す
+        GameObject player = GameObject.FindWithTag("Player");
+        RemoveItemInMenu();
+        player.GetComponent<PlayerCharacter>().GetItem(getItem, index);
+        CloseMenu(new InputAction.CallbackContext());
 
     }
 

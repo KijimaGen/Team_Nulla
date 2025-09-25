@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using static ItemUtility;
+using static CommonModule;
 
 
 public class PlayerCharacter : CharacterBase
@@ -112,8 +113,8 @@ public class PlayerCharacter : CharacterBase
         //とりあえず先頭に置かせて！
         for(int i = 0,max = _POSSESS_ITEM_MAX; i < max; i++) {
 
-            //アイテムリストの4番目がヌルじゃない == アイテムを限界まで持っている
-            if (possessItemList[4] != null) {
+            //アイテムリストがいっぱい
+            if (IsFullList(possessItemList)) {
                 await Menu.instance.SwapItemInMenu(getItem);
             }
 
@@ -174,10 +175,16 @@ public class PlayerCharacter : CharacterBase
     }
 
     /// <summary>
-    /// ID指定でアイテムを捨てる
+    /// index指定でアイテムを捨てる
     /// </summary>
     /// <param name="index"></param>
     public void RemoveItemFromList(int index) {
+
+        if (possessItemList[index] == null) {
+            Debug.Log("アイテムリストの" +index+"番目はありませんでした");
+            return;
+        }
+
         //アイテムを野に放つ
         RemoveItem(possessItemList[index].itemID, transform.position);
         possessItemList[index] = null;

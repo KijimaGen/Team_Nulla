@@ -48,7 +48,7 @@ public class ActionManager
         //if (effectMaster == null) return;
 
         //int effectType = effectMaster.effectType;
-        //if (!IsEnableIndex(_effectList, effectType)) return;
+        //if (!IsFullList(_effectList, effectType)) return;
         // å¯â é¿çs
         //await _effectList[effectType].Execute(sourceCharacter, effectMaster, range);
     }
