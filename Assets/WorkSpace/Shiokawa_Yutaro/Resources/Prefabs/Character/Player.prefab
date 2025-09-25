@@ -4313,9 +4313,9 @@ MonoBehaviour:
     m_ActionName: Interact/SwitchDash[/Keyboard/leftShift]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2082356567414140669}
-        m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
-        m_MethodName: SwitchB
+      - m_Target: {fileID: 4847925276384120979}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+        m_MethodName: CloseMenu
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4391,7 +4391,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4847925276384120979}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: OpenMenu
+        m_MethodName: Plus
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4405,13 +4405,13 @@ MonoBehaviour:
     m_ActionName: Interact/OpenMenu[/Keyboard/c,/XInputControllerWindows/start]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9117160376521567076}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 4847925276384120979}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+        m_MethodName: DecreaseIndex
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4420,7 +4420,19 @@ MonoBehaviour:
     m_ActionId: af6d1bb3-33e5-4fc8-9102-403f3c407953
     m_ActionName: Interact/RightMove[/XInputControllerWindows/dpad/right,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4847925276384120979}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+        m_MethodName: IncreaceIndex
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: eabb67e5-8161-437b-baa1-bfcfbbdc7523
     m_ActionName: Interact/LeftMove[/Keyboard/leftArrow,/XInputControllerWindows/dpad/left]
   - m_PersistentCalls:
@@ -4432,19 +4444,7 @@ MonoBehaviour:
     m_ActionId: 2e444cd7-8cc1-4454-9566-ba655daf1b05
     m_ActionName: Interact/Cancell[/XInputControllerWindows/buttonSouth,/Keyboard/x]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4847925276384120979}
-        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: CloseMenu
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: b51cac48-eedc-4dd8-b7dd-e8d393372da9
     m_ActionName: Interact/CloseMenu[/Keyboard/v,/XInputControllerWindows/select]
   m_NeverAutoSwitchControlSchemes: 0
@@ -7035,7 +7035,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 811968822341756275, guid: 380ae84f2b72e49419647974488d9174, type: 3}
   m_PrefabInstance: {fileID: 5189267233022162400}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9117160376521567076}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2641d1964b4b4d443a19a07e36dc8ffa, type: 3}
@@ -7090,11 +7090,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &9117160376521567076 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3928636423695605380, guid: 380ae84f2b72e49419647974488d9174, type: 3}
-  m_PrefabInstance: {fileID: 5189267233022162400}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8567095788883962581
 PrefabInstance:
   m_ObjectHideFlags: 0

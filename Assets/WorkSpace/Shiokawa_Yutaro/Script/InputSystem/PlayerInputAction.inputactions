@@ -69,18 +69,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "OpenMenu",
+                    "name": "Plus",
                     "type": "Button",
                     "id": "c866685b-e2c5-4f2f-9b1a-6420ad5b6c65",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "CloseMenu",
-                    "type": "Button",
-                    "id": "b51cac48-eedc-4dd8-b7dd-e8d393372da9",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -406,7 +397,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "OpenMenu",
+                    "action": "Plus",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -417,7 +408,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "OpenMenu",
+                    "action": "Plus",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -428,40 +419,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "OpenMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "537dc598-fad0-47e1-948a-400d55f393e8",
-                    "path": "<Keyboard>/v",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "CloseMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b613b3c3-60f3-44aa-9fed-e5d59bd48d91",
-                    "path": "<Gamepad>/select",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "CloseMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "af0e7659-1af8-4744-8977-39b9a9795dcd",
-                    "path": "<NPad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "CloseMenu",
+                    "action": "Plus",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

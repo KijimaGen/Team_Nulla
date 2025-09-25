@@ -79,7 +79,7 @@ public class Menu : MonoBehaviour{
     /// <summary>
     /// メニューを開く
     /// </summary>
-    public void OpenMenu(InputAction.CallbackContext context) {
+    public void OpenMenu() {
 
         //プレイヤーを探す
         GameObject player = GameObject.FindWithTag("Player");
@@ -146,7 +146,7 @@ public class Menu : MonoBehaviour{
     /// メニュー画面を閉じる
     /// </summary>
     /// <param name="context"></param>
-    public void CloseMenu(InputAction.CallbackContext context) {
+    public void CloseMenu() {
        menuParent.SetActive(false);
 
         // 時間を動かす
@@ -208,7 +208,7 @@ public class Menu : MonoBehaviour{
         selectedIndex = null;
 
         //メニューを開く
-        OpenMenu(new InputAction.CallbackContext());
+        OpenMenu();
         
         //決定ボタンまち
         while (selectedIndex == null) {
@@ -222,7 +222,7 @@ public class Menu : MonoBehaviour{
         GameObject player = GameObject.FindWithTag("Player");
         RemoveItemInMenu();
         player.GetComponent<PlayerCharacter>().GetItem(getItem, index);
-        CloseMenu(new InputAction.CallbackContext());
+        CloseMenu();
 
     }
 
@@ -239,4 +239,13 @@ public class Menu : MonoBehaviour{
         itemIcon[index].sprite = null;
     }
 
+    public void Plus(InputAction.CallbackContext context) {
+        if (isOpenMenu) {
+            CloseMenu();
+        }
+        else {
+            OpenMenu();
+        }
+    }
+    
 }
