@@ -7,14 +7,15 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using TMPro;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using static ItemUtility;
 
-public class Menu : MonoBehaviour
-{
+public class Menu : MonoBehaviour{
     //アイテムアイコンのデータ
     private List<Sprite> ItemIcons = new List<Sprite>(5);
 
@@ -31,13 +32,16 @@ public class Menu : MonoBehaviour
 
     //枠
     [SerializeField]
-    List<Image> ImageList = new List<Image>(5);
+    List <Image> ImageList = new List<Image>(5);
 
     //メニューを開いているかどうか
     public bool isOpenMenu;
 
     //自身のインスタンス(他で参照したいものとかあるので)
     public static Menu instance { get; private set; }
+
+    //入力されたかどうか
+    private InputAction decideAction;
 
     //各種ステータステキスト
     [SerializeField]
@@ -49,21 +53,25 @@ public class Menu : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI SpeedText;
 
-    void Start()
-    {
-        menuParent.SetActive(false);
-        index = 0;
+    int? selectedIndex = null;
+
+    void Start(){
+       menuParent.SetActive(false);
+       index = 0;
+
+        //プレイヤーを探す
+        GameObject player = GameObject.FindWithTag("Player");
+        var playerInput = player.GetComponent<PlayerInput>();
+        decideAction = playerInput.actions["Decide"]; 
         instance = this;
     }
 
-    void Update()
-    {
+    void Update(){
         //一回全リスト白
-        for (int i = 0; i < ImageList.Count; i++)
-        {
+        for(int i = 0; i < ImageList.Count; i++) {
             ImageList[i].color = Color.white;
         }
-        if (index < ImageList.Count)
+        if(index < ImageList.Count)
             ImageList[index].color = Color.red;
     }
 
@@ -71,8 +79,7 @@ public class Menu : MonoBehaviour
     /// <summary>
     /// メニューを開く
     /// </summary>
-    public void OpenMenu(InputAction.CallbackContext context)
-    {
+    public void OpenMenu(InputAction.CallbackContext context) {
 
         //プレイヤーを探す
         GameObject player = GameObject.FindWithTag("Player");
@@ -83,10 +90,9 @@ public class Menu : MonoBehaviour
         List<ItemBase> itemList = GetPlayerItems();
 
         // 空の要素を確保
-        ItemIcons = new List<Sprite>(new Sprite[itemList.Count]);
+        ItemIcons = new List<Sprite>(new Sprite[itemList.Count]); 
 
-        for (int i = 0; i < itemList.Count; i++)
-        {
+        for (int i = 0; i < itemList.Count; i++) {
             if (itemList[i] == null) continue;
 
             //受け取ったアイコンの情報をもらう
@@ -97,11 +103,10 @@ public class Menu : MonoBehaviour
 
         //テキストを変更
         int Attack = (int)player.GetComponent<PlayerCharacter>().GetAttack();
-        for (int i = 0; i < itemList.Count; i++)
-        {
+        for(int i =0; i < itemList.Count;i++) {
             //このis演算子はpossessItemList[i]がPowerUpItem型かどうかを検知してくれる
             if (itemList[i] is PowerUpItem)
-                Attack += (int)((PowerUpItem)itemList[i]).GetAttackValue();
+                Attack += (int) ((PowerUpItem) itemList[i]).GetAttackValue();
         }
         Attack += (int)player.GetComponent<PlayerCharacter>().GetWeaponAttack();
 
@@ -109,21 +114,21 @@ public class Menu : MonoBehaviour
 
 
         //防御の値
-        int Defence = (int)player.GetComponent<PlayerCharacter>().GetDefense();
+        int Defence = (int) player.GetComponent<PlayerCharacter>().GetDefense();
         DefenceText.text = "Defence : " + Defence.ToString();
 
-        int HP = (int)player.GetComponent<PlayerCharacter>().GetHP();
-        for (int i = 0; i < itemList.Count; i++)
-        {
+        int HP = (int) player.GetComponent<PlayerCharacter>().GetHP();
+        for (int i = 0; i < itemList.Count; i++) {
             //このis演算子はpossessItemList[i]がPowerUpItem型かどうかを検知してくれる
             if (itemList[i] is LifeUpItem)
-                HP += (int)((LifeUpItem)itemList[i]).GetLifeValue();
+                HP += (int) ((LifeUpItem) itemList[i]).GetLifeValue();
         }
         LifeText.text = "HP : " + HP.ToString();
 
 
-        int speed = (int)player.GetComponent<PlayerCharacter>().GetSpeed();
+        int speed = (int) player.GetComponent<PlayerCharacter>().GetSpeed();
         SpeedText.text = "speed : " + speed.ToString();
+
 
         //メニュー画面を開く
         menuParent.SetActive(true);
@@ -141,9 +146,8 @@ public class Menu : MonoBehaviour
     /// メニュー画面を閉じる
     /// </summary>
     /// <param name="context"></param>
-    public void CloseMenu(InputAction.CallbackContext context)
-    {
-        menuParent.SetActive(false);
+    public void CloseMenu(InputAction.CallbackContext context) {
+       menuParent.SetActive(false);
 
         // 時間を動かす
         Time.timeScale = 1f;
@@ -154,13 +158,10 @@ public class Menu : MonoBehaviour
     /// <summary>
     /// パークリストのインデックスを増やす
     /// </summary>
-    public void IncreaceIndex(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
+    public void IncreaceIndex(InputAction.CallbackContext context) {
+        if (context.performed) {
             index++;
-            if (index >= ImageList.Count)
-            {
+            if (index >= ImageList.Count) {
                 index = 0;
             }
         }
@@ -168,13 +169,10 @@ public class Menu : MonoBehaviour
     /// <summary>
     /// パークリストのインデックスを減らす
     /// </summary>
-    public void DecreaseIndex(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
+    public void DecreaseIndex(InputAction.CallbackContext context) {
+        if (context.performed) {
             index--;
-            if (index < 0)
-            {
+            if (index < 0) {
                 index = ImageList.Count - 1;
             }
         }
@@ -183,56 +181,55 @@ public class Menu : MonoBehaviour
     /// <summary>
     /// 決定処理
     /// </summary>
-    public void Decide(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            TryDecide(context);
-
-            if (isOpenMenu)
-            {
+    public void Decide(InputAction.CallbackContext context) {
+        if (context.performed) {
+           
+            if (isOpenMenu) { 
                 RemoveItemInMenu();
             }
 
+            //インデックスを指定
+            selectedIndex = index;
         }
     }
-    /// <summary>
-    /// Decideが呼ばれたかどうか
-    /// </summary>
-    /// <param name="context"></param>
-    /// <returns></returns>
-    private bool TryDecide(InputAction.CallbackContext context)
-    {
-        if (!isOpenMenu) return false;
-        RemoveItemInMenu();
-        return true;
-    }
+    
 
     /// <summary>
     /// インデックスを返す
     /// </summary>
     /// <returns></returns>
-    public int GetIndex()
-    {
+    public int GetIndex() {
         return index;
     }
 
-    //public async UniTask SwapItemInMenu(int ID) {
-    //    //メニューを開く
-    //    OpenMenu(new InputAction.CallbackContext());
-    //    //アイテムを捨てて
-    //    RemoveItemInMenu();
-    //    //拾おうとしたアイテムを拾う
+    public async UniTask SwapItemInMenu(ItemBase getItem) {
 
-    //    await UniTask.
+        //インデックスを指定するための物を作る
+        selectedIndex = null;
 
-    //}
+        //メニューを開く
+        OpenMenu(new InputAction.CallbackContext());
+        
+        //決定ボタンまち
+        while (selectedIndex == null) {
+            
+            //1触れ待ち
+            await UniTask.DelayFrame(1);
+        }
+
+        //拾おうとしたアイテムを拾う
+        //プレイヤーを探す
+        GameObject player = GameObject.FindWithTag("Player");
+        RemoveItemInMenu();
+        player.GetComponent<PlayerCharacter>().GetItem(getItem, index);
+        CloseMenu(new InputAction.CallbackContext());
+
+    }
 
     /// <summary>
     /// こちらでアイテムを捨てる
     /// </summary>
-    private void RemoveItemInMenu()
-    {
+    private void RemoveItemInMenu() {
         //プレイヤーを探す
         GameObject player = GameObject.FindWithTag("Player");
         //アイテムリストをキャッシュして受け取る

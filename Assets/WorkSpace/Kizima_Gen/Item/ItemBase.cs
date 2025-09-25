@@ -60,7 +60,7 @@ public abstract class ItemBase : MonoBehaviour{
         rarity = GetRandomRarity();
         //
         RarityText.text = "Rarity : " + RareToString(rarity);
-        //EffectManager.instance.InstantiateEffectFromRare(this.transform, rarity);
+        EffectManager.instance.InstantiateEffectFromRare(this.transform, rarity);
     }
 
 
@@ -140,12 +140,13 @@ public abstract class ItemBase : MonoBehaviour{
     }
 
     /// <summary>
-    /// 名前は完全なる嘘ですこれはアイテムを拾うためのスクリプト
+    /// アイテムを拾うための処理
     /// </summary>
     private void TryGetItem() {
         //近くにプレイヤーいなければ何もしない
         if (!isPlayerInRange) return;
         if (isPlayerPosses) return;
+        if (Menu.instance.isOpenMenu)  return; 
 
         //UIの表示を切る
         UIManager.instance.ChangeVisibleinteractCanvas(false);

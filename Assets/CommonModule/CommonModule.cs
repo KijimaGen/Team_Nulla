@@ -55,4 +55,44 @@ public static class CommonModule {
         return 0;
     }
     //レアリティを受け取って色を返す
+
+
+    /// <summary>
+	/// リストが空か判定
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="list"></param>
+	/// <returns></returns>
+	public static bool IsEmpty<T>(List<T> list) {
+        // 短絡評価なので大丈夫
+        return list == null || list.Count <= 0;
+    }
+
+
+    /// <summary>
+    /// リストに対して有効なインデクスか判定
+    /// </summary>
+    /// <returns></returns>
+    public static bool IsEnableIndex<T>(List<T> list, int index) {
+        if (IsEmpty(list)) return false;
+
+        return index >= 0 && list.Count > index;
+    }
+
+
+    /// <summary>
+    /// リストがいっぱいか確認
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="list"></param>
+    /// <returns></returns>
+    public static bool IsFullList<T>(List<T> list) {
+
+        for(int i = 0,max = list.Count;i < max; i++) {
+            if (list[i] != null) continue;
+
+            return false;
+        }
+        return true;
+    }
 }

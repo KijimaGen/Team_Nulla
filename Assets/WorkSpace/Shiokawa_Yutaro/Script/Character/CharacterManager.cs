@@ -118,7 +118,7 @@ public class CharacterManager : MonoBehaviour
     //        _unuseObjectList.RemoveAt(0);
     //    }
     //    // オブジェクトの使用リストへの追加
-    //    while (!IsEnableIndex(_useObjectList, useID)) _useObjectList.Add(null);
+    //    while (!IsFullList(_useObjectList, useID)) _useObjectList.Add(null);
 
     //    _useObjectList[useID] = useObject;
     //    useObject.transform.SetParent(_useObjectRoot);
