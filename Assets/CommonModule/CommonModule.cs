@@ -95,4 +95,23 @@ public static class CommonModule {
         }
         return true;
     }
+
+    /// <summary>
+    /// クリティカル率を元に計算
+    /// </summary>
+    /// <param name="damage"></param>
+    /// <param name="CriticalRate"></param>
+    /// <returns></returns>
+    public static int CalcClit(int damage,int criticalRate) {
+        //確率の種を生成
+        int rand = Random.Range(0, 101);
+        //クリティカル判定
+        if (rand < criticalRate) {
+            AudioManager.instance.PlaySE(10);
+            return damage * 2;
+        }
+
+        
+        return damage;
+    }
 }

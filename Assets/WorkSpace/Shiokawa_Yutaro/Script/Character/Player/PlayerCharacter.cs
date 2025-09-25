@@ -9,20 +9,20 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using static ItemUtility;
 using static CommonModule;
-
+using System.Threading;
 
 public class PlayerCharacter : CharacterBase
 {
     private PlayerAction _playerAction;
-    
-
+    CancellationTokenSource cts = new CancellationTokenSource();
+    private int criticalRate = 5;
 
     public override void Setup()
     {
         transform.SetParent(null);
         _playerAction = GetComponent<PlayerAction>();
         speed = 2.5f;
-        maxHP = 10;
+        maxHP = 100;
         HP = maxHP;
         rawAttack = 5;
         rawDefense = 0;
@@ -38,6 +38,10 @@ public class PlayerCharacter : CharacterBase
         possessWeapon = GetPlayerWeapon();
 
         SetStatus();
+
+        //自動回復とかの連続処理の呼び出し
+        LoopTask(cts.Token).Forget();
+        
     }
     private void Update()
     {
@@ -50,10 +54,6 @@ public class PlayerCharacter : CharacterBase
             SceneManager.LoadScene("Main");
         }
 
-        //座標の上限
-        if (transform.position.y > 1.5) {
-
-        }
        
     }
 
@@ -166,6 +166,8 @@ public class PlayerCharacter : CharacterBase
 
     private void OnDisable() {
         SendItemList();
+        // 止めたいとき
+        cts.Cancel();
     }
 
     //アイテムリストを送る
@@ -194,4 +196,70 @@ public class PlayerCharacter : CharacterBase
         //アイテムをぶち込む
         possessItemList[itemListIndex] = getItem;
     }
+
+    /// <summary>
+    /// アイテムの回復力を使って回復
+    /// </summary>
+    public void Heal() {
+        //回復量
+        int HealValue = 0;
+        for (int i = 0, max = _POSSESS_ITEM_MAX; i < max; i++) {
+            if (possessItemList[i] == null) continue;
+
+            //このis演算子はpossessItemList[i]がPowerUpItem型かどうかを検知してくれる
+            if (possessItemList[i] is HealItem)
+                HealValue += (int) ((HealItem) possessItemList[i]).GetHealValue();
+        }
+
+        
+
+        if(HP+HealValue > maxHP) {
+            HealValue = (int)(maxHP - HP);
+        }
+
+        //回復
+        HP += HealValue;
+
+        this.GetComponent<HPGaugeUI>().Heal(HealValue);
+    }
+
+
+    /// <summary>
+    /// 一定時間に一回呼ばれる処理
+    /// </summary>
+    /// <param name="token"></param>
+    /// <returns></returns>
+    private async UniTaskVoid LoopTask(CancellationToken token) {
+        while (!token.IsCancellationRequested) {
+            // 呼びたい処理
+            
+            Heal();
+
+            // 1秒待つ
+            await UniTask.Delay(TimeSpan.FromSeconds(1), cancellationToken: token);
+        }
+    }
+
+    /// <summary>
+    /// クリティカル率
+    /// </summary>
+    /// <returns></returns>
+    public int GetCritRate() {
+
+         //回復量
+        int CritValue = 0;
+        for (int i = 0, max = _POSSESS_ITEM_MAX; i < max; i++) {
+            if (possessItemList[i] == null) continue;
+
+            //このis演算子はpossessItemList[i]がPowerUpItem型かどうかを検知してくれる
+            if (possessItemList[i] is CritUpItem)
+                CritValue += (int) ((CritUpItem) possessItemList[i]).GetCritUpValue();
+        }
+
+        return criticalRate + CritValue;
+    }
+
+
+
+
 }

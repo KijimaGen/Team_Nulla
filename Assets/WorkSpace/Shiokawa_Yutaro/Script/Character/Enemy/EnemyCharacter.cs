@@ -508,10 +508,15 @@ public class EnemyCharacter : CharacterBase
                     damage = 1;
                 }
 
+                //ダメージが二倍にならないかな～
+                damage = CommonModule.CalcClit((int)damage,player.GetCritRate());
+
                 Damage(this.GetComponent<Collider>(), (int)damage);
 
                 HP -= damage;
                 playerAction.AddHitPoint(damage * 0.01f);
+
+                
 
                 AudioManager.instance.PlaySE(0);
                 HitEffect(other.transform.position, damage);
