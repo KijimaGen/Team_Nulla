@@ -88710,11 +88710,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDashing: 0
   isAvoiding: 0
+  isJustAvoiding: 0
   isCounter: 0
+  specialGauge: {fileID: 0}
   attackEfect: {fileID: 7075662119902662680, guid: f74d6d68090453340b8266c1213cb0dc, type: 3}
   counterEfect: {fileID: 3540279324930218144, guid: 43a5db2a830427a4d8da0a87549ff513, type: 3}
   jumpEfect: {fileID: 970440554703164915, guid: c9e78ea04c90d7c4eb28e3b92df587ac, type: 3}
   specialEffect: {fileID: 0}
+  switchZRButtonImage: {fileID: 0}
+  switchYButtonImage: {fileID: 0}
+  switchXButtonImage: {fileID: 0}
 --- !u!114 &1222846088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146060,6 +146065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ea509f3bf483f46b37f10fc6a99bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MiniBoss: []
 --- !u!54 &2091790105
 Rigidbody:
   m_ObjectHideFlags: 0

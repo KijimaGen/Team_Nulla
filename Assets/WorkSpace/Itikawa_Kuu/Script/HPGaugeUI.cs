@@ -42,12 +42,12 @@ public class HPGaugeUI : MonoBehaviour
         HP1Width = gauge.x / player.maxHP;
 
         //bulletDamage = Enemy_LongRange.Setup();
-        
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(player.GetHP());
         HPImage.rectTransform.sizeDelta = gauge;
         if(Time.timeScale <= 1 && !playerAction.isJustAvoiding)
         {
