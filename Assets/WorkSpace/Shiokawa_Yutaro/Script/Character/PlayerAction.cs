@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+ï»¿using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using System.Linq;
@@ -11,7 +11,7 @@ public class PlayerAction : MonoBehaviour
 
     private float shiftPressTime = 0f;
     public bool isDashing = false;
-    private float dashThreshold = 0.1f; // 0.25•bˆÈã‚Åƒ_ƒbƒVƒ…ˆµ‚¢
+    private float dashThreshold = 0.1f; // 0.25ç§’ä»¥ä¸Šã§ãƒ€ãƒƒã‚·ãƒ¥æ‰±ã„
     private bool isJumping = false;
     public bool isAvoiding = false;
     public bool isJustAvoiding = false;
@@ -21,8 +21,8 @@ public class PlayerAction : MonoBehaviour
 
     private float pickupRadius = 1f;
 
-    //ƒAƒjƒ[ƒVƒ‡ƒ“
-    private Animation animation;
+    //ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
+    private Animator animator;
 
     private bool inputShiftButton;
 
@@ -30,8 +30,10 @@ public class PlayerAction : MonoBehaviour
     [SerializeField] private Image specialGauge;
 
     private PlayerCharacter player;
+    float currentRawAttack;
 
     [SerializeField] ParticleSystem attackEfect;
+    [SerializeField] ParticleSystem smokeEffect;
     [SerializeField] ParticleSystem counterEfect;
 
     [SerializeField] ParticleSystem jumpEfect;
@@ -51,9 +53,9 @@ public class PlayerAction : MonoBehaviour
     private void Start()
     {
         player = this.GetComponent<PlayerCharacter>();
-
+        currentRawAttack = player.rawAttack;
         rb = GetComponent<Rigidbody>();
-        //animation = GetComponent<Animation>();
+        animator = GetComponent<Animator>();
 
     }
 
@@ -72,24 +74,25 @@ public class PlayerAction : MonoBehaviour
 
 
 
-        //UŒ‚‚Ìó•t
+        //æ”»æ’ƒã®å—ä»˜
         if (AcceptAttack()) return;
-        //ƒWƒƒƒ“ƒv‚Ìó•t
+        //ã‚¸ãƒ£ãƒ³ãƒ—ã®å—ä»˜
         if (AcceptJump()) return;
-        //ˆÚ“®‚Ìó•t
+        //ç§»å‹•ã®å—ä»˜
         if (AcceptMove()) return;
 
     }
     float justAvoidingTime = 0.05f;
     /// <summary>
-    /// ˆÚ“®‚Ìó•tA“à•”ˆ—
+    /// ç§»å‹•ã®å—ä»˜ã€å†…éƒ¨å‡¦ç†
     /// </summary>
-    /// <returns>ˆÚ“®‚µ‚½‚çTrue</returns>
+    /// <returns>ç§»å‹•ã—ãŸã‚‰True</returns>
     public bool AcceptMove()
     {
         if (isJumping || player.isAttacking) return false;
 
         Vector3 inputDir = AcceptDirInput().normalized;
+       // Debug.Log(inputDir);
         if (inputDir.magnitude <= 0.0f)
         {
             player.SetSpeed(player.walkSpeed);
@@ -97,7 +100,10 @@ public class PlayerAction : MonoBehaviour
             isAvoiding = false;
             isJustAvoiding = false;
             isCounter = false;
-           // animation.Play("‘Ò‹@");
+
+            animator.SetBool("Dash", false);
+
+            // animation.Play("å¾…æ©Ÿ");
 
             return false;
         }
@@ -109,12 +115,12 @@ public class PlayerAction : MonoBehaviour
             Vector3 v = rb.velocity;
             v.y = 0;
             rb.velocity = v;
-
+            animator.SetBool("Dash", true);
             player.SetSpeed(player.runSpeed);
             TriggerDash();
-            //Debug.Log("ƒ_ƒbƒVƒ…‚ÌŠJ–‹ŠÔ : " + shiftPressTime);
+            //Debug.Log("ãƒ€ãƒƒã‚·ãƒ¥ã®é–‹å¹•æ™‚é–“ : " + shiftPressTime);
 
-            //ƒ_ƒbƒVƒ…‚µ‘±‚¯‚Ä‚¢‚½‚ç
+            //ãƒ€ãƒƒã‚·ãƒ¥ã—ç¶šã‘ã¦ã„ãŸã‚‰
             shiftPressTime += Time.deltaTime;
             if (shiftPressTime >= dashThreshold)
             {
@@ -133,7 +139,7 @@ public class PlayerAction : MonoBehaviour
         else
         {
             shiftPressTime = 0f;
-            //animation.Play("•à‚­");
+            //animation.Play("æ­©ã");
 
         }
 
@@ -167,7 +173,7 @@ public class PlayerAction : MonoBehaviour
         {
             ParticleSystem jumpEffect = Instantiate(jumpEfect, transform.position, Quaternion.identity);
             Destroy(jumpEffect.gameObject, 2);
-            // …•½•ûŒü‚ÌˆÚ“®‚ğ~‚ß‚é
+            // æ°´å¹³æ–¹å‘ã®ç§»å‹•ã‚’æ­¢ã‚ã‚‹
             Jump();
             isJumping = true;
 
@@ -179,9 +185,9 @@ public class PlayerAction : MonoBehaviour
         return false;
     }
 
-    private float jumpHeight = 1f;   // ƒWƒƒƒ“ƒv‚Ì‚‚³
-    private float jumpDistance = 5f; // ”ò‚Ñ‚½‚¢‹——£
-    private float gravity = -9.81f;  // d—ÍiUnity‚ÌƒfƒtƒHƒ‹ƒgj
+    private float jumpHeight = 1f;   // ã‚¸ãƒ£ãƒ³ãƒ—ã®é«˜ã•
+    private float jumpDistance = 5f; // é£›ã³ãŸã„è·é›¢
+    private float gravity = -9.81f;  // é‡åŠ›ï¼ˆUnityã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆï¼‰
     void Jump()
     {
         float jumpVelocity = Mathf.Sqrt(2 * -gravity * jumpHeight);
@@ -200,7 +206,7 @@ public class PlayerAction : MonoBehaviour
 
 
     /// <summary>
-    /// ‰ñ”ğˆ—
+    /// å›é¿å‡¦ç†
     /// </summary>
     /// <param name="player"></param>
     private void TriggerDodge(PlayerCharacter player)
@@ -209,39 +215,39 @@ public class PlayerAction : MonoBehaviour
         isJustAvoiding = true;
 
 
-        // ƒvƒŒƒCƒ„[‚Ì‘O•ûŒü‚ÉuŠÔ“I‚É“®‚©‚·i—á: ‰ñ”ğƒ[ƒ‹j
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‰æ–¹å‘ã«ç¬é–“çš„ã«å‹•ã‹ã™ï¼ˆä¾‹: å›é¿ãƒ­ãƒ¼ãƒ«ï¼‰
         Vector3 dodgeDir = AcceptDirInput().normalized;
         if (dodgeDir == Vector3.zero)
         {
-            dodgeDir = transform.forward; // “ü—Í‚ª‚È‚¯‚ê‚Î‘O‚É‰ñ”ğ
+            dodgeDir = transform.forward; // å…¥åŠ›ãŒãªã‘ã‚Œã°å‰ã«å›é¿
         }
 
-        //¦ƒWƒƒƒXƒg‰ñ”ğƒVƒXƒeƒ€
+        //â€»ã‚¸ãƒ£ã‚¹ãƒˆå›é¿ã‚·ã‚¹ãƒ†ãƒ 
 
         rb.AddForce(dodgeDir * player.runSpeed * 200, ForceMode.Impulse);
     }
 
     /// <summary>
-    /// ƒ_ƒbƒVƒ…’†‚Ìe’e’e‚«ˆ—
+    /// ãƒ€ãƒƒã‚·ãƒ¥ä¸­ã®éŠƒå¼¾å¼¾ãå‡¦ç†
     /// </summary>
     private void TriggerDash()
     {
-        //‰ñ”ğ’†‚È‚çŠO‚ê‚é
+        //å›é¿ä¸­ãªã‚‰å¤–ã‚Œã‚‹
         if (isAvoiding) return;
         if (isCounter) return;
-        //’e‚ğ’e‚­(‚¸‚Á‚ÆŒJ‚è•Ô‚·)
+        //å¼¾ã‚’å¼¾ã(ãšã£ã¨ç¹°ã‚Šè¿”ã™)
         //ParticleSystem effect = Instantiate(counterEfect, transform.position + Vector3.up * 0.3f, Quaternion.LookRotation(transform.forward));
         //effect.transform.SetParent(transform);
-        //ƒAƒjƒ[ƒVƒ‡ƒ“(ˆê“x‚¾‚¯)
+        //ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³(ä¸€åº¦ã ã‘)
 
-        //animation.Play("ƒ_ƒbƒVƒ…");
+        animator.SetBool("Dash",true);
 
-        //Debug.Log("ƒvƒŒƒC‚â[‚ªƒ_ƒbƒVƒ…”­“®");
+        //Debug.Log("ãƒ—ãƒ¬ã‚¤ã‚„ãƒ¼ãŒãƒ€ãƒƒã‚·ãƒ¥ç™ºå‹•");
         isCounter = true;
     }
 
     /// <summary>
-    /// •ûŒü“ü—Í‚Æ©‹@‰ñ“]ˆ—
+    /// æ–¹å‘å…¥åŠ›ã¨è‡ªæ©Ÿå›è»¢å‡¦ç†
     /// </summary>
     /// <returns></returns>
     public Vector3 AcceptDirInput()
@@ -250,12 +256,12 @@ public class PlayerAction : MonoBehaviour
         float moveZ = Input.GetAxisRaw("Vertical");
 
         Vector3 input = new Vector3(switchLStickValue.x + moveX, 0, switchLStickValue.y + moveZ);
-        input = Vector3.ClampMagnitude(input, 1f); // Î‚ßˆÚ“®‚ğ•â³
+        input = Vector3.ClampMagnitude(input, 1f); // æ–œã‚ç§»å‹•ã‚’è£œæ­£
 
-        // ƒJƒƒ‰‚ÌŒü‚«‚É‡‚í‚¹‚Ä“ü—Í‚ğ‰ñ“]‚³‚¹‚é
+        // ã‚«ãƒ¡ãƒ©ã®å‘ãã«åˆã‚ã›ã¦å…¥åŠ›ã‚’å›è»¢ã•ã›ã‚‹
         Transform cam = Camera.main.transform;
 
-        // ƒJƒƒ‰‚ÌY²•ûŒü‚Ì‰ñ“]‚¾‚¯æ‚èo‚·
+        // ã‚«ãƒ¡ãƒ©ã®Yè»¸æ–¹å‘ã®å›è»¢ã ã‘å–ã‚Šå‡ºã™
         Vector3 camForward = cam.forward;
         camForward.y = 0;
         camForward.Normalize();
@@ -264,14 +270,14 @@ public class PlayerAction : MonoBehaviour
         camRight.y = 0;
         camRight.Normalize();
 
-        // ƒJƒƒ‰Šî€‚Ì“ü—Í•ûŒü‚ğ•Ô‚·
+        // ã‚«ãƒ¡ãƒ©åŸºæº–ã®å…¥åŠ›æ–¹å‘ã‚’è¿”ã™
         Vector3 moveDir = camForward * input.z + camRight * input.x;
 
         return moveDir;
     }
 
     /// <summary>
-    /// ’ÊíUŒ‚“ü—Íó•tAˆ—
+    /// é€šå¸¸æ”»æ’ƒå…¥åŠ›å—ä»˜ã€å‡¦ç†
     /// </summary>
     /// <returns></returns>
     bool inputAttack;
@@ -283,11 +289,10 @@ public class PlayerAction : MonoBehaviour
             player.SetSpeed(player.walkSpeed);
             isDashing = false;
             inputAttack = true;
-            //Œø‰Ê‰¹‚ğ–Â‚ç‚·
-            AudioManager.instance.PlaySE(4);
+            
             if (isJumping)
             {
-                //animation.Play("—‰ºUŒ‚");
+                TryAttackNearestEnemy().Forget();
                 rb.velocity = Vector3.down;
                 player.isAttacking = true;
                 return true;
@@ -295,20 +300,12 @@ public class PlayerAction : MonoBehaviour
 
             else if (canCombo)
             {
-                comboStep++;
-                player.isAttacking = false;
                 TryAttackNearestEnemy().Forget();
-                if (comboStep == 3)
-                {
-                    //Œø‰Ê‰¹‚ğ–Â‚ç‚·
-                    AudioManager.instance.PlaySE(9);
-                }
 
                 return true;
             }
             else
             {
-                comboStep = 1;
                 TryAttackNearestEnemy().Forget();
                 return true;
             }
@@ -318,7 +315,7 @@ public class PlayerAction : MonoBehaviour
             player.SetSpeed(player.walkSpeed);
             isDashing = false;
             inputAttack = true;
-            //animation.Play("•KE");
+            //animation.Play("å¿…æ®º");
             player.isAttacking = true;
 
             return true;
@@ -330,31 +327,25 @@ public class PlayerAction : MonoBehaviour
         }
 
         //ExecuteAction(GetPlayer(), NORMAL_ATTACK_ACTION_ID);
-        //¡‚Á‚Ä‚é•Ší‚ğQÆ‚µ‚½‚¢
+        //ä»ŠæŒã£ã¦ã‚‹æ­¦å™¨ã‚’å‚ç…§ã—ãŸã„
 
     }
     private async UniTaskVoid TryAttackNearestEnemy()
     {
-        // UŒ‚ƒAƒjƒ[ƒVƒ‡ƒ“Às
-        PlayAttackAnimation(comboStep);
-        rb.velocity = Vector3.zero;
+        // æ”»æ’ƒã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å®Ÿè¡Œ
+        animator.SetBool("Attack", true);
+        player.isAttacking = true;
+        //rb.velocity = Vector3.zero;
 
-        if (comboStep == 3)
-        {
-            rb.velocity = transform.up * 6f;
-        }
-        ParticleSystem effect = Instantiate(attackEfect, transform.position + Vector3.up * 0.3f, Quaternion.LookRotation(transform.forward));
-        effect.transform.SetParent(transform);
-        Destroy(effect.gameObject, 2);
         enemyLayer = LayerMask.GetMask("Enemy");
         attackRange = 2;
 
-        // UŒ‚”ÍˆÍ“à‚Ì“G‚ğ’T‚·
+        // æ”»æ’ƒç¯„å›²å†…ã®æ•µã‚’æ¢ã™
         Collider[] hits = Physics.OverlapSphere(transform.position, attackRange, enemyLayer);
 
         if (hits.Length == 0) return;
 
-        // ˆê”Ô‹ß‚¢“G‚ğ‘I‘ğ
+        // ä¸€ç•ªè¿‘ã„æ•µã‚’é¸æŠ
         var nearestEnemy = hits
             .Select(e => e.GetComponent<EnemyCharacter>())
             .Where(e => e != null && !e.isDead)
@@ -366,33 +357,31 @@ public class PlayerAction : MonoBehaviour
 
 
 
-        float stopDistance = 0.5f; //“G‚Ìè‘O‚Å~‚Ü‚é‹——£
+        float stopDistance = 0.5f; //æ•µã®æ‰‹å‰ã§æ­¢ã¾ã‚‹è·é›¢
         Vector3 dir = (nearestEnemy.transform.position - transform.position).normalized;
         Vector3 stopPos = nearestEnemy.transform.position - dir * stopDistance;
 
-        // ‹ß‹——£•Ší‚È‚çA‚»‚±‚Ü‚Åƒ_ƒbƒVƒ…ˆÚ“®
+        // è¿‘è·é›¢æ­¦å™¨ãªã‚‰ã€ãã“ã¾ã§ãƒ€ãƒƒã‚·ãƒ¥ç§»å‹•
         rb.DOMove(stopPos, 0.1f);
     }
 
     private bool canCombo = false;
-    private int comboStep = 0;
     public void OnComboOpen()
     {
+        animator.SetBool("Dash", false);
+        animator.SetBool("Attack", false);
         canCombo = true;
         inputAttack = false;
+        Destroy(currentHitbox);
     }
     public void OnComboClose()
     {
+        animator.SetBool("Dash", false);
+        animator.SetBool("Attack", false);
         player.isAttacking = false;
         canCombo = false;
-        comboStep = 0;
         inputAttack = false;
-    }
-
-    private void PlayAttackAnimation(int step)
-    {
-        player.isAttacking = true;
-        //animation.Play("ƒRƒ“ƒ{" + step);
+        
     }
 
     public void SpecialAttackEffect()
@@ -400,19 +389,19 @@ public class PlayerAction : MonoBehaviour
         Instantiate(specialEffect, transform.position + transform.up * 0.5f, Quaternion.identity);
     }
     /// <summary>
-    /// ‹“_‘€ì
+    /// è¦–ç‚¹æ“ä½œ
     /// </summary>
     private void AcceptDirChange(Vector3 dir)
     {
         if (dir == Vector3.zero) return;
 
         float rotationSpeed = 2000f;
-        // “ü—Í•ûŒü‚ğŒü‚­Quaternion‚ğì¬iY²‚Ì‚İj
+        // å…¥åŠ›æ–¹å‘ã‚’å‘ãQuaternionã‚’ä½œæˆï¼ˆYè»¸ã®ã¿ï¼‰
         Quaternion targetRotation = Quaternion.LookRotation(dir);
         Vector3 euler = targetRotation.eulerAngles;
         targetRotation = Quaternion.Euler(0, euler.y, 0);
 
-        // Œ»İ‚Ì‰ñ“]‚©‚çAtargetRotation‚ÖArotationSpeed“x/•b‚Å‰ñ“]
+        // ç¾åœ¨ã®å›è»¢ã‹ã‚‰ã€targetRotationã¸ã€rotationSpeedåº¦/ç§’ã§å›è»¢
         transform.rotation = Quaternion.RotateTowards(
             transform.rotation,
             targetRotation,
@@ -448,15 +437,15 @@ public class PlayerAction : MonoBehaviour
 
     private void Pickup(PickItem item)
     {
-        Debug.Log($"E‚Á‚½ƒAƒCƒeƒ€: {item.itemName}");
+        Debug.Log($"æ‹¾ã£ãŸã‚¢ã‚¤ãƒ†ãƒ : {item.itemName}");
 
-        // —á: Š•i‚É’Ç‰Á‚·‚éAUIXV‚È‚Ç
+        // ä¾‹: æ‰€æŒå“ã«è¿½åŠ ã™ã‚‹ã€UIæ›´æ–°ãªã©
         // inventory.Add(item);
 
-        // ƒAƒCƒeƒ€‚ğÁ‚·
+        // ã‚¢ã‚¤ãƒ†ãƒ ã‚’æ¶ˆã™
         Destroy(item.gameObject);
     }
-    private float attackRange;       // UŒ‚‚Å‚«‚é”ÍˆÍ
+    private float attackRange;       // æ”»æ’ƒã§ãã‚‹ç¯„å›²
     private int enemyLayer;
 
     
@@ -520,14 +509,14 @@ public class PlayerAction : MonoBehaviour
     }
 
     /// <summary>
-    /// •à‚­‚Æ‚«‚Ì‰¹‚ÌÄ¶
+    /// æ­©ãã¨ãã®éŸ³ã®å†ç”Ÿ
     /// </summary>
     public void PlayWalkSound() {
         AudioManager.instance.PlaySE(6);
     }
 
     /// <summary>
-    /// ‘–‚é‚Ì‰¹‚ÌÄ¶
+    /// èµ°ã‚‹æ™‚ã®éŸ³ã®å†ç”Ÿ
     /// </summary>
     public void PlayDashSound() {
         AudioManager.instance.PlaySE(7);
@@ -537,4 +526,102 @@ public class PlayerAction : MonoBehaviour
     {
         return specialGauge.fillAmount += value;
     }
+
+    public void Attack1()
+    {
+        player.SetRawAttack(currentRawAttack);
+        ParticleSystem effect = Instantiate(attackEfect,transform.position + Vector3.up * 0.4f,Quaternion.identity);
+        effect.transform.SetParent(transform);
+        effect.transform.localRotation = Quaternion.Euler(0, 0, 30);
+        //åŠ¹æœéŸ³ã‚’é³´ã‚‰ã™
+        AudioManager.instance.PlaySE(4);
+        Destroy(effect.gameObject, 2);
+
+        CreateHitBox(new Vector3(1f,0.7f,0.8f));
+    }
+    public void Attack2()
+    {
+        player.SetRawAttack(currentRawAttack * 1.2f);
+        ParticleSystem effect = Instantiate(attackEfect, transform.position + Vector3.up * 0.4f, Quaternion.identity);
+        effect.transform.SetParent(transform);
+        effect.transform.localRotation = Quaternion.Euler(0, 0, -110);
+        //åŠ¹æœéŸ³ã‚’é³´ã‚‰ã™
+        AudioManager.instance.PlaySE(4);
+        Destroy(effect.gameObject, 2);
+
+        CreateHitBox(new Vector3(0.5f, 1f, 0.8f));
+    }
+    public void Attack3()
+    {
+        player.SetRawAttack(currentRawAttack * 1.8f);
+        ParticleSystem effect = Instantiate(attackEfect, transform.position + Vector3.up * 0.4f, Quaternion.identity);
+        effect.transform.SetParent(transform);
+        effect.transform.localRotation = Quaternion.Euler(0, 0, 60);
+        AudioManager.instance.PlaySE(4);
+        Destroy(effect.gameObject, 2);
+
+        CreateHitBox(new Vector3(1.4f, 1f, 1.4f));
+    }
+    public void Attack3Motion()
+    {
+        rb.velocity = Vector3.up * 5;
+    }
+    public void Attack3End_Effect()
+    {
+        ParticleSystem effect = Instantiate(smokeEffect, transform.position + transform.forward * 0.5f + Vector3.up * 0.4f, Quaternion.identity);
+        effect.transform.SetParent(transform);
+        effect.transform.localScale = Vector3.one;
+        Destroy(effect.gameObject, 2);
+    }
+
+    public void Attack_Dash1()
+    {
+        player.SetRawAttack(currentRawAttack * 1.2f);
+        rb.velocity = transform.forward * 3;
+        CreateHitBox(new Vector3(0.5f, 0.5f, 1f));
+    }
+    public void Attack_Dash2()
+    {
+        player.SetRawAttack(currentRawAttack * 1.4f);
+        rb.velocity = transform.forward * 3;
+        CreateHitBox(new Vector3(0.8f, 0.6f, 0.8f));
+    }
+
+    private GameObject currentHitbox; // å‰å›ç”Ÿæˆã—ãŸHitboxã‚’ä¿æŒã™ã‚‹å¤‰æ•°
+
+    private void CreateHitBox(Vector3 boxSize)
+    {
+        // ã‚‚ã—å‰å›ã®ãƒ’ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹ãŒæ®‹ã£ã¦ã„ãŸã‚‰å‰Šé™¤
+        if (currentHitbox != null)
+        {
+            Destroy(currentHitbox);
+        }
+
+        // ç©ºã®GameObjectã‚’ä½œæˆ
+        GameObject hitbox = new GameObject("AttackHitbox");
+        hitbox.tag = "Weapon";
+        hitbox.transform.parent = transform;
+
+        // ä½ç½®ãƒ»å›è»¢ã‚’è¨­å®š
+        hitbox.transform.position = transform.position + transform.forward * 0.5f;
+        hitbox.transform.rotation = transform.rotation;
+        // BoxCollider ã‚’ä»˜ä¸
+        BoxCollider collider = hitbox.AddComponent<BoxCollider>();
+        collider.transform.localScale = boxSize * 3;
+        Vector3 colPos = collider.transform.position;
+        collider.transform.position = new Vector3(colPos.x, colPos.y + boxSize.y / 2f, colPos.z);
+        collider.isTrigger = true;
+
+        // ãƒ‡ãƒãƒƒã‚°ç”¨ã«ç›®ã«è¦‹ãˆã‚‹ Cube ã‚’è¿½åŠ 
+        MeshFilter meshFilter = hitbox.AddComponent<MeshFilter>();
+        meshFilter.mesh = Resources.GetBuiltinResource<Mesh>("Cube.fbx");
+
+        MeshRenderer renderer = hitbox.AddComponent<MeshRenderer>();
+        renderer.material = new Material(Shader.Find("Standard"));
+        renderer.material.SetFloat("_Mode", 3);
+        renderer.material.color = new Color(255f, 0f, 0f, 0.3f);
+        renderer.enabled = false;
+        currentHitbox = hitbox;
+    }
+
 }

@@ -54,10 +54,15 @@ public class CameraMove : MonoBehaviour
         RaycastHit hit;
         Vector3 finalOffset = desiredOffset;
 
-        //特定のレイヤーを無視するための物
-        int ignoreLayer = LayerMask.NameToLayer("Item");
-        //そのレイヤーを無視するマスクを作る
-        int layerMask = ~(1<< ignoreLayer);
+        // 無視したいレイヤーを取得
+        int ignoreLayer1 = LayerMask.NameToLayer("Item");
+        int ignoreLayer2 = LayerMask.NameToLayer("Enemy");
+
+        // それらをまとめたマスクを作る
+        int ignoreMask = (1 << ignoreLayer1) | (1 << ignoreLayer2);
+
+        // 無視するためにビット反転
+        int layerMask = ~ignoreMask;
 
 
         if (Physics.Raycast(targetCenter, desiredOffset.normalized, out hit, maxDistance, layerMask))
