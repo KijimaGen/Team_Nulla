@@ -78630,6 +78630,12 @@ MonoBehaviour:
   - {fileID: 2644584}
   - {fileID: 1256481728}
   menuParent: {fileID: 2000581600}
+  ImageList: []
+  isOpenMenu: 0
+  AttackText: {fileID: 0}
+  LifeText: {fileID: 0}
+  DefenceText: {fileID: 0}
+  SpeedText: {fileID: 0}
 --- !u!114 &1152511994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86404,6 +86410,50 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1189209050}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1190060709
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1190060711}
+  - component: {fileID: 1190060710}
+  m_Layer: 0
+  m_Name: HPSave
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1190060710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190060709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3d795325120767449e69deaf86b596b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1190060711
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190060709}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 42.68914, y: 46.00052, z: 5.5453725}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1191364943
 GameObject:
   m_ObjectHideFlags: 0
@@ -97433,6 +97483,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   neck: {fileID: 0}
+  player: {fileID: 0}
 --- !u!20 &1323005213
 Camera:
   m_ObjectHideFlags: 0
@@ -146065,6 +146116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ea509f3bf483f46b37f10fc6a99bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hole: {fileID: 0}
   MiniBoss: []
 --- !u!54 &2091790105
 Rigidbody:
@@ -155655,3 +155707,4 @@ SceneRoots:
   - {fileID: 901480688}
   - {fileID: 1152511992}
   - {fileID: 747744873}
+  - {fileID: 1190060711}
