@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using DG.Tweening.Core.Easing;
+using UnityEngine.SceneManagement;
 
 public class HPGaugeUI : MonoBehaviour
 {
@@ -26,6 +27,9 @@ public class HPGaugeUI : MonoBehaviour
     // 近接の威力
     private float punchDamage = 1;
 
+    // 残りのHP
+    public static float restHP = 0;
+
     Vector2 gauge;
 
     PlayerAction playerAction;
@@ -34,6 +38,8 @@ public class HPGaugeUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        MaxHP = HPSave.saveHP;
+
         playerAction = GetComponent<PlayerAction>();
         player = GetComponent<PlayerCharacter>();
         // ゲージの幅と高さ
@@ -52,6 +58,11 @@ public class HPGaugeUI : MonoBehaviour
         if(Time.timeScale <= 1 && !playerAction.isJustAvoiding)
         {
             //Time.timeScale += 0.02f;
+        }
+        
+        // ゲームオーバー
+        if (player.GetHP() <= 0) {
+            SceneManager.LoadScene("GameOverScene");
         }
     }
 
@@ -123,5 +134,9 @@ public class HPGaugeUI : MonoBehaviour
         player.SetHP(player.GetHP() - damage);
         float targetRate = HcurrentRate - _damage / player.maxHP;
         UpdateFillAmount(HPImage, ref HcurrentRate, targetRate, duration, DamageImage);
+    }
+
+    private void OnDestroy() {
+        restHP = player.GetHP();
     }
 }
