@@ -50,6 +50,8 @@ public class PlayerAction : MonoBehaviour
     bool switchBButton;
     bool switchYButton;
     bool switchXButton;
+
+    [SerializeField] private GameObject WeaponModel;
     private void Start()
     {
         player = this.GetComponent<PlayerCharacter>();
@@ -100,7 +102,7 @@ public class PlayerAction : MonoBehaviour
             isAvoiding = false;
             isJustAvoiding = false;
             isCounter = false;
-
+            animator.SetBool("Walk", false);
             animator.SetBool("Dash", false);
 
             // animation.Play("待機");
@@ -115,6 +117,7 @@ public class PlayerAction : MonoBehaviour
             Vector3 v = rb.velocity;
             v.y = 0;
             rb.velocity = v;
+            animator.SetBool("Walk", false);
             animator.SetBool("Dash", true);
             player.SetSpeed(player.runSpeed);
             TriggerDash();
@@ -139,7 +142,7 @@ public class PlayerAction : MonoBehaviour
         else
         {
             shiftPressTime = 0f;
-            //animation.Play("歩く");
+            animator.SetBool("Walk", true);
 
         }
 
@@ -360,7 +363,6 @@ public class PlayerAction : MonoBehaviour
         float stopDistance = 0.5f; //敵の手前で止まる距離
         Vector3 dir = (nearestEnemy.transform.position - transform.position).normalized;
         Vector3 stopPos = nearestEnemy.transform.position - dir * stopDistance;
-
         // 近距離武器なら、そこまでダッシュ移動
         rb.DOMove(stopPos, 0.1f);
     }

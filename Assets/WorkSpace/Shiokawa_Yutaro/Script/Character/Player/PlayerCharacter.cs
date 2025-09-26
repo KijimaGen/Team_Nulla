@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using static ItemUtility;
 
 public class PlayerCharacter : CharacterBase
@@ -33,6 +34,7 @@ public class PlayerCharacter : CharacterBase
     }
     private void Update()
     {
+        if (Time.timeScale == 0) return;
         if (transform.parent != null) return;
         //プレイヤーの操作の呼び出し
         _playerAction.AcceptInput();

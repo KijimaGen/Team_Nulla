@@ -69,24 +69,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "OpenMenu",
-                    "type": "Button",
-                    "id": "c866685b-e2c5-4f2f-9b1a-6420ad5b6c65",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "CloseMenu",
-                    "type": "Button",
-                    "id": "b51cac48-eedc-4dd8-b7dd-e8d393372da9",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "RightMove",
                     "type": "Button",
                     "id": "af6d1bb3-33e5-4fc8-9102-403f3c407953",
@@ -396,72 +378,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0a64fff3-9c07-4740-9660-e97f55557e10",
-                    "path": "<Keyboard>/c",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "OpenMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "744f6971-3c5b-4204-801b-167540834bfc",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "OpenMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ee6f7255-7cd0-414e-98fc-2d583a5c1f28",
-                    "path": "<NPad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "OpenMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "537dc598-fad0-47e1-948a-400d55f393e8",
-                    "path": "<Keyboard>/v",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "CloseMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b613b3c3-60f3-44aa-9fed-e5d59bd48d91",
-                    "path": "<Gamepad>/select",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "CloseMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "af0e7659-1af8-4744-8977-39b9a9795dcd",
-                    "path": "<NPad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "CloseMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
