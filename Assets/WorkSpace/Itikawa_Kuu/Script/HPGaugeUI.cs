@@ -38,8 +38,6 @@ public class HPGaugeUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MaxHP = HPSave.saveHP;
-
         playerAction = GetComponent<PlayerAction>();
         player = GetComponent<PlayerCharacter>();
         // ゲージの幅と高さ
@@ -48,6 +46,9 @@ public class HPGaugeUI : MonoBehaviour
         HP1Width = gauge.x / player.maxHP;
 
         //bulletDamage = Enemy_LongRange.Setup();
+        if (restHP > 0) {
+            StartHP(restHP);
+        }
     }
 
     // Update is called once per frame
@@ -64,6 +65,7 @@ public class HPGaugeUI : MonoBehaviour
         if (player.GetHP() <= 0) {
             SceneManager.LoadScene("GameOverScene");
         }
+        Debug.Log(player.GetHP());
     }
 
     //public void DamageGaugeDown() {
@@ -133,6 +135,12 @@ public class HPGaugeUI : MonoBehaviour
         float damage = Mathf.Max(_damage - player.rawDefense, 1);
         player.SetHP(player.GetHP() - damage);
         float targetRate = HcurrentRate - _damage / player.maxHP;
+        UpdateFillAmount(HPImage, ref HcurrentRate, targetRate, duration, DamageImage);
+    }
+
+    public void StartHP(float _damage) {
+        player.SetHP(_damage);
+        float targetRate = HcurrentRate - _damage / (player.maxHP);
         UpdateFillAmount(HPImage, ref HcurrentRate, targetRate, duration, DamageImage);
     }
 
