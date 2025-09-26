@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 
 public class GameOver : MonoBehaviour {
     [SerializeField]
@@ -27,7 +28,7 @@ public class GameOver : MonoBehaviour {
     /// <summary>
     /// 決定
     /// </summary>
-    public void Push() {
+    public void Push(InputAction.CallbackContext context) {
         if (selectObject.name == "Retry") {
             SceneManager.LoadScene("Main");
         }
@@ -38,13 +39,29 @@ public class GameOver : MonoBehaviour {
     /// <summary>
     /// リトライボタン
     /// </summary>
-    public void Up() {
+    public void Up(InputAction.CallbackContext context) {
         Retry.Select();
     }
     /// <summary>
     /// ゲーム終了ボタン
     /// </summary>
-    public void Down() {
+    public void Down(InputAction.CallbackContext context) {
         Exit.Select();
+    }
+
+    /// <summary>
+    /// OnClick
+    /// </summary>
+    public void Push()
+    {
+        if (selectObject.name == "Retry")
+        {
+            SceneManager.LoadScene("Main");
+        }
+        else if (selectObject.name == "Exit")
+        {
+            Debug.Log("ゲーム終了");
+            Application.Quit();
+        }
     }
 }

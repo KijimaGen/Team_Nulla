@@ -56,7 +56,9 @@ public class ItemManager : SystemObject{
         //シーン遷移しても壊れない
         DontDestroyOnLoad(this.gameObject);
 
+        //シーンマネージャーにシーン遷移したときに処理を呼んでもらう 
         SceneManager.sceneLoaded += OnSceneLoaded;
+
     }
 
     /// <summary>
@@ -85,12 +87,15 @@ public class ItemManager : SystemObject{
     /// </summary>
     /// <param name="ID"></param>
     public void UnuseItem(int ID) {
-        if (_useList[ID] ==  null) return;
-        ItemBase item = _useList[ID];
+        if (GetItemFromList(ID) == null) return;
+        ItemBase item = GetItemFromList(ID);
 
         if (_useList.Contains(item)) {
             _useList.Remove(item);
             _unuseList.Add(item);
+
+            Debug.Log($"item = {item}, destroyed? {(item == null ? "yes" : "no")}");
+            Debug.Log($"unuseRoot = {_unuseRoot}, destroyed? {(_unuseRoot == null ? "yes" : "no")}");
 
             item.transform.SetParent(_unuseRoot);
             
@@ -208,18 +213,19 @@ public class ItemManager : SystemObject{
     /// </summary>
     /// <param name="scene"></param>
     /// <param name="mode"></param>
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         // コピーを作ってから回す
         var tempList = new List<ItemBase>(_useList);
 
-        for (int i = 0; i < tempList.Count; i++)
-        {
+        for (int i = 0; i < tempList.Count; i++) {
             // プレイヤーが持っている物だったらスルー
             if (tempList[i].isPlayerPosses) continue;
 
             // 不使用状態にする
             UnuseItem(tempList[i].itemID);
         }
+
+        _useList = tempList;
     }
+
 }

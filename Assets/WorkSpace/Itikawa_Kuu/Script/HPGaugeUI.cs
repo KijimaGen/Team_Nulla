@@ -42,12 +42,12 @@ public class HPGaugeUI : MonoBehaviour
         HP1Width = gauge.x / player.maxHP;
 
         //bulletDamage = Enemy_LongRange.Setup();
-        
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(player.GetHP());
         HPImage.rectTransform.sizeDelta = gauge;
         if(Time.timeScale <= 1 && !playerAction.isJustAvoiding)
         {
@@ -124,4 +124,28 @@ public class HPGaugeUI : MonoBehaviour
         float targetRate = HcurrentRate - _damage / player.maxHP;
         UpdateFillAmount(HPImage, ref HcurrentRate, targetRate, duration, DamageImage);
     }
+
+    /// <summary>
+    /// 回復の処理
+    /// </summary>
+    /// <param name="amount"></param>
+    public void Heal(float amount) {
+        // プレイヤーの取得
+        player = GetComponentInParent<PlayerCharacter>();
+
+        // 実際に加算する量（0未満にならないようClamp）
+        float newHP = Mathf.Clamp(player.GetHP() + amount, 0, player.maxHP);
+
+        // 実際に加算された量
+        float heal = newHP - player.GetHP();
+
+        // HP更新
+        player.SetHP(newHP);
+
+        // fillAmount用にターゲット割合を算出
+        float targetRate = newHP / player.maxHP; // ← 実際のHP割合をそのまま使うのが安全！
+        UpdateFillAmount(HPImage, ref HcurrentRate, targetRate, duration, DamageImage);
+    }
+
+
 }

@@ -13,7 +13,7 @@ namespace MatthewAssets
         public float cameraRotationSpeed = 10f; // Rotation speed
         public float destroyDelay = 2f; // Time to destroy prefabs
         public Text infoText;
-        private int currentIndex = 0; // Index of the current prefab
+        private int currentIndex = 0; // index of the current prefab
 
 
         void Start()

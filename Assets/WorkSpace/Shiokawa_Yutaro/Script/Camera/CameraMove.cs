@@ -29,7 +29,7 @@ public class CameraMove : MonoBehaviour
     {
         Vector3 playerPos = player.transform.position;
         ViewRoteto(player.transform);
-       // RotateNeck();
+        RotateNeck();
     }
     /// <summary>
     /// カメラの視点操作
@@ -54,10 +54,15 @@ public class CameraMove : MonoBehaviour
         RaycastHit hit;
         Vector3 finalOffset = desiredOffset;
 
-        //特定のレイヤーを無視するための物
-        int ignoreLayer = LayerMask.NameToLayer("Item");
-        //そのレイヤーを無視するマスクを作る
-        int layerMask = ~(1<< ignoreLayer);
+        // 無視したいレイヤーを取得
+        int ignoreLayer1 = LayerMask.NameToLayer("Item");
+        int ignoreLayer2 = LayerMask.NameToLayer("Enemy");
+
+        // それらをまとめたマスクを作る
+        int ignoreMask = (1 << ignoreLayer1) | (1 << ignoreLayer2);
+
+        // 無視するためにビット反転
+        int layerMask = ~ignoreMask;
 
 
         if (Physics.Raycast(targetCenter, desiredOffset.normalized, out hit, maxDistance, layerMask))
@@ -77,36 +82,38 @@ public class CameraMove : MonoBehaviour
         switchRStickValue = context.ReadValue<Vector2>();
 
     }
-    //public void RotateNeck()
-    //{
-    //    if (player.isAttacking) return;
+    public void RotateNeck()
+    {
+        if (player.isAttacking) return;
 
-    //    // キャラの forward（体の正面）
-    //    Vector3 bodyForward = transform.forward;
+        //// キャラの forward（体の正面）
+        //Vector3 bodyForward = transform.forward;
 
-    //    // カメラ方向（水平成分だけ）
-    //    Vector3 camDir = Camera.main.transform.forward;
-    //    camDir.y = 0f;
-    //    camDir.Normalize();
+        //// カメラ方向（水平成分だけ）
+        //Vector3 camDir = Camera.main.transform.forward;
+        //camDir.y = 0f;
+        //camDir.Normalize();
 
-    //    // bodyForward と camDir の角度差
-    //    float angle = Vector3.SignedAngle(bodyForward, camDir, Vector3.up);
+        //// bodyForward と camDir の角度差
+        //float angle = Vector3.SignedAngle(bodyForward, camDir, Vector3.up);
 
-    //    // 首の可動範囲（例：左右60°）
-    //    float maxAngle = 60f;
-    //    angle = Mathf.Clamp(angle, -maxAngle, maxAngle);
+        //// 首の可動範囲（例：左右60°）
+        //float maxAngle = 60f;
+        //angle = Mathf.Clamp(angle, -maxAngle, maxAngle);
 
-    //    // 実際に向くべき方向を計算
-    //    Quaternion bodyRot = Quaternion.LookRotation(bodyForward);         // 体の回転
-    //    Quaternion targetRot = Quaternion.AngleAxis(angle, Vector3.up) * bodyRot; // 体基準で±angle回す
+        //// 実際に向くべき方向を計算
+        //Quaternion bodyRot = Quaternion.LookRotation(bodyForward);         // 体の回転
+        //Quaternion targetRot = Quaternion.AngleAxis(angle, Vector3.up) * bodyRot; // 体基準で±angle回す
 
-    //    // 少し上方向も追従させたい場合
-    //    Vector3 lookTarget = neck.position + targetRot * Vector3.forward * 10f
-    //                         + Camera.main.transform.up * 0.2f;
+        //// 少し上方向も追従させたい場合
+        //Vector3 lookTarget = neck.position + targetRot * Vector3.forward * 10f
+        //                     + Camera.main.transform.up * 0.2f;
 
-    //    // 首をターゲット方向へスムーズに回す
-    //    Quaternion neckRot = Quaternion.LookRotation(lookTarget - neck.position);
-    //    neck.rotation = Quaternion.Slerp(neck.rotation, neckRot, Time.deltaTime * 5f);
-    //}
+        //// 首をターゲット方向へスムーズに回す
+        //Quaternion neckRot = Quaternion.LookRotation(lookTarget - neck.position);
+        //neck.rotation = Quaternion.Slerp(neck.rotation, neckRot, Time.deltaTime * 5f);
+
+        //neck.rotation = Quaternion.Lerp(neck.rotation,);
+    }
 
 }

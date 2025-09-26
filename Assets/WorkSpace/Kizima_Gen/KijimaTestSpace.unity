@@ -438,6 +438,26 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b13152a9-77ec-4064-a39a-81413a1975fc
     m_ActionName: Interact/Interact[/Keyboard/e,/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c866685b-e2c5-4f2f-9b1a-6420ad5b6c65
+    m_ActionName: Interact/Plus[/Keyboard/c,/XInputControllerWindows/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: af6d1bb3-33e5-4fc8-9102-403f3c407953
+    m_ActionName: Interact/RightMove[/XInputControllerWindows/dpad/right,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: eabb67e5-8161-437b-baa1-bfcfbbdc7523
+    m_ActionName: Interact/LeftMove[/Keyboard/leftArrow,/XInputControllerWindows/dpad/left]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6157df73-cf2f-4b66-b198-7dff695a8be3
+    m_ActionName: Interact/Decide[/XInputControllerWindows/buttonEast,/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2e444cd7-8cc1-4454-9566-ba655daf1b05
+    m_ActionName: Interact/Cancell[/XInputControllerWindows/buttonSouth,/Keyboard/x]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Interact
@@ -561,6 +581,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: OriginWeaponItem
       objectReference: {fileID: 0}
+    - target: {fileID: 889336967553201985, guid: 10d4ea970afa43244b2f89b7f00c36ff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1941164301621185645, guid: 10d4ea970afa43244b2f89b7f00c36ff, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
@@ -575,7 +599,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6312791999048016203, guid: 10d4ea970afa43244b2f89b7f00c36ff, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.531
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6312791999048016203, guid: 10d4ea970afa43244b2f89b7f00c36ff, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1029,6 +1053,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 352aabb79cc6be54da430ab128b98a37, type: 3}
+--- !u!1001 &6367092097060151164
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2963134037717601429, guid: bf71440818649cf4e9ecf82aac9e0262, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963134037717601429, guid: bf71440818649cf4e9ecf82aac9e0262, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963134037717601429, guid: bf71440818649cf4e9ecf82aac9e0262, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963134037717601429, guid: bf71440818649cf4e9ecf82aac9e0262, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963134037717601429, guid: bf71440818649cf4e9ecf82aac9e0262, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963134037717601429, guid: bf71440818649cf4e9ecf82aac9e0262, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963134037717601429, guid: bf71440818649cf4e9ecf82aac9e0262, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963134037717601429, guid: bf71440818649cf4e9ecf82aac9e0262, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963134037717601429, guid: bf71440818649cf4e9ecf82aac9e0262, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2963134037717601429, guid: bf71440818649cf4e9ecf82aac9e0262, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3904652378684296229, guid: bf71440818649cf4e9ecf82aac9e0262, type: 3}
+      propertyPath: m_Name
+      value: OriginHealUpItem
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bf71440818649cf4e9ecf82aac9e0262, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1041,3 +1122,4 @@ SceneRoots:
   - {fileID: 1094099393487682812}
   - {fileID: 1349211027}
   - {fileID: 1465892994}
+  - {fileID: 6367092097060151164}

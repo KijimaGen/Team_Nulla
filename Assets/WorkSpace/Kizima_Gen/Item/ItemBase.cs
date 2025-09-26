@@ -51,6 +51,12 @@ public abstract class ItemBase : MonoBehaviour{
     /// <returns></returns>
     public abstract bool isWeapon();
 
+    //アイテムを入れているところ
+    Transform itemHolder;
+
+    
+    //ステータスボックスを表示するかどうか
+    bool isVisibleStatusBox = false;
 
     /// <summary>
     /// 初期化処理(基底クラスに任せる)
@@ -61,6 +67,9 @@ public abstract class ItemBase : MonoBehaviour{
         //
         RarityText.text = "Rarity : " + RareToString(rarity);
         EffectManager.instance.InstantiateEffectFromRare(this.transform, rarity);
+        //アイテムホルダーを探す
+        itemHolder = transform.Find("ItemHolder");
+        
     }
 
 
@@ -125,6 +134,12 @@ public abstract class ItemBase : MonoBehaviour{
         
         //Y軸回転
         transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
+
+        //プレイヤーが持っているときはアイテムが見えないようにする
+        if (isPlayerPosses)
+            itemHolder.gameObject.SetActive(false);
+        else
+            itemHolder.gameObject.SetActive(true);
     }
 
 
@@ -140,12 +155,13 @@ public abstract class ItemBase : MonoBehaviour{
     }
 
     /// <summary>
-    /// 名前は完全なる嘘ですこれはアイテムを拾うためのスクリプト
+    /// アイテムを拾うための処理
     /// </summary>
     private void TryGetItem() {
         //近くにプレイヤーいなければ何もしない
         if (!isPlayerInRange) return;
         if (isPlayerPosses) return;
+        if (Menu.instance.isOpenMenu)  return; 
 
         //UIの表示を切る
         UIManager.instance.ChangeVisibleinteractCanvas(false);
@@ -154,5 +170,14 @@ public abstract class ItemBase : MonoBehaviour{
         myStatusItem.SetActive(false);
     }
 
+
+    public void SetVisibleStatusBox(bool visible) {
+        if (visible) {
+            myStatusItem.SetActive(true);
+        }
+        else {
+            myStatusItem.SetActive(false);
+        }
+    }
 
 }
