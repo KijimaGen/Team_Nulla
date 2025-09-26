@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using DG.Tweening.Core.Easing;
+using UnityEngine.SceneManagement;
 
 public class HPGaugeUI : MonoBehaviour
 {
@@ -26,6 +27,9 @@ public class HPGaugeUI : MonoBehaviour
     // 近接の威力
     private float punchDamage = 1;
 
+    // 保存用HP
+    public static float restHP;
+
     Vector2 gauge;
 
     PlayerAction playerAction;
@@ -42,6 +46,8 @@ public class HPGaugeUI : MonoBehaviour
         HP1Width = gauge.x / player.maxHP;
 
         //bulletDamage = Enemy_LongRange.Setup();
+
+        SetDamage(player.GetHP() - restHP);
     }
 
     // Update is called once per frame
@@ -53,6 +59,12 @@ public class HPGaugeUI : MonoBehaviour
         {
             //Time.timeScale += 0.02f;
         }
+
+        // ゲームオーバー
+        if (player.GetHP() <= 0) {
+            SceneManager.LoadScene("GameOverScene");
+        }
+        //Debug.Log(player.GetHP());
     }
 
     //public void DamageGaugeDown() {
@@ -125,6 +137,12 @@ public class HPGaugeUI : MonoBehaviour
         UpdateFillAmount(HPImage, ref HcurrentRate, targetRate, duration, DamageImage);
     }
 
+    public void StartHP(float _damage) {
+        player.SetHP(_damage);
+        float targetRate = HcurrentRate - _damage / (player.maxHP);
+        UpdateFillAmount(HPImage, ref HcurrentRate, targetRate, duration, DamageImage);
+    }
+
     /// <summary>
     /// 回復の処理
     /// </summary>
@@ -147,5 +165,7 @@ public class HPGaugeUI : MonoBehaviour
         UpdateFillAmount(HPImage, ref HcurrentRate, targetRate, duration, DamageImage);
     }
 
-
+    private void OnDestroy() {
+        restHP = player.GetHP();
+    }
 }
