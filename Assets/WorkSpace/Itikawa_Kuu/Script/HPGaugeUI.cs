@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using DG.Tweening.Core.Easing;
+using UnityEngine.SceneManagement;
 
 public class HPGaugeUI : MonoBehaviour
 {
@@ -58,6 +59,12 @@ public class HPGaugeUI : MonoBehaviour
         {
             //Time.timeScale += 0.02f;
         }
+
+        // ゲームオーバー
+        if (player.GetHP() <= 0) {
+            SceneManager.LoadScene("GameOverScene");
+        }
+        //Debug.Log(player.GetHP());
     }
 
     //public void DamageGaugeDown() {
@@ -127,6 +134,12 @@ public class HPGaugeUI : MonoBehaviour
         float damage = Mathf.Max(_damage - player.rawDefense, 1);
         player.SetHP(player.GetHP() - damage);
         float targetRate = HcurrentRate - _damage / player.maxHP;
+        UpdateFillAmount(HPImage, ref HcurrentRate, targetRate, duration, DamageImage);
+    }
+
+    public void StartHP(float _damage) {
+        player.SetHP(_damage);
+        float targetRate = HcurrentRate - _damage / (player.maxHP);
         UpdateFillAmount(HPImage, ref HcurrentRate, targetRate, duration, DamageImage);
     }
 
