@@ -47,7 +47,9 @@ public class HPGaugeUI : MonoBehaviour
 
         //bulletDamage = Enemy_LongRange.Setup();
 
-        SetDamage(player.GetHP() - restHP);
+        if (restHP > 0) {
+            StartHP(restHP);
+        }
     }
 
     // Update is called once per frame
