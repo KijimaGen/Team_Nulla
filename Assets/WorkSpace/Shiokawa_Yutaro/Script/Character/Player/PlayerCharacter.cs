@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using static ItemUtility;
 
 public class PlayerCharacter : CharacterBase
@@ -11,6 +12,7 @@ public class PlayerCharacter : CharacterBase
 
     public override void Setup()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
         transform.SetParent(null);
         _playerAction = GetComponent<PlayerAction>();
         speed = 2.5f;
@@ -151,10 +153,10 @@ public class PlayerCharacter : CharacterBase
 
 
 
-    private void OnDisable() {
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
         SendItemList();
     }
-
     //アイテムリストを送る
     public void SendItemList() {
         //自身が壊されるタイミングでアイテムマネージャーにアイテムを渡す
