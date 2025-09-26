@@ -224,6 +224,8 @@ public class ItemManager : SystemObject{
             // ïségópèÛë‘Ç…Ç∑ÇÈ
             UnuseItem(tempList[i].itemID);
         }
+
+        _useList = tempList;
     }
 
 }

@@ -503,13 +503,12 @@ public class EnemyCharacter : CharacterBase
                 damage += Random.Range(-5, 6);
 
                 //さすがに0ダメージは可愛そうだと思う
-                if (damage <= 0)
-                {
+                if (damage <= 0) {
                     damage = 1;
                 }
 
                 //ダメージが二倍にならないかな～
-                damage = CommonModule.CalcClit((int)damage,player.GetCritRate());
+                damage = CommonModule.CalcClit((int) damage, player.GetCritRate());
 
                 Damage(this.GetComponent<Collider>(), (int)damage);
 

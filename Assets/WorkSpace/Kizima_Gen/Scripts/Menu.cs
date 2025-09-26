@@ -55,12 +55,15 @@ public class Menu : MonoBehaviour{
 
     int? selectedIndex = null;
 
+    //ぷれいやー
+    GameObject player;
+
     void Start(){
        menuParent.SetActive(false);
        index = 0;
 
         //プレイヤーを探す
-        GameObject player = GameObject.FindWithTag("Player");
+        player = GameObject.FindWithTag("Player");
         var playerInput = player.GetComponent<PlayerInput>();
         decideAction = playerInput.actions["Decide"]; 
         instance = this;
@@ -73,6 +76,35 @@ public class Menu : MonoBehaviour{
         }
         if(index < ImageList.Count)
             ImageList[index].color = Color.red;
+
+        if(isOpenMenu) {
+            //プレイヤーを探す
+            player = GameObject.FindWithTag("Player");
+            //アイテムリストをキャッシュして受け取る
+            player.GetComponent<PlayerCharacter>().SendItemList();
+
+            //アイテムリストを初期化して開く
+            List<ItemBase> itemList = GetPlayerItems();
+
+
+            for(int i = 0;i < itemList.Count;i++) {
+                if (itemList[i] == null) continue;
+
+                //インデックスしているところのアクティブを消す
+                itemList[i].gameObject.SetActive(false);
+                //アイテムボックスのアクティブも変える
+                itemList[i].SetVisibleStatusBox(false);
+            }
+
+
+            if (itemList[index] != null) {
+                //インデックスしているところのアクティブをつける
+                itemList[index].gameObject.SetActive(true);
+                //アイテムボックスのアクティブも変える
+                itemList[index].SetVisibleStatusBox(true);
+            }
+
+        }
     }
 
 
@@ -82,7 +114,7 @@ public class Menu : MonoBehaviour{
     public void OpenMenu() {
 
         //プレイヤーを探す
-        GameObject player = GameObject.FindWithTag("Player");
+        player = GameObject.FindWithTag("Player");
         //アイテムリストをキャッシュして受け取る
         player.GetComponent<PlayerCharacter>().SendItemList();
 
@@ -149,6 +181,24 @@ public class Menu : MonoBehaviour{
     public void CloseMenu() {
        menuParent.SetActive(false);
 
+        //プレイヤーを探す
+        player = GameObject.FindWithTag("Player");
+        //アイテムリストをキャッシュして受け取る
+        player.GetComponent<PlayerCharacter>().SendItemList();
+
+        //アイテムリストを初期化して開く
+        List<ItemBase> itemList = GetPlayerItems();
+
+
+        for (int i = 0; i < itemList.Count; i++) {
+            if (itemList[i] == null) continue;
+
+            //インデックスしているところのアクティブを消す
+            itemList[i].gameObject.SetActive(false);
+            //アイテムボックスのアクティブも変える
+            itemList[i].SetVisibleStatusBox(false);
+        }
+
         // 時間を動かす
         Time.timeScale = 1f;
         //変数をfalse
@@ -160,6 +210,7 @@ public class Menu : MonoBehaviour{
     /// </summary>
     public void IncreaceIndex(InputAction.CallbackContext context) {
         if (context.performed) {
+            if (!isOpenMenu) return;
             index++;
             if (index >= ImageList.Count) {
                 index = 0;
@@ -171,6 +222,7 @@ public class Menu : MonoBehaviour{
     /// </summary>
     public void DecreaseIndex(InputAction.CallbackContext context) {
         if (context.performed) {
+            if (!isOpenMenu) return;
             index--;
             if (index < 0) {
                 index = ImageList.Count - 1;
@@ -231,7 +283,7 @@ public class Menu : MonoBehaviour{
     /// </summary>
     private void RemoveItemInMenu() {
         //プレイヤーを探す
-        GameObject player = GameObject.FindWithTag("Player");
+        player = GameObject.FindWithTag("Player");
         //アイテムリストをキャッシュして受け取る
         player.GetComponent<PlayerCharacter>().SendItemList();
         player.GetComponent<PlayerCharacter>().RemoveItemFromList(index);
