@@ -193,6 +193,7 @@ public class PlayerAction : MonoBehaviour
     private float gravity = -9.81f;  // 重力（Unityのデフォルト）
     void Jump()
     {
+        
         float jumpVelocity = Mathf.Sqrt(2 * -gravity * jumpHeight);
         rb.velocity = new Vector3(rb.velocity.x, jumpVelocity, rb.velocity.z);
     }
@@ -455,6 +456,8 @@ public class PlayerAction : MonoBehaviour
 
     public void SwitchB(InputAction.CallbackContext context)
     {
+
+        if (Menu.instance.isOpenMenu) return;
         if (context.performed)
         {
             switchBButton = true;
