@@ -201,12 +201,14 @@ public class PlayerCharacter : CharacterBase
     /// アイテムの回復力を使って回復
     /// </summary>
     public void Heal() {
+        //アイテムリストが存在しなければおにまい
+        if (possessItemList == null) return;
         //回復量
         int HealValue = 0;
         for (int i = 0, max = _POSSESS_ITEM_MAX; i < max; i++) {
             if (possessItemList[i] == null) continue;
 
-            //このis演算子はpossessItemList[i]がPowerUpItem型かどうかを検知してくれる
+            //このis演算子はpossessItemList[i]がHealItem型かどうかを検知してくれる
             if (possessItemList[i] is HealItem)
                 HealValue += (int) ((HealItem) possessItemList[i]).GetHealValue();
         }
@@ -235,8 +237,8 @@ public class PlayerCharacter : CharacterBase
             
             Heal();
 
-            // 1秒待つ
-            await UniTask.Delay(TimeSpan.FromSeconds(1), cancellationToken: token);
+            // 3秒待つ
+            await UniTask.Delay(TimeSpan.FromSeconds(3), cancellationToken: token);
         }
     }
 
