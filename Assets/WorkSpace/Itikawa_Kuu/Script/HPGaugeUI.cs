@@ -26,6 +26,9 @@ public class HPGaugeUI : MonoBehaviour
     // 近接の威力
     private float punchDamage = 1;
 
+    // 保存用HP
+    public static float restHP;
+
     Vector2 gauge;
 
     PlayerAction playerAction;
@@ -42,6 +45,8 @@ public class HPGaugeUI : MonoBehaviour
         HP1Width = gauge.x / player.maxHP;
 
         //bulletDamage = Enemy_LongRange.Setup();
+
+        SetDamage(player.GetHP() - restHP);
     }
 
     // Update is called once per frame
@@ -147,5 +152,7 @@ public class HPGaugeUI : MonoBehaviour
         UpdateFillAmount(HPImage, ref HcurrentRate, targetRate, duration, DamageImage);
     }
 
-
+    private void OnDestroy() {
+        restHP = player.GetHP();
+    }
 }
