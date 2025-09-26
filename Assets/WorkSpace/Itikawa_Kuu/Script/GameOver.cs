@@ -29,6 +29,12 @@ public class GameOver : MonoBehaviour {
     /// 決定
     /// </summary>
     public void Push(InputAction.CallbackContext context) {
+        if (selectObject == null) {
+            Debug.LogWarning("selectObject is null! ボタンが選択されていません。");
+            return;
+        }
+
+
         if (selectObject.name == "Retry") {
             SceneManager.LoadScene("Main");
         }
@@ -64,4 +70,5 @@ public class GameOver : MonoBehaviour {
             Application.Quit();
         }
     }
+
 }
