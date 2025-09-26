@@ -45,13 +45,19 @@ public class PlayerCharacter : CharacterBase
     }
     private void Update()
     {
-        if (transform.parent != null) return;
+        if(Time.timeScale == 0)return;
+        if (transform.parent != null)
+        {
+            GetComponent<PlayerInput>().enabled = false;
+            return;
+        }
+        GetComponent<PlayerInput>().enabled = true;
         //プレイヤーの操作の呼び出し
         _playerAction.AcceptInput();
 
         //座標の下限
         if(transform.position.y < -1) {
-            SceneManager.LoadScene("Main");
+            //SceneManager.LoadScene("Main");
         }
 
        
