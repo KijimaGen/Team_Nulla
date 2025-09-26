@@ -48,7 +48,7 @@ public class HPGaugeUI : MonoBehaviour
         //bulletDamage = Enemy_LongRange.Setup();
 
         if (restHP > 0) {
-            StartHP(restHP);
+            StartHP(player.GetHP() - restHP);
         }
     }
 
@@ -140,7 +140,8 @@ public class HPGaugeUI : MonoBehaviour
     }
 
     public void StartHP(float _damage) {
-        player.SetHP(_damage);
+        float damage = Mathf.Max(_damage, 1);
+        player.SetHP(player.GetHP() - damage);
         float targetRate = HcurrentRate - _damage / (player.maxHP);
         UpdateFillAmount(HPImage, ref HcurrentRate, targetRate, duration, DamageImage);
     }
