@@ -54,16 +54,18 @@ public class DamageUI : MonoBehaviour
         //　少しづつ透明にしていく
         alpha -= fadeOutSpeed * Time.deltaTime;
         //　テキストのcolorを設定
-        damageText.color = new Color(1f, 0f, 0f, alpha);
+       
 
         if (damageText.color.a <= 0.1f) {
             Destroy(gameObject);
         }
     }
 
-    public void ChangeDamageText(string changeText) {
+    public void ChangeDamageText(string changeText,Color textColor) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.Append(changeText);
         damageText.text = stringBuilder.ToString();
+
+        damageText.color = new Color(textColor.r,textColor.g,textColor.b, alpha);
     }
 }
