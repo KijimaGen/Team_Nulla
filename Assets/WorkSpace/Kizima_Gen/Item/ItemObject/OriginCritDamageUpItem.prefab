@@ -255,7 +255,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 780904704002726463, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 72.6
+      value: 89.2
       objectReference: {fileID: 0}
     - target: {fileID: 1053243941816865741, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
       propertyPath: m_UiScaleMode
@@ -424,6 +424,10 @@ PrefabInstance:
     - target: {fileID: 9081260568053297602, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
       propertyPath: m_fontSize
       value: 22.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9081260568053297602, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
+      propertyPath: m_margin.z
+      value: -68.31091
       objectReference: {fileID: 0}
     - target: {fileID: 9081260568053297602, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
       propertyPath: m_fontAsset
