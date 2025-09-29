@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1848914435443722854}
   - component: {fileID: 2546415065573094687}
   - component: {fileID: 7391739602225626767}
-  - component: {fileID: 1504470702257662548}
+  - component: {fileID: 4206279435231659815}
   m_Layer: 3
   m_Name: OriginCritUpItem
   m_TagString: Weapon
@@ -84,7 +84,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &1504470702257662548
+--- !u!114 &4206279435231659815
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4989651419265164889}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 521a70ab155d08147bedb2219a6e498e, type: 3}
+  m_Script: {fileID: 11500000, guid: 9245d7c2059e1a74495f09c8d09604e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
