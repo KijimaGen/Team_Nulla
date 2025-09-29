@@ -541,8 +541,8 @@ public class EnemyCharacter : CharacterBase
                 playerFound = true;
 
                 float damage = player.rawAttack + player.GetWeaponAttack() + player.GetAccessaryAttack();
-                damage += Random.Range(-5, 6);
 
+                damage += Random.Range(-2, 3);
                 if (damage <= 0) damage = 1;
 
                 Damage(this.GetComponent<Collider>(), (int)damage);
