@@ -44,6 +44,8 @@ public class PlayerAction : MonoBehaviour
     [SerializeField] Image switchYButtonImage;
     [SerializeField] Image switchXButtonImage;
 
+    [SerializeField] Transform[] special;
+
 
     Vector2 switchLStickValue;
     bool switchZRButton;
@@ -52,17 +54,21 @@ public class PlayerAction : MonoBehaviour
     bool switchXButton;
 
     [SerializeField] private GameObject WeaponModel;
+
+
+
     private void Start()
     {
         player = this.GetComponent<PlayerCharacter>();
         currentRawAttack = player.rawAttack;
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-
+        specialGauge.fillAmount = 1;
     }
 
     public void AcceptInput()
     {
+        
         if (player == null) return;
         if (isJumping && IsGrounded())
         {
@@ -288,7 +294,6 @@ public class PlayerAction : MonoBehaviour
     {
         if (switchYButton && !inputAttack)
         {
-
             player.SetSpeed(player.walkSpeed);
             isDashing = false;
             inputAttack = true;
@@ -315,10 +320,11 @@ public class PlayerAction : MonoBehaviour
         }
         else if (switchXButton)
         {
+            
             player.SetSpeed(player.walkSpeed);
             isDashing = false;
             inputAttack = true;
-            //animation.Play("必殺");
+            
             player.isAttacking = true;
 
             return true;
@@ -370,6 +376,13 @@ public class PlayerAction : MonoBehaviour
     private bool canCombo = false;
     public void OnComboOpen()
     {
+        foreach (var t in special)
+        {
+            t.gameObject.SetActive(true);
+        }
+        
+        GetComponent<CapsuleCollider>().enabled = true;
+
         animator.SetBool("Dash", false);
         animator.SetBool("Attack", false);
         canCombo = true;
@@ -383,6 +396,7 @@ public class PlayerAction : MonoBehaviour
         player.isAttacking = false;
         canCombo = false;
         inputAttack = false;
+
         
     }
 
@@ -485,6 +499,7 @@ public class PlayerAction : MonoBehaviour
             specialGauge.fillAmount = 0;
             switchXButton = true;
             switchXButtonImage.color = new Color32(100, 100, 100, 255);
+            animator.SetTrigger("Special");
         }
         else
         {
@@ -556,7 +571,7 @@ public class PlayerAction : MonoBehaviour
     public void Attack3()
     {
         player.SetRawAttack(currentRawAttack * 1.8f);
-        ParticleSystem effect = Instantiate(attackEfect, transform.position + Vector3.up * 0.4f, Quaternion.identity);
+        ParticleSystem effect = Instantiate(attackEfect, transform.position + Vector3.up * 0.4f + transform.forward * 0.5f, Quaternion.identity);
         effect.transform.SetParent(transform);
         effect.transform.localRotation = Quaternion.Euler(0, 0, 60);
         AudioManager.instance.PlaySE(4);
@@ -588,6 +603,23 @@ public class PlayerAction : MonoBehaviour
         rb.velocity = transform.forward * 3;
         CreateHitBox(new Vector3(0.8f, 0.6f, 0.8f));
     }
+    public void Attack_Special()
+    {
+        animator.SetBool("Attack", false);
+        animator.SetBool("Dash", false);
+        animator.SetBool("Walk", false);
+
+        foreach (Transform t in special)
+        {
+            t.gameObject.SetActive(false);
+        }
+
+        ParticleSystem effect = Instantiate(specialEffect, transform.position + transform.forward * 0.5f + Vector3.up * 0.4f, Quaternion.identity);
+        Destroy(effect.gameObject, 2);
+        rb.isKinematic = true;
+        GetComponent<CapsuleCollider>().enabled = false;
+    }
+
 
     private GameObject currentHitbox; // 前回生成したHitboxを保持する変数
 

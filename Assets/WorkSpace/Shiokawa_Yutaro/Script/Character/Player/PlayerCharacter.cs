@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 using static ItemUtility;
 using static CommonModule;
 using System.Threading;
+using DG.Tweening;
 
 public class PlayerCharacter : CharacterBase
 {
@@ -19,6 +20,9 @@ public class PlayerCharacter : CharacterBase
     private int criticalRate = 5;
     //クリティカルダメージ率
     private int criticalDamageRate = 150;
+    static public bool gameEnd;
+
+    public ScoreBord scoreBord;
 
     public override void Setup()
     {
@@ -27,7 +31,7 @@ public class PlayerCharacter : CharacterBase
         speed = 2.5f;
         maxHP = 100;
         HP = maxHP;
-        rawAttack = 5;
+        rawAttack = 500;
         rawDefense = 0;
         possessItemList = new List<ItemBase>(_POSSESS_ITEM_MAX);
 
@@ -46,19 +50,55 @@ public class PlayerCharacter : CharacterBase
         LoopTask(cts.Token).Forget();
         
     }
+
+    bool OnceAnim;
+
+    private void GameEnd()
+    {
+        if (OnceAnim) return;
+        Camera.main.GetComponent<CameraMove>().enabled = false;
+
+        Vector3 cameraPos = new Vector3(transform.position.x + 0.8f, 1.3f, transform.position.z + 2.5f);
+        Vector3 cameraRot = new Vector3(7.4f, -130f, 0f);
+
+        Camera.main.transform.DOLocalMove(cameraPos, 0.4f);
+        Camera.main.transform.DORotate(cameraRot, 0.4f);
+
+        scoreBord.OpenScore();
+        scoreBord.gameObject.SetActive(true);
+        scoreBord.GetComponent<Animation>().Play();
+
+        OnceAnim = true;
+    }
     private void Update()
     {
-        if (transform.parent != null) return;
+        if (gameEnd)
+        {
+            Invoke("GameEnd", 1);
+            
+            return;
+        }
+        if(Time.timeScale == 0)return;
+
+        ScoreBord.GameTime();
+
+        if (transform.parent != null)
+        {
+            GetComponent<PlayerInput>().enabled = false;
+            return;
+        }
+        GetComponent<PlayerInput>().enabled = true;
         //プレイヤーの操作の呼び出し
         _playerAction.AcceptInput();
 
         //座標の下限
         if(transform.position.y < -1) {
-            SceneManager.LoadScene("Main");
+            //SceneManager.LoadScene("Main");
         }
 
        
     }
+    
 
     /// <summary>
     /// プレイヤーかどうか
