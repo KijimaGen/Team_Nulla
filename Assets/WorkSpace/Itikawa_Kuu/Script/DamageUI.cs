@@ -23,6 +23,7 @@ public class DamageUI : MonoBehaviour
     private float moveSpeed = 0.4f;
     float alpha = 10f;
 
+    Color damageTextColor;
     // Start is called before the first frame update
     void Start()
     {
@@ -54,7 +55,7 @@ public class DamageUI : MonoBehaviour
         //　少しづつ透明にしていく
         alpha -= fadeOutSpeed * Time.deltaTime;
         //　テキストのcolorを設定
-       
+        damageText.color = new Color(damageTextColor.r, damageTextColor.g, damageTextColor.b, alpha);
 
         if (damageText.color.a <= 0.1f) {
             Destroy(gameObject);
@@ -65,7 +66,8 @@ public class DamageUI : MonoBehaviour
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.Append(changeText);
         damageText.text = stringBuilder.ToString();
+        damageTextColor = textColor;
 
-        damageText.color = new Color(textColor.r,textColor.g,textColor.b, alpha);
+
     }
 }

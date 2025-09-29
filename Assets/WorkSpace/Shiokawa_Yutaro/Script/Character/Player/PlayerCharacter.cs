@@ -100,7 +100,7 @@ public class PlayerCharacter : CharacterBase
         _playerAction.AcceptInput();
 
         //À•W‚Ì‰ºŒÀ
-        if(transform.position.y < -1) {
+        if(transform.position.y < -10) {
 
             transform.position = new Vector3(transform.position.x, 1, transform.position.z);
         }
