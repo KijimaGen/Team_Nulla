@@ -473,6 +473,8 @@ public class EnemyCharacter : CharacterBase
     {
         rb.velocity = -transform.forward * 2 + Vector3.up * 2;
         Destroy(gameObject);
+
+        ScoreBord.EnemyDead();
     }
 
     public bool GetHitDamage()

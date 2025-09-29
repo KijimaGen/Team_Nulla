@@ -54,6 +54,9 @@ public class PlayerAction : MonoBehaviour
     bool switchXButton;
 
     [SerializeField] private GameObject WeaponModel;
+
+
+
     private void Start()
     {
         player = this.GetComponent<PlayerCharacter>();
