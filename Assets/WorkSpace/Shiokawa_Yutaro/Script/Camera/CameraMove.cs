@@ -27,7 +27,8 @@ public class CameraMove : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        Vector3 playerPos = player.transform.position;
+        if (Time.timeScale == 0f) return;
+        //Vector3 playerPos = player.transform.position;
         ViewRoteto(player.transform);
         RotateNeck();
     }

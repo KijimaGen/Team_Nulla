@@ -60,6 +60,10 @@ public class MiniBoss_OZN : EnemyCharacter
 
     protected override void Update()
     {
+        if(Input.GetKey(KeyCode.P))
+        {
+            HP -= maxHP;
+        }
         if (playerCatch) return;
         base.Update();
 
@@ -200,7 +204,10 @@ public class MiniBoss_OZN : EnemyCharacter
     public override void Dead()
     {
         Destroy(gameObject);
-        GameObject portal = Instantiate(warp, new Vector3(0, -7.46f, 0), Quaternion.identity);
-        portal.transform.position = new Vector3(0, -8, 0);
+        //GameObject portal = Instantiate(warp, new Vector3(0, -7.46f, 0), Quaternion.identity);
+        // portal.transform.position = new Vector3(0, -8, 0);
+
+
+        PlayerCharacter.gameEnd = true;
     }
 }

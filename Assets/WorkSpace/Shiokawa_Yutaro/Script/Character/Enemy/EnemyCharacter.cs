@@ -473,6 +473,8 @@ public class EnemyCharacter : CharacterBase
     {
         rb.velocity = -transform.forward * 2 + Vector3.up * 2;
         Destroy(gameObject);
+
+        ScoreBord.EnemyDead();
     }
 
     public bool GetHitDamage()
@@ -503,9 +505,6 @@ public class EnemyCharacter : CharacterBase
                 //ダメージ計算
                 float damage = player.rawAttack + player.GetWeaponAttack() + player.GetAccessaryAttack();
 
-                //乱数を作成
-                damage += Random.Range(-5, 6);
-
                 //さすがに0ダメージは可愛そうだと思う
                 if (damage <= 0) {
                     damage = 1;
@@ -513,6 +512,9 @@ public class EnemyCharacter : CharacterBase
 
                 //ダメージが二倍にならないかな～
                 damage = CommonModule.CalcClit((int) damage, player.GetCritRate(),player.GetCritDamageRate());
+
+                //乱数を作成
+                damage += Random.Range(-3, 4);
 
                 Damage(this.GetComponent<Collider>(), (int)damage);
 
@@ -541,8 +543,8 @@ public class EnemyCharacter : CharacterBase
                 playerFound = true;
 
                 float damage = player.rawAttack + player.GetWeaponAttack() + player.GetAccessaryAttack();
-                damage += Random.Range(-5, 6);
 
+                damage += Random.Range(-2, 3);
                 if (damage <= 0) damage = 1;
 
                 Damage(this.GetComponent<Collider>(), (int)damage);
