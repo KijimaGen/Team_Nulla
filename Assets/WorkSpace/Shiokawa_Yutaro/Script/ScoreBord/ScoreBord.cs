@@ -14,6 +14,7 @@ public class ScoreBord : MonoBehaviour
     [SerializeField] TextMeshProUGUI timeText;
     public static int enemyDeadCount;
     public static float time;
+    public PlayerCharacter player;
 
     float score;
     private void Start()
@@ -26,8 +27,9 @@ public class ScoreBord : MonoBehaviour
         timeText.text = time.ToString("0");
 
         score = enemyDeadCount * 100 + (int)(3000 / time);
+        if (player.isDead) { score -= 200; }
 
-        if(score > 100) { rankingImage.sprite = rankingSprite[0]; }
+        if (score < 200) { rankingImage.sprite = rankingSprite[0]; }
         if(score > 200) { rankingImage.sprite = rankingSprite[1]; }
         if(score > 300) { rankingImage.sprite = rankingSprite[2]; }
         if(score > 400) { rankingImage.sprite = rankingSprite[3]; }

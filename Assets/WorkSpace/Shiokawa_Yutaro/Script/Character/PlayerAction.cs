@@ -394,6 +394,11 @@ public class PlayerAction : MonoBehaviour
         player.isAttacking = false;
         canCombo = false;
         inputAttack = false;
+
+        if (transform.parent != null)
+        {
+            return;
+        }
         rb.isKinematic = false;
         
     }
