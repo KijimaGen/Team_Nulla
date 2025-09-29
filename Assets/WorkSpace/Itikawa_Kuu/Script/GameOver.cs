@@ -17,13 +17,14 @@ public class GameOver : MonoBehaviour {
     void Start()
     {
         Retry.Select();
+        ItemManager.instance.Reset();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         selectObject = EventSystem.current.currentSelectedGameObject;
-        
     }
 
     /// <summary>

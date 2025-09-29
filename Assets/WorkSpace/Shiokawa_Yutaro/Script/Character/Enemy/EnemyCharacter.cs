@@ -515,7 +515,7 @@ public class EnemyCharacter : CharacterBase
                 //ダメージが二倍にならないかな～
                 damage = CommonModule.CalcClit((int) damage, player.GetCritRate(),player.GetCritDamageRate());
 
-                if(tmpDamage > damage)
+                if(tmpDamage < damage)
                 {
                     //乱数を作成
                     damage += Random.Range(-3, 4);

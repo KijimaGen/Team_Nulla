@@ -148,6 +148,7 @@ public class Menu : MonoBehaviour{
         int Defence = (int) player.GetComponent<PlayerCharacter>().GetDefense();
         DefenceText.text = "Defence : " + Defence.ToString();
 
+        //HP‚Ì’l
         int HP = (int) player.GetComponent<PlayerCharacter>().GetHP();
         for (int i = 0; i < itemList.Count; i++) {
             //‚±‚Ìis‰‰ŽZŽq‚ÍpossessItemList[i]‚ªPowerUpItemŒ^‚©‚Ç‚¤‚©‚ðŒŸ’m‚µ‚Ä‚­‚ê‚é
@@ -298,5 +299,6 @@ public class Menu : MonoBehaviour{
             OpenMenu();
         }
     }
-    
+
+
 }

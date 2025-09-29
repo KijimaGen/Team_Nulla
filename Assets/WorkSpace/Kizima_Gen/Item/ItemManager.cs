@@ -240,6 +240,19 @@ public class ItemManager : SystemObject{
 
         //武器を初期化
         playerWeapon = null;
-}
+
+        // コピーを作ってから回す
+        var tempList = new List<ItemBase>(_useList);
+
+        for (int i = 0; i < tempList.Count; i++) {
+            // プレイヤーが持っている物だったら
+            if (tempList[i].isPlayerPosses) tempList[i].isPlayerPosses = false;
+
+            // 不使用状態にする
+            UnuseItem(tempList[i].itemID);
+        }
+
+        _useList = tempList;
+    }
 
 }
