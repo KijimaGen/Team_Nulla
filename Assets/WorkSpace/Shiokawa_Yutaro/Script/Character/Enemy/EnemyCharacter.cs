@@ -484,6 +484,10 @@ public class EnemyCharacter : CharacterBase
         hitDamage = set;
     }
 
+    /// <summary>
+    /// ダメージ処理が内包されているよ～
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Weapon")
@@ -508,7 +512,7 @@ public class EnemyCharacter : CharacterBase
                 }
 
                 //ダメージが二倍にならないかな～
-                damage = CommonModule.CalcClit((int) damage, player.GetCritRate());
+                damage = CommonModule.CalcClit((int) damage, player.GetCritRate(),player.GetCritDamageRate());
 
                 Damage(this.GetComponent<Collider>(), (int)damage);
 

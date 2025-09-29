@@ -15,7 +15,10 @@ public class PlayerCharacter : CharacterBase
 {
     private PlayerAction _playerAction;
     CancellationTokenSource cts = new CancellationTokenSource();
+    //クリティカル率
     private int criticalRate = 5;
+    //クリティカルダメージ率
+    private int criticalDamageRate = 150;
 
     public override void Setup()
     {
@@ -247,7 +250,6 @@ public class PlayerCharacter : CharacterBase
     /// </summary>
     /// <returns></returns>
     public int GetCritRate() {
-
          //回復量
         int CritValue = 0;
         for (int i = 0, max = _POSSESS_ITEM_MAX; i < max; i++) {
@@ -261,7 +263,23 @@ public class PlayerCharacter : CharacterBase
         return criticalRate + CritValue;
     }
 
+    /// <summary>
+    /// クリティカルダメージ率
+    /// </summary>
+    /// <returns></returns>
+    public int GetCritDamageRate() {
+        //クリティカルダメージ率
+        int CritDamageValue = 0;
+        for (int i = 0, max = _POSSESS_ITEM_MAX; i < max; i++) {
+            if (possessItemList[i] == null) continue;
 
+            //このis演算子はpossessItemList[i]がCritDamageUpItem型かどうかを検知してくれる
+            if (possessItemList[i] is CritUpItem)
+                CritDamageValue += (int) ((CritDamageUpItem) possessItemList[i]).GetCritDamageUpValue();
+        }
+
+        return criticalDamageRate + CritDamageValue;
+    }
 
 
 }

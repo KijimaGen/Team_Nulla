@@ -6,6 +6,7 @@
  */
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using static GameConst;
 
@@ -100,18 +101,22 @@ public static class CommonModule {
     /// クリティカル率を元に計算
     /// </summary>
     /// <param name="damage"></param>
-    /// <param name="CriticalRate"></param>
+    /// <param name="criticalRate"></param>
+    /// <param name="criticalDamageRate"></param>
     /// <returns></returns>
-    public static int CalcClit(int damage,int criticalRate) {
+    public static int CalcClit(int damage,int criticalRate,int criticalDamageRate) {
         //確率の種を生成
         int rand = Random.Range(0, 101);
         //クリティカル判定
         if (rand < criticalRate) {
             AudioManager.instance.PlaySE(10);
-            return damage * 2;
+
+            float returnDamage = damage * criticalDamageRate / 100;
+
+            return (int)returnDamage;
         }
 
-        
+        //クリティカルの戦いに負けたのでそのまま帰ります
         return damage;
     }
 }
