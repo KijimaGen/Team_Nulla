@@ -23,11 +23,12 @@ public class ScoreBord : MonoBehaviour
     }
     public void OpenScore()
     {
-        enemyDeadCountText.text = enemyDeadCount.ToString();
-        timeText.text = time.ToString("0");
-
         score = enemyDeadCount * 10 + (int)(3000 / time);
-        if (player.isDead) { score -= 200; }
+        if (player.isDead) { score -= 200; timeText.text = "Ž¸”s"; }
+        else { timeText.text = time.ToString("0"); }
+
+        enemyDeadCountText.text = enemyDeadCount.ToString();
+        
 
         if (score < 200) { rankingImage.sprite = rankingSprite[0]; }
         if(score > 200) { rankingImage.sprite = rankingSprite[1]; }
