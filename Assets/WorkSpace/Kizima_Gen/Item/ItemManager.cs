@@ -227,5 +227,4 @@ public class ItemManager : SystemObject{
 
         _useList = tempList;
     }
-
 }
