@@ -37,7 +37,7 @@ public class CritDamageUpItem : ItemBase {
     /// 追加クリティカルダメージ倍率を渡す
     /// </summary>
     /// <returns></returns>
-    public float GetCritDamageUpValue() {
+    public int GetCritDamageUpValue() {
         return (int) CritDamageUpValue;
     }
 

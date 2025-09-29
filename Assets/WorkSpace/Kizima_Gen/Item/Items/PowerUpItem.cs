@@ -28,6 +28,8 @@ public class PowerUpItem : ItemBase {
         base.Initialize();
         
         AttackValue = GetRandomFromRare(rarity);
+        //UŒ‚—Í‰º•ûC³‚ÌÕ
+        AttackValue = (int) (AttackValue * 0.5f);
         AttackText.text = "Attack + " + AttackValue;
 
 
