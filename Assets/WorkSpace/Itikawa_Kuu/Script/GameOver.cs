@@ -23,6 +23,7 @@ public class GameOver : MonoBehaviour {
     void Update()
     {
         selectObject = EventSystem.current.currentSelectedGameObject;
+        
     }
 
     /// <summary>
