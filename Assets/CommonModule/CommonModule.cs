@@ -138,4 +138,7 @@ public static class CommonModule {
         //クリティカルの戦いに負けたのでそのまま帰ります
         return damage;
     }
+
+
+
 }

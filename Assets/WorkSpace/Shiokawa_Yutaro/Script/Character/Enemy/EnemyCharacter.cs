@@ -544,6 +544,9 @@ public class EnemyCharacter : CharacterBase
                 playerFound = true;
 
                 float damage = player.rawAttack + player.GetWeaponAttack() + player.GetAccessaryAttack();
+                //ダメージが二倍にならないかな～
+                damage = CommonModule.CalcClit((int) damage, player.GetCritRate(), player.GetCritDamageRate());
+
 
                 damage += Random.Range(-2, 3);
                 if (damage <= 0) damage = 1;
@@ -557,9 +560,7 @@ public class EnemyCharacter : CharacterBase
         }
     }
 
-    public void Damage(Collider collider, int damage)
-    {
-
+    public void Damage(Collider collider, int damage){
         DamageUI DUI = damageUI;
         if (DUI != null)
         {
