@@ -26,7 +26,7 @@ public class ScoreBord : MonoBehaviour
         enemyDeadCountText.text = enemyDeadCount.ToString();
         timeText.text = time.ToString("0");
 
-        score = enemyDeadCount * 100 + (int)(3000 / time);
+        score = enemyDeadCount * 10 + (int)(3000 / time);
         if (player.isDead) { score -= 200; }
 
         if (score < 200) { rankingImage.sprite = rankingSprite[0]; }

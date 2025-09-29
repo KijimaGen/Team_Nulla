@@ -27,6 +27,7 @@ public class ItemWeapon : ItemBase {
         
         //UŒ‚—Í‚ğƒ‰ƒ“ƒ_ƒ€’Š‘I
         AttackValue = GetRandomFromRare(rarity);
+        AttackValue = (int) (AttackValue * 0.5f);
         //
         AttackText.text = "Attack + " + AttackValue;
         

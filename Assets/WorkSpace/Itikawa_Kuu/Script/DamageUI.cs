@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class DamageUI : MonoBehaviour
 {
-    //public GameObject enemy;
     
     [SerializeField]
     private Canvas damageUI;

@@ -29,7 +29,7 @@ public class PowerUpItem : ItemBase {
         
         AttackValue = GetRandomFromRare(rarity);
         //UŒ‚—Í‰º•ûC³‚ÌÕ
-        AttackValue = (int) (AttackValue * 0.5f);
+        AttackValue = (int) (AttackValue * 0.25f);
         AttackText.text = "Attack + " + AttackValue;
 
 

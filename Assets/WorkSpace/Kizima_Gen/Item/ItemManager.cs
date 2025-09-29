@@ -47,10 +47,7 @@ public class ItemManager : SystemObject{
             _unuseList.Add(item);
         }
 
-        //possessItemListに空を詰める
-        for (int i = 0, max = 5; i < max; i++) {
-            playerItemList.Add(null);
-        }
+        Reset();
 
         _useList.RemoveAll(item => item == null || item.Equals(null));
         //シーン遷移しても壊れない
@@ -227,5 +224,22 @@ public class ItemManager : SystemObject{
 
         _useList = tempList;
     }
+
+    /// <summary>
+    /// アイテムリストをなくす
+    /// </summary>
+    public void Reset() {
+        //アイテムリストをなくす
+        playerItemList = new List<ItemBase>(5); ;
+
+        //possessItemListに空を詰める
+        //初期化
+        for (int i = 0, max = 5; i < max; i++) {
+            playerItemList.Add(null);
+        }
+
+        //武器を初期化
+        playerWeapon = null;
+}
 
 }

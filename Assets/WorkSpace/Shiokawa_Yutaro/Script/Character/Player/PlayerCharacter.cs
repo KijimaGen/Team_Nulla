@@ -31,7 +31,7 @@ public class PlayerCharacter : CharacterBase
         speed = 2.5f;
         maxHP = 100;
         HP = maxHP;
-        rawAttack = 500;
+        rawAttack = 5;
         rawDefense = 0;
         possessItemList = new List<ItemBase>(_POSSESS_ITEM_MAX);
 
@@ -101,12 +101,14 @@ public class PlayerCharacter : CharacterBase
 
         //座標の下限
         if(transform.position.y < -1) {
-            //SceneManager.LoadScene("Main");
+
+            transform.position = new Vector3(transform.position.x, 1, transform.position.z);
         }
         // ゲームオーバー
         if (HP <= 0)
         {
             GameEnd();
+            gameEnd = true;
         }
 
     }
@@ -227,7 +229,8 @@ public class PlayerCharacter : CharacterBase
 
     //アイテムリストを送る
     public void SendItemList() {
-        //自身が壊されるタイミングでアイテムマネージャーにアイテムを渡す
+        if (ItemManager.instance == null) return;
+        //アイテムマネージャーにアイテムを渡す
         ItemManager.instance.SetPlayerItems(possessItemList, possessWeapon);
     }
 

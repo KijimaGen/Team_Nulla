@@ -515,7 +515,7 @@ public class EnemyCharacter : CharacterBase
                 damage = CommonModule.CalcClit((int) damage, player.GetCritRate(),player.GetCritDamageRate());
 
                 //乱数を作成
-                damage += Random.Range(-3, 4);
+                damage += Random.Range(-2, 3);
 
                 Damage(this.GetComponent<Collider>(), (int)damage);
 

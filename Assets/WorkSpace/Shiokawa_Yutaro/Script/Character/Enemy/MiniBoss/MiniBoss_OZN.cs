@@ -41,7 +41,7 @@ public class MiniBoss_OZN : EnemyCharacter
         speed = 2f;
         maxHP = 500;
         HP = maxHP;
-        rawAttack = 10;
+        rawAttack = 5;
         rawDefense = 0;
 
         currentRawAttack = rawAttack;
