@@ -50,7 +50,7 @@ public class DamageUIAction : MonoBehaviour
         DamageUI DUI = damageUI;
         if (DUI != null) {
             DamageUI createObject = Instantiate(DUI, collider.bounds.center - Camera.main.transform.forward * 0.2f, Quaternion.identity);
-            createObject.ChangeDamageText("aaaa");
+            //createObject.ChangeDamageText("aaaa");
         }
 
         //　DamageUIを中心からカメラの方向に少し寄せた位置にインスタンス化
