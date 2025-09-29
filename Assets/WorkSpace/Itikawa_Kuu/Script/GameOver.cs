@@ -17,14 +17,14 @@ public class GameOver : MonoBehaviour {
     void Start()
     {
         Retry.Select();
-        ItemManager.instance.Reset();
-        
+        HPGaugeUI.restHP = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
         selectObject = EventSystem.current.currentSelectedGameObject;
+        ItemManager.instance.Reset();
     }
 
     /// <summary>
