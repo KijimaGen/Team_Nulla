@@ -28,8 +28,6 @@ public class TeleportPortal : MonoBehaviour
         {
 
             await FadeManager.instance.FadeOut();
-            /////
-            SceneManager.LoadScene("Main");
             if (MiniBoss_OZN.MiniBossGame)
             {
                 Destroy(collision.gameObject);
@@ -43,11 +41,12 @@ public class TeleportPortal : MonoBehaviour
 
                 Generator.instance.RunProgram();
                 await FadeManager.instance.FadeIn(3);
+                SceneManager.LoadScene("Main");
             }
             else
             {
                 GameObject portal = Instantiate(hole, new Vector3(0, -7.4f, 4.8f), Quaternion.identity);
-                // SceneManager.LoadScene("Main");
+                //SceneManager.LoadScene("Main");
                 collision.gameObject.transform.position = portal.transform.position;
                 collision.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
