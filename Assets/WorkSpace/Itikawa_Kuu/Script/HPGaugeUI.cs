@@ -48,7 +48,7 @@ public class HPGaugeUI : MonoBehaviour
         //bulletDamage = Enemy_LongRange.Setup();
 
         if (restHP > 0) {
-            StartHP(player.GetHP() - restHP);
+            StartHP();
         }
     }
 
@@ -66,7 +66,11 @@ public class HPGaugeUI : MonoBehaviour
         if (player.GetHP() <= 0) {
             SceneManager.LoadScene("GameOverScene");
         }
-        //Debug.Log(player.GetHP());
+        Debug.Log(player.GetHP());
+
+        if (player != null) {
+            restHP = player.GetHP();
+        }
     }
 
     //public void DamageGaugeDown() {
@@ -139,10 +143,9 @@ public class HPGaugeUI : MonoBehaviour
         UpdateFillAmount(HPImage, ref HcurrentRate, targetRate, duration, DamageImage);
     }
 
-    public void StartHP(float _damage) {
-        float damage = Mathf.Max(_damage, 1);
-        player.SetHP(player.GetHP() - damage);
-        float targetRate = HcurrentRate - _damage / (player.maxHP);
+    public void StartHP() {
+        player.SetHP(restHP);
+        float targetRate = restHP / (player.maxHP);
         UpdateFillAmount(HPImage, ref HcurrentRate, targetRate, duration, DamageImage);
     }
 
@@ -168,7 +171,12 @@ public class HPGaugeUI : MonoBehaviour
         UpdateFillAmount(HPImage, ref HcurrentRate, targetRate, duration, DamageImage);
     }
 
-    private void OnDestroy() {
-        restHP = player.GetHP();
-    }
+    /// <summary>
+    /// シーン切り替え時HPを保存
+    /// </summary>
+    //private void OnDestroy() {
+    //    if (player != null) {
+    //        restHP = player.GetHP();
+    //    }
+    //}
 }
