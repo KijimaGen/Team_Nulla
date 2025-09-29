@@ -511,13 +511,24 @@ public class EnemyCharacter : CharacterBase
                     damage = 1;
                 }
 
+                float tmpDamage = damage;
                 //ダメージが二倍にならないかな～
                 damage = CommonModule.CalcClit((int) damage, player.GetCritRate(),player.GetCritDamageRate());
 
-                //乱数を作成
-                damage += Random.Range(-2, 3);
+                if(tmpDamage > damage)
+                {
+                    //乱数を作成
+                    damage += Random.Range(-3, 4);
+                    Damage(this.GetComponent<Collider>(), (int)damage,ClitColor);
+                }
+                else
+                {
+                    //乱数を作成
+                    damage += Random.Range(-3, 4);
+                    Damage(this.GetComponent<Collider>(), (int)damage, defaultColor);
+                }
 
-                Damage(this.GetComponent<Collider>(), (int)damage);
+                
 
                 HP -= damage;
                 playerAction.AddHitPoint(damage * 0.01f);
@@ -544,14 +555,11 @@ public class EnemyCharacter : CharacterBase
                 playerFound = true;
 
                 float damage = player.rawAttack + player.GetWeaponAttack() + player.GetAccessaryAttack();
-                //ダメージが二倍にならないかな～
-                damage = CommonModule.CalcClit((int) damage, player.GetCritRate(), player.GetCritDamageRate());
-
 
                 damage += Random.Range(-2, 3);
                 if (damage <= 0) damage = 1;
 
-                Damage(this.GetComponent<Collider>(), (int)damage);
+                Damage(this.GetComponent<Collider>(), (int)damage,defaultColor);
                 HP -= damage;
 
                 AudioManager.instance.PlaySE(0);
@@ -560,7 +568,11 @@ public class EnemyCharacter : CharacterBase
         }
     }
 
-    public void Damage(Collider collider, int damage){
+    Color defaultColor = Color.red;
+    Color ClitColor = Color.yellow;
+    public void Damage(Collider collider, int damage,Color textColor)
+    {
+
         DamageUI DUI = damageUI;
         if (DUI != null)
         {
@@ -568,8 +580,7 @@ public class EnemyCharacter : CharacterBase
             // 計算
 
             // テキストに表示
-
-            createObject.ChangeDamageText(damage.ToString());
+            createObject.ChangeDamageText(damage.ToString(), textColor);
         }
     }
 
