@@ -66,6 +66,7 @@ public class EnemyCharacter : CharacterBase
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCharacter>();
         }
+        if (player.isDead) { return; }
         if (!ViewAction()) return;
 
 

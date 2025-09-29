@@ -58,17 +58,25 @@ public class PlayerCharacter : CharacterBase
         if (OnceAnim) return;
         Camera.main.GetComponent<CameraMove>().enabled = false;
 
-        Vector3 cameraPos = new Vector3(transform.position.x + 0.8f, 1.3f, transform.position.z + 2.5f);
+        Vector3 cameraPos = new Vector3(0.8f, 1.3f,2.5f);
         Vector3 cameraRot = new Vector3(7.4f, -130f, 0f);
 
         Camera.main.transform.DOLocalMove(cameraPos, 0.4f);
-        Camera.main.transform.DORotate(cameraRot, 0.4f);
+        Camera.main.transform.DOLocalRotate(cameraRot, 0.4f);
 
         scoreBord.OpenScore();
         scoreBord.gameObject.SetActive(true);
         scoreBord.GetComponent<Animation>().Play();
 
         OnceAnim = true;
+        Invoke("LoadMainScene", 5);
+    }
+
+    private void LoadMainScene()
+    {
+        OnceAnim = false;
+        gameEnd = false;
+        SceneManager.LoadScene("GameOverScene");
     }
     private void Update()
     {
@@ -95,8 +103,12 @@ public class PlayerCharacter : CharacterBase
         if(transform.position.y < -1) {
             //SceneManager.LoadScene("Main");
         }
+        // ゲームオーバー
+        if (HP <= 0)
+        {
+            GameEnd();
+        }
 
-       
     }
     
 

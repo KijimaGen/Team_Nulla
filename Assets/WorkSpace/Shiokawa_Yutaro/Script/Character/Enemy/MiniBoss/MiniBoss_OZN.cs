@@ -75,7 +75,7 @@ public class MiniBoss_OZN : EnemyCharacter
 
         float heightDiff = Mathf.Abs(hand.position.y - player.transform.position.y);
 
-        if (actionCatch && distXZ <= 0.4f && heightDiff >= 0.45f && player.GetComponent<Collider>().enabled == true)
+        if (actionCatch && distXZ <= 0.4f && heightDiff >= 0.45f && player.GetComponent<CapsuleCollider>()?.enabled != false)
         {
             PlayerCatch();
         }

@@ -62,10 +62,7 @@ public class HPGaugeUI : MonoBehaviour
             //Time.timeScale += 0.02f;
         }
 
-        // ゲームオーバー
-        if (player.GetHP() <= 0) {
-            SceneManager.LoadScene("GameOverScene");
-        }
+        
         Debug.Log(player.GetHP());
 
         if (player != null) {

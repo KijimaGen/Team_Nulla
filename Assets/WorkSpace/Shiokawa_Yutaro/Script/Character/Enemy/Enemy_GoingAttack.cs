@@ -27,7 +27,6 @@ public class Enemy_GoingAttack : EnemyCharacter
         animation.Play("攻撃1");
 
         Attack(player.transform.position);
-
         // アニメーションの終了を待つ（基底のクラスの関数）
         // await WaitUntilAnimationStateExits(attackName); // ←"Attack"はアニメーターのステート名
 
