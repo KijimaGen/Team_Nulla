@@ -80,8 +80,6 @@ public class PlayerAction : MonoBehaviour
             TryPickupItem();
         }
 
-
-
         //攻撃の受付
         if (AcceptAttack()) return;
         //ジャンプの受付
@@ -396,7 +394,7 @@ public class PlayerAction : MonoBehaviour
         player.isAttacking = false;
         canCombo = false;
         inputAttack = false;
-
+        rb.isKinematic = false;
         
     }
 
