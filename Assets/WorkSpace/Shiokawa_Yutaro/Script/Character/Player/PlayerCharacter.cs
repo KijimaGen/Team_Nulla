@@ -314,7 +314,7 @@ public class PlayerCharacter : CharacterBase
             if (possessItemList[i] == null) continue;
 
             //‚±‚Ìis‰‰ŽZŽq‚ÍpossessItemList[i]‚ªCritDamageUpItemŒ^‚©‚Ç‚¤‚©‚ðŒŸ’m‚µ‚Ä‚­‚ê‚é
-            if (possessItemList[i] is CritUpItem)
+            if (possessItemList[i] is CritDamageUpItem)
                 CritDamageValue += (int) ((CritDamageUpItem) possessItemList[i]).GetCritDamageUpValue();
         }
 
