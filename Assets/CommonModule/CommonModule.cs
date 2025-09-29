@@ -6,7 +6,6 @@
  */
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using static GameConst;
 
@@ -29,14 +28,34 @@ public static class CommonModule {
         return null;
     }
 
-    //レアリティをランダムで抽選して返す
     public static Rarity GetRandomRarity() {
-        // enum の全要素を配列に変換
-        Rarity[] values = (Rarity[]) System.Enum.GetValues(typeof(Rarity));
+        // 各レアリティの重みを設定（数値が大きいほど出やすい）
+        Dictionary<Rarity, int> weights = new Dictionary<Rarity, int>() {
+        { Rarity.Common,    50 }, // 50%
+        { Rarity.Uncommon,  25 }, // 25%
+        { Rarity.Rare,      15 }, // 15%
+        { Rarity.Epic,       7 }, // 7%
+        { Rarity.Legendary,  3 }, // 3%
+    };
 
-        // Unity の Random.Range でランダム抽選
-        int index = Random.Range(0, values.Length);
-        return values[index];
+        // 総和を出す
+        int totalWeight = 0;
+        foreach (var w in weights.Values) {
+            totalWeight += w;
+        }
+
+        // 0〜totalWeight-1 の乱数を生成
+        int rand = Random.Range(0, totalWeight);
+
+        // 重みに応じて決定
+        foreach (var kvp in weights) {
+            rand -= kvp.Value;
+            if (rand < 0) {
+                return kvp.Key;
+            }
+        }
+
+        return Rarity.Common; // フォールバック（ここには来ない想定）
     }
 
     //レアリティを受け取ってそれに合わせたランダムな値を返す
