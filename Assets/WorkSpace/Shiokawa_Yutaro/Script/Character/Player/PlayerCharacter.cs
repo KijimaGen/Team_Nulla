@@ -2,8 +2,6 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -207,12 +205,14 @@ public class PlayerCharacter : CharacterBase
     /// </summary>
     /// <returns></returns>
     public float GetAccessaryAttack() {
+        if (possessItemList == null) return 0;
         int AccessaryAttackSum = 0;
-        for(int i = 0,max = _POSSESS_ITEM_MAX;i < max;i++) {
+        for(int i = 0,max = possessItemList.Count; i < max;i++) {
             if(possessItemList[i] == null) continue;
             
+
             //‚±‚Ìis‰‰ŽZŽq‚ÍpossessItemList[i]‚ªPowerUpItemŒ^‚©‚Ç‚¤‚©‚ðŒŸ’m‚µ‚Ä‚­‚ê‚é
-            if(possessItemList[i] is PowerUpItem)
+            if (possessItemList[i] is PowerUpItem)
                 AccessaryAttackSum += (int)((PowerUpItem) possessItemList[i]).GetAttackValue();
         }
         return AccessaryAttackSum;
@@ -268,7 +268,8 @@ public class PlayerCharacter : CharacterBase
         if (possessItemList == null) return;
         //‰ñ•œ—Ê
         int HealValue = 0;
-        for (int i = 0, max = _POSSESS_ITEM_MAX; i < max; i++) {
+        for (int i = 0, max = possessItemList.Count; i < max; i++) {
+            if (possessItemList == null) return;
             if (possessItemList[i] == null) continue;
 
             //‚±‚Ìis‰‰ŽZŽq‚ÍpossessItemList[i]‚ªHealItemŒ^‚©‚Ç‚¤‚©‚ðŒŸ’m‚µ‚Ä‚­‚ê‚é
@@ -312,7 +313,7 @@ public class PlayerCharacter : CharacterBase
     public int GetCritRate() {
          //‰ñ•œ—Ê
         int CritValue = 0;
-        for (int i = 0, max = _POSSESS_ITEM_MAX; i < max; i++) {
+        for (int i = 0, max = possessItemList.Count; i < max; i++) {
             if (possessItemList[i] == null) continue;
 
             //‚±‚Ìis‰‰ŽZŽq‚ÍpossessItemList[i]‚ªPowerUpItemŒ^‚©‚Ç‚¤‚©‚ðŒŸ’m‚µ‚Ä‚­‚ê‚é
@@ -330,7 +331,7 @@ public class PlayerCharacter : CharacterBase
     public int GetCritDamageRate() {
         //ƒNƒŠƒeƒBƒJƒ‹ƒ_ƒ[ƒW—¦
         int CritDamageValue = 0;
-        for (int i = 0, max = _POSSESS_ITEM_MAX; i < max; i++) {
+        for (int i = 0, max = possessItemList.Count; i < max; i++) {
             if (possessItemList[i] == null) continue;
 
             //‚±‚Ìis‰‰ŽZŽq‚ÍpossessItemList[i]‚ªCritDamageUpItemŒ^‚©‚Ç‚¤‚©‚ðŒŸ’m‚µ‚Ä‚­‚ê‚é
