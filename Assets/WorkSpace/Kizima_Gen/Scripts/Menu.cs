@@ -5,10 +5,12 @@
  * @date 2025/9/18
  */
 using Cysharp.Threading.Tasks;
+using MaykerStudio;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -57,15 +59,19 @@ public class Menu : MonoBehaviour{
     //ぷれいやー
     GameObject player;
 
+    InputActions inputActions;//インプットシステム
+
     void Start(){
+        instance = this;
        menuParent.SetActive(false);
        index = 0;
 
         //プレイヤーを探す
         player = GameObject.FindWithTag("Player");
         var playerInput = player.GetComponent<PlayerInput>();
-        decideAction = playerInput.actions["Decide"]; 
-        instance = this;
+        decideAction = playerInput.actions["Decide"];
+
+        inputActions = new InputActions();
     }
 
     void Update(){
@@ -111,6 +117,8 @@ public class Menu : MonoBehaviour{
     /// メニューを開く
     /// </summary>
     public void OpenMenu() {
+
+        
 
         //プレイヤーを探す
         player = GameObject.FindWithTag("Player");
