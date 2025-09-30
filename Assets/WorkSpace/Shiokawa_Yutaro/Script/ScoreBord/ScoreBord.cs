@@ -20,6 +20,9 @@ public class ScoreBord : MonoBehaviour
     private void Start()
     {
         gameObject.SetActive(false);
+        enemyDeadCount = 0;
+        time = 0;
+        score = 0;
     }
     public void OpenScore()
     {
