@@ -211,18 +211,7 @@ public class ItemManager : SystemObject{
     /// <param name="scene"></param>
     /// <param name="mode"></param>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        // コピーを作ってから回す
-        var tempList = new List<ItemBase>(_useList);
-
-        for (int i = 0; i < tempList.Count; i++) {
-            // プレイヤーが持っている物だったらスルー
-            if (tempList[i].isPlayerPosses) continue;
-
-            // 不使用状態にする
-            UnuseItem(tempList[i].itemID);
-        }
-
-        _useList = tempList;
+        ResetUseItem();
     }
 
     /// <summary>
@@ -255,4 +244,19 @@ public class ItemManager : SystemObject{
         _useList = tempList;
     }
 
+
+    public void ResetUseItem() {
+        // コピーを作ってから回す
+        var tempList = new List<ItemBase>(_useList);
+
+        for (int i = 0; i < tempList.Count; i++) {
+            // プレイヤーが持っている物だったらスルー
+            if (tempList[i].isPlayerPosses) continue;
+
+            // 不使用状態にする
+            UnuseItem(tempList[i].itemID);
+        }
+
+        _useList = tempList;
+    }
 }
