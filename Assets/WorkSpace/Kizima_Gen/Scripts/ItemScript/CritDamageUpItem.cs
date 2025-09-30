@@ -27,7 +27,7 @@ public class CritDamageUpItem : ItemBase {
     public override void Initialize() {
         base.Initialize();
 
-        CritDamageUpValue = GetRandomFromRare(rarity);
+        CritDamageUpValue = GetRandomFromRare(rarity) + 50;
         CritDamageUpStuts.text = "CritDamage + " + CritDamageUpValue;
 
 
