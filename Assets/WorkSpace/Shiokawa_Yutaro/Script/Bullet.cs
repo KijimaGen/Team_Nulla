@@ -41,7 +41,7 @@ public class Bullet : MonoBehaviour
             PlayerAction playerAction = playerCol.GetComponent<PlayerAction>();
                 
           
-            if (playerCol is SphereCollider && playerAction.isDashing)
+            if (playerAction.isDashing)
             {
                 counterHit = true;
                 Instantiate(_effect, transform.position, transform.rotation);
