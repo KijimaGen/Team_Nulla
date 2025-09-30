@@ -54,6 +54,7 @@ public class PlayerCharacter : CharacterBase
     private void GameEnd()
     {
         if (OnceAnim) return;
+        gameEnd = false;
         Camera.main.GetComponent<CameraMove>().enabled = false;
 
         Vector3 cameraPos = new Vector3(0.8f, 1.3f,2.5f);
@@ -110,7 +111,6 @@ public class PlayerCharacter : CharacterBase
         // ゲームオーバー
         if (HP <= 0)
         {
-            GameEnd();
             gameEnd = true;
         }
 
