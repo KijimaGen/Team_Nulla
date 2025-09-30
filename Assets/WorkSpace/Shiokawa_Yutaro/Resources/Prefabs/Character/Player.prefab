@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2947421171425185775}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandMiddle2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1798071188107185011}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandMiddle4_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1547004820804191213}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightToe_End_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5801711099529806942}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5960417449596762313}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandIndex4_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 974743668713267100}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandRing1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,7 +198,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6118145192569205606}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandRing3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -230,7 +230,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5944675529668598621}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandRing4_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -414,7 +414,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4164601316832718238}
   - component: {fileID: 4755381901870985196}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Beta_Joints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -563,7 +563,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8497727413168221416}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:Hips
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -597,7 +597,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7132757531162945513}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -705,7 +705,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1976193424246591350}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandMiddle3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -737,7 +737,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5424232871637333482}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightForeArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -844,7 +844,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7035364163885730374}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -951,7 +951,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 136265239137300392}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandPinky2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -983,7 +983,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7561015797683283869}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1015,7 +1015,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6227933981200363326}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftToeBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1047,7 +1047,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8088951642514246538}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandPinky4_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1078,7 +1078,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 254074972668163699}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftForeArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1186,7 +1186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3090433500178024645}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightUpLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1218,7 +1218,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8553050619303300744}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandPinky3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1250,7 +1250,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1049805055804180482}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandMiddle4_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1281,7 +1281,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4426459991485192259}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:Spine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1315,7 +1315,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8793640818568679759}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandPinky2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1347,7 +1347,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1620887544917251582}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandThumb1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1458,7 +1458,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8488776119213508698}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftUpLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1490,7 +1490,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7150206685016620927}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandIndex4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1522,7 +1522,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2506405848360830474}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1554,7 +1554,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3209774623143351965}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1725,7 +1725,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8078224537609060890}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandIndex4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1795,7 +1795,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7962513128541886660}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftToe_End_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2091,7 +2091,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3250430122036690447}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandThumb4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2230,7 +2230,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1371524946224571229}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandPinky4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2693,7 +2693,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6314237032351271221}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftToe_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2725,7 +2725,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 189338928566502674}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2757,7 +2757,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6747275605204082333}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2789,7 +2789,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2053534815892287072}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:HeadTop_End_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2820,7 +2820,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2610543417407568869}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: "\u30E2\u30C7\u30EB\u95A2\u4FC2"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2854,7 +2854,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2172632161134058150}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2886,7 +2886,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1562953660596773839}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2918,7 +2918,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6288255128985643596}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2954,7 +2954,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 891450054828304920}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandMiddle4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3061,7 +3061,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3359591410975572287}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightToeBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3093,7 +3093,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2058560337604418477}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3125,7 +3125,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7736182361286984302}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandThumb2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3157,7 +3157,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7722501111380141674}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandThumb4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3283,7 +3283,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6527996776097164159}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandMiddle1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3315,7 +3315,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5818251549142755969}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandRing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3426,7 +3426,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7173525627187193433}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandRing4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3458,7 +3458,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8377055716073019083}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandThumb4_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3489,7 +3489,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3347507803342681841}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3521,7 +3521,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6350858815624344363}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandIndex3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3585,7 +3585,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5716144891197499040}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:Spine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3617,7 +3617,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1968686568546770758}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandMiddle2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3649,7 +3649,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3417209640979141025}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandThumb4_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3680,7 +3680,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3395131361643290638}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandRing1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3712,7 +3712,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2276092424287698652}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandThumb1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3744,7 +3744,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7496105142001670135}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandRing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3776,7 +3776,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6013988184403679156}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandMiddle1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3808,7 +3808,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3865802829358984558}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandIndex3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3840,7 +3840,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3327152853866989200}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandRing4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3872,7 +3872,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6029620330999020723}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandIndex4_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3903,7 +3903,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1630961719712839703}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandThumb3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3935,7 +3935,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6025194525605501274}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandRing4_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3966,7 +3966,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5325769601226338941}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:HeadTop_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3998,7 +3998,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3219965721108711825}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandPinky3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4030,7 +4030,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8987479592428598919}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandThumb2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4064,7 +4064,7 @@ GameObject:
   - component: {fileID: 8108076179906266528}
   - component: {fileID: 6494273726275545445}
   - component: {fileID: 2122499564105631632}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Beta_Surface
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4234,7 +4234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4000451845422191063}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4266,7 +4266,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3035131474362047752}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandMiddle4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4298,7 +4298,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4864263940476474656}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandMiddle3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4330,7 +4330,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6212933838873140333}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4362,7 +4362,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2042635341078995860}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandPinky1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4497,7 +4497,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7837188614008865123}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4529,7 +4529,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5348837950075608097}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandPinky1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4561,7 +4561,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2844276587864523056}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandRing3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4593,7 +4593,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7134339962807382211}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightHandPinky4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4625,7 +4625,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6606840804287986590}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandThumb3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4657,7 +4657,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2898232696897556121}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:LeftHandPinky4_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4799,7 +4799,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4633047198689176622}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:RightToe_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5042,7 +5042,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4050111922867374357}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EEJANAIBot:Spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5777,9 +5777,69 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1528429787315995283, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2275828367444781849, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2304901711259713005, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
       propertyPath: m_Name
       value: "\u5200"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2304901711259713005, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2906949664744888538, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3576539530567105115, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3885999430131384236, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4162539813179781905, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5049285311673970326, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7183338129654800231, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7212387954226201009, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7396971747736181651, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7818268051442508253, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8591963320723868387, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8723666556665245244, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9121185710790296017, guid: 0996e1b32a58b634d96bef9f057f00d6, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5845,7 +5905,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4168793393489030066, guid: 06851bed1a7a2f941a32ff65c949c382, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4168793393489030066, guid: 06851bed1a7a2f941a32ff65c949c382, type: 3}
       propertyPath: m_IsActive
@@ -5853,7 +5913,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8946022004793510874, guid: 06851bed1a7a2f941a32ff65c949c382, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8946022004793510874, guid: 06851bed1a7a2f941a32ff65c949c382, type: 3}
       propertyPath: m_IsActive

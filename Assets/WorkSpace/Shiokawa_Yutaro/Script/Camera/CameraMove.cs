@@ -37,8 +37,8 @@ public class CameraMove : MonoBehaviour
     /// </summary>
     private void ViewRoteto(Transform target)
     {
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
+        float mouseX = 0;
+        float mouseY = 0;
 
         angleY += (switchRStickValue.x + mouseX) * rotateSpeed;
         angleX -= (switchRStickValue.y + mouseY) * rotateSpeed;
@@ -58,9 +58,10 @@ public class CameraMove : MonoBehaviour
         // 無視したいレイヤーを取得
         int ignoreLayer1 = LayerMask.NameToLayer("Item");
         int ignoreLayer2 = LayerMask.NameToLayer("Enemy");
+        int ignoreLayer3 = LayerMask.NameToLayer("Player");
 
         // それらをまとめたマスクを作る
-        int ignoreMask = (1 << ignoreLayer1) | (1 << ignoreLayer2);
+        int ignoreMask = (1 << ignoreLayer1) | (1 << ignoreLayer2) | (1 << ignoreLayer3);
 
         // 無視するためにビット反転
         int layerMask = ~ignoreMask;

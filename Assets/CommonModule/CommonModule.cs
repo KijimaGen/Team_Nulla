@@ -130,7 +130,7 @@ public static class CommonModule {
         if (rand < criticalRate) {
             AudioManager.instance.PlaySE(10);
 
-            float returnDamage = damage * (criticalDamageRate / 100);
+            float returnDamage = damage * criticalDamageRate / 100;
 
             return (int)returnDamage;
         }

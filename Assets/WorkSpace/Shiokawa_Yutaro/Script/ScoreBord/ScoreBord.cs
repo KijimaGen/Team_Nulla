@@ -26,7 +26,7 @@ public class ScoreBord : MonoBehaviour
     }
     public void OpenScore()
     {
-        score = enemyDeadCount * 10 + (int)(3000 / time);
+        score = enemyDeadCount * 20 + (int)(5000 / time);
         if (player.isDead) { score -= 200; timeText.text = "Ž¸”s"; }
         else { timeText.text = time.ToString("0"); }
 

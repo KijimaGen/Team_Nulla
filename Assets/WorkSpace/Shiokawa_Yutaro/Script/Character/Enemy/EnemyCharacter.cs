@@ -518,13 +518,13 @@ public class EnemyCharacter : CharacterBase
                 if(tmpDamage < damage)
                 {
                     //乱数を作成
-                    damage += Random.Range(-3, 4);
+                    damage += Random.Range(-1, 2);
                     Damage(this.GetComponent<Collider>(), (int)damage,ClitColor);
                 }
                 else
                 {
                     //乱数を作成
-                    damage += Random.Range(-3, 4);
+                    damage += Random.Range(-1, 2);
                     Damage(this.GetComponent<Collider>(), (int)damage, defaultColor);
                 }
 
@@ -556,7 +556,7 @@ public class EnemyCharacter : CharacterBase
 
                 float damage = player.rawAttack + player.GetWeaponAttack() + player.GetAccessaryAttack();
 
-                damage += Random.Range(-2, 3);
+                damage += Random.Range(-1, 2);
                 if (damage <= 0) damage = 1;
 
                 Damage(this.GetComponent<Collider>(), (int)damage,defaultColor);
