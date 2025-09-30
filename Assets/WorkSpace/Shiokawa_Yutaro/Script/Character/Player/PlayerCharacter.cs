@@ -96,10 +96,8 @@ public class PlayerCharacter : CharacterBase
 
         if (transform.parent != null)
         {
-            GetComponent<PlayerInput>().enabled = false;
             return;
         }
-        GetComponent<PlayerInput>().enabled = true;
         //プレイヤーの操作の呼び出し
         _playerAction.AcceptInput();
 

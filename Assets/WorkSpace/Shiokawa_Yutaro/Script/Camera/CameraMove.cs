@@ -84,6 +84,11 @@ public class CameraMove : MonoBehaviour
         switchRStickValue = context.ReadValue<Vector2>();
 
     }
+    public void SwitchDontMove(InputAction.CallbackContext context)
+    {
+        switchRStickValue = Vector2.zero;
+
+    }
     public void RotateNeck()
     {
         if (player.isAttacking) return;
