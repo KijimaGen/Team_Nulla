@@ -45,6 +45,8 @@ public class DamageUI : MonoBehaviour
             timeCount = 0;
             //gameObject.SetActive(false);
         }
+
+        playerCol is SphereCollider && 
         */
 
         // ƒvƒƒg”Å‚Ì‰¼À‘•

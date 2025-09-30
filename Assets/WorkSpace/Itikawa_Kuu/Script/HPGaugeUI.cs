@@ -81,16 +81,20 @@ public class HPGaugeUI : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "Bullet") {
+            if (!playerAction.isDashing) {
             // 弾のダメージ
             SetDamage(bulletDamage);
+            }
         }
     }
 
     private void OnTriggerEnter(Collider collider) {
         if (collider.gameObject.tag == "Bullet")
         {
-            // 弾のダメージ
-            SetDamage(bulletDamage);
+            if (!playerAction.isDashing) {
+                // 弾のダメージ
+                SetDamage(bulletDamage);
+            }
         }
         if (collider.gameObject.tag == "Enemy" && collider is BoxCollider)
         {
