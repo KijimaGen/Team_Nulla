@@ -68,6 +68,11 @@ public class PlayerCharacter : CharacterBase
         scoreBord.gameObject.SetActive(true);
         scoreBord.GetComponent<Animation>().Play();
 
+        //アイテムリストを初期化
+        ResetItemList();
+        //アイテムマネージャーに送る
+        SendItemList();
+
         OnceAnim = true;
         Invoke("LoadMainScene", 5);
     }
@@ -222,7 +227,7 @@ public class PlayerCharacter : CharacterBase
     }
 
     private void OnDisable() {
-        SendItemList();
+        
         // 止めたいとき
         cts.Cancel();
     }
@@ -336,5 +341,15 @@ public class PlayerCharacter : CharacterBase
         return criticalDamageRate + CritDamageValue;
     }
 
+    /// <summary>
+    /// アイテムリスト初期化
+    /// </summary>
+    private void ResetItemList() {
+        for(int i = 0 ,max = possessItemList.Count; i < max; i++) {
+            possessItemList[i] = null;
+        }
+        possessItemList.Clear();
+        possessWeapon = null;
+    }
 
 }

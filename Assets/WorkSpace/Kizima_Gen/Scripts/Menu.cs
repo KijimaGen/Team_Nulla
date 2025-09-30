@@ -121,10 +121,14 @@ public class Menu : MonoBehaviour{
         List<ItemBase> itemList = GetPlayerItems();
 
         // 空の要素を確保
-        ItemIcons = new List<Sprite>(new Sprite[itemList.Count]); 
+        ItemIcons = new List<Sprite>(new Sprite[itemList.Count]);
 
         for (int i = 0; i < itemList.Count; i++) {
-            if (itemList[i] == null) continue;
+            if (itemList[i] == null) {
+                //一応nullを入れておく
+                itemIcon[i].sprite = null;
+                continue;
+            }
 
             //受け取ったアイコンの情報をもらう
             ItemIcons[i] = itemList[i].myIcon;
