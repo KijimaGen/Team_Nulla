@@ -5,8 +5,7 @@ using System.Linq;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class PlayerAction : MonoBehaviour
-{
+public class PlayerAction : MonoBehaviour {
     Rigidbody rb;
 
     private float shiftPressTime = 0f;
@@ -22,7 +21,7 @@ public class PlayerAction : MonoBehaviour
     private float pickupRadius = 1f;
 
     //アニメーション
-    private Animator animator;
+    [SerializeField] Animator animator;
 
     private bool inputShiftButton;
 
@@ -55,28 +54,56 @@ public class PlayerAction : MonoBehaviour
 
     [SerializeField] private GameObject WeaponModel;
 
+    PlayerInputActionS input;
+
+    private void AA() {
+        input = new PlayerInputActionS();
+        input.Interact.SwitchMove.performed += SwitchLStickMove;
+        input.Interact.SwitchMove.canceled += SwitchLStickDontMove;
+        input.Interact.SwitchCameraMove.performed += Camera.main.GetComponent<CameraMove>().SwitchMove;
+        input.Interact.SwitchCameraMove.canceled += Camera.main.GetComponent<CameraMove>().SwitchDontMove;
+        input.Interact.Plus.started += Menu.instance.Plus;
+        input.Interact.SwitchDash.performed += SwitchZR;
+        input.Interact.SwitchDash.canceled += SwitchDontZR;
+        input.Interact.SwitchJump.performed += SwitchB;
+        input.Interact.SwitchJump.canceled += SwitchDontB;
+        input.Interact.SwitchNormalAttack.performed += SwitchY;
+        input.Interact.SwitchNormalAttack.canceled += SwitchDontY;
+        input.Interact.SwitchSpecialAttack.performed += SwitchX;
+        input.Interact.SwitchSpecialAttack.canceled += SwitchDontX;
+        input.Interact.Interact.started += GetComponent<PlayerOpenChester>().HandleInteractInput;
 
 
-    private void Start()
-    {
+        input.Menu.Plus.started += Menu.instance.Plus;
+        input.Menu.Decide.started += Menu.instance.Decide;
+        input.Menu.LeftMove.started += Menu.instance.IncreaceIndex;
+        input.Menu.RightMove.started += Menu.instance.DecreaseIndex;
+
+
+
+
+        input.Enable();
+    }
+
+    private void Start() {
+        AA();
         player = this.GetComponent<PlayerCharacter>();
         currentRawAttack = player.rawAttack;
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         specialGauge.fillAmount = 1;
+        
+
     }
 
-    public void AcceptInput()
-    {
-        
+    public void AcceptInput() {
+
         if (player == null) return;
-        if (isJumping && IsGrounded())
-        {
+        if (isJumping && IsGrounded()) {
             isJumping = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
+        if (Input.GetKeyDown(KeyCode.E)) {
             TryPickupItem();
         }
 
@@ -93,14 +120,12 @@ public class PlayerAction : MonoBehaviour
     /// 移動の受付、内部処理
     /// </summary>
     /// <returns>移動したらTrue</returns>
-    public bool AcceptMove()
-    {
+    public bool AcceptMove() {
         if (isJumping || player.isAttacking) return false;
 
         Vector3 inputDir = AcceptDirInput().normalized;
-       // Debug.Log(inputDir);
-        if (inputDir.magnitude <= 0.0f)
-        {
+        // Debug.Log(inputDir);
+        if (inputDir.magnitude <= 0.0f) {
             player.SetSpeed(player.walkSpeed);
             isDashing = false;
             isAvoiding = false;
@@ -116,8 +141,7 @@ public class PlayerAction : MonoBehaviour
 
         AcceptDirChange(inputDir);
 
-        if (isDashing)
-        {
+        if (isDashing) {
             Vector3 v = rb.velocity;
             v.y = 0;
             rb.velocity = v;
@@ -129,38 +153,32 @@ public class PlayerAction : MonoBehaviour
 
             //ダッシュし続けていたら
             shiftPressTime += Time.deltaTime;
-            if (shiftPressTime >= dashThreshold)
-            {
+            if (shiftPressTime >= dashThreshold) {
                 isAvoiding = false;
             }
-            else if (shiftPressTime < dashThreshold)
-            {
+            else if (shiftPressTime < dashThreshold) {
                 TriggerDodge(player);
             }
-            if (shiftPressTime > justAvoidingTime)
-            {
+            if (shiftPressTime > justAvoidingTime) {
                 isJustAvoiding = false;
             }
 
         }
-        else
-        {
+        else {
             shiftPressTime = 0f;
             animator.SetBool("Walk", true);
 
         }
 
 
-        if (switchZRButton && !inputShiftButton)
-        {
+        if (switchZRButton && !inputShiftButton) {
             inputShiftButton = true;
             isDashing = true;
 
             if (shiftPressTime >= AvoidingCoolInterval) { shiftPressTime = 0f; }
 
         }
-        else if (!switchZRButton)
-        {
+        else if (!switchZRButton) {
             inputShiftButton = false;
         }
 
@@ -172,12 +190,10 @@ public class PlayerAction : MonoBehaviour
         return true;
     }
 
-    private bool AcceptJump()
-    {
+    private bool AcceptJump() {
         if (!IsGrounded() || isAvoiding) return false;
 
-        if (switchBButton)
-        {
+        if (switchBButton) {
             ParticleSystem jumpEffect = Instantiate(jumpEfect, transform.position, Quaternion.identity);
             Destroy(jumpEffect.gameObject, 2);
             // 水平方向の移動を止める
@@ -195,15 +211,13 @@ public class PlayerAction : MonoBehaviour
     private float jumpHeight = 1f;   // ジャンプの高さ
     private float jumpDistance = 5f; // 飛びたい距離
     private float gravity = -9.81f;  // 重力（Unityのデフォルト）
-    void Jump()
-    {
+    void Jump() {
         float jumpVelocity = Mathf.Sqrt(2 * -gravity * jumpHeight);
         rb.velocity = new Vector3(rb.velocity.x, jumpVelocity, rb.velocity.z);
     }
 
 
-    private bool IsGrounded()
-    {
+    private bool IsGrounded() {
         float rayLength = 0.1f;
         Vector3 origin = transform.position;
         origin.y += 0.05f;
@@ -216,16 +230,14 @@ public class PlayerAction : MonoBehaviour
     /// 回避処理
     /// </summary>
     /// <param name="player"></param>
-    private void TriggerDodge(PlayerCharacter player)
-    {
+    private void TriggerDodge(PlayerCharacter player) {
         isAvoiding = true;
         isJustAvoiding = true;
 
 
         // プレイヤーの前方向に瞬間的に動かす（例: 回避ロール）
         Vector3 dodgeDir = AcceptDirInput().normalized;
-        if (dodgeDir == Vector3.zero)
-        {
+        if (dodgeDir == Vector3.zero) {
             dodgeDir = transform.forward; // 入力がなければ前に回避
         }
 
@@ -237,8 +249,7 @@ public class PlayerAction : MonoBehaviour
     /// <summary>
     /// ダッシュ中の銃弾弾き処理
     /// </summary>
-    private void TriggerDash()
-    {
+    private void TriggerDash() {
         //回避中なら外れる
         if (isAvoiding) return;
         if (isCounter) return;
@@ -247,7 +258,7 @@ public class PlayerAction : MonoBehaviour
         //effect.transform.SetParent(transform);
         //アニメーション(一度だけ)
 
-        animator.SetBool("Dash",true);
+        animator.SetBool("Dash", true);
 
         //Debug.Log("プレイやーがダッシュ発動");
         isCounter = true;
@@ -257,8 +268,7 @@ public class PlayerAction : MonoBehaviour
     /// 方向入力と自機回転処理
     /// </summary>
     /// <returns></returns>
-    public Vector3 AcceptDirInput()
-    {
+    public Vector3 AcceptDirInput() {
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveZ = Input.GetAxisRaw("Vertical");
 
@@ -288,48 +298,41 @@ public class PlayerAction : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     bool inputAttack;
-    private bool AcceptAttack()
-    {
-        if (switchYButton && !inputAttack)
-        {
+    private bool AcceptAttack() {
+        if (switchYButton && !inputAttack) {
             player.SetSpeed(player.walkSpeed);
             isDashing = false;
             inputAttack = true;
-            
-            if (isJumping)
-            {
+
+            if (isJumping) {
                 TryAttackNearestEnemy().Forget();
                 rb.velocity = Vector3.down;
                 player.isAttacking = true;
                 return true;
             }
 
-            else if (canCombo)
-            {
+            else if (canCombo) {
                 TryAttackNearestEnemy().Forget();
 
                 return true;
             }
-            else
-            {
+            else {
                 TryAttackNearestEnemy().Forget();
                 return true;
             }
         }
-        else if (switchXButton)
-        {
-            
+        else if (switchXButton) {
+
             player.SetSpeed(player.walkSpeed);
             isDashing = false;
             inputAttack = true;
-            
+
             player.isAttacking = true;
 
             return true;
         }
 
-        else
-        {
+        else {
             return false;
         }
 
@@ -337,8 +340,7 @@ public class PlayerAction : MonoBehaviour
         //今持ってる武器を参照したい
 
     }
-    private async UniTaskVoid TryAttackNearestEnemy()
-    {
+    private async UniTaskVoid TryAttackNearestEnemy() {
         // 攻撃アニメーション実行
         animator.SetBool("Attack", true);
         player.isAttacking = true;
@@ -372,13 +374,11 @@ public class PlayerAction : MonoBehaviour
     }
 
     private bool canCombo = false;
-    public void OnComboOpen()
-    {
-        foreach (var t in special)
-        {
+    public void OnComboOpen() {
+        foreach (var t in special) {
             t.gameObject.SetActive(true);
         }
-        
+
         GetComponent<CapsuleCollider>().enabled = true;
 
         animator.SetBool("Dash", false);
@@ -387,31 +387,27 @@ public class PlayerAction : MonoBehaviour
         inputAttack = false;
         Destroy(currentHitbox);
     }
-    public void OnComboClose()
-    {
+    public void OnComboClose() {
         animator.SetBool("Dash", false);
         animator.SetBool("Attack", false);
         player.isAttacking = false;
         canCombo = false;
         inputAttack = false;
 
-        if (transform.parent != null)
-        {
+        if (transform.parent != null) {
             return;
         }
         rb.isKinematic = false;
-        
+
     }
 
-    public void SpecialAttackEffect()
-    {
+    public void SpecialAttackEffect() {
         Instantiate(specialEffect, transform.position + transform.up * 0.5f, Quaternion.identity);
     }
     /// <summary>
     /// 視点操作
     /// </summary>
-    private void AcceptDirChange(Vector3 dir)
-    {
+    private void AcceptDirChange(Vector3 dir) {
         if (dir == Vector3.zero) return;
 
         float rotationSpeed = 2000f;
@@ -428,34 +424,29 @@ public class PlayerAction : MonoBehaviour
         );
     }
 
-    private void TryPickupItem()
-    {
+    private void TryPickupItem() {
         Collider[] hits = Physics.OverlapSphere(transform.position, pickupRadius);
 
         PickItem closestItem = null;
         float closestDistance = Mathf.Infinity;
 
-        foreach (Collider hit in hits)
-        {
+        foreach (Collider hit in hits) {
             PickItem item = hit.GetComponent<PickItem>();
             if (item == null) continue;
 
             float distance = Vector3.Distance(transform.position, hit.transform.position);
-            if (distance < closestDistance)
-            {
+            if (distance < closestDistance) {
                 closestDistance = distance;
                 closestItem = item;
             }
         }
 
-        if (closestItem != null)
-        {
+        if (closestItem != null) {
             Pickup(closestItem);
         }
     }
 
-    private void Pickup(PickItem item)
-    {
+    private void Pickup(PickItem item) {
         Debug.Log($"拾ったアイテム: {item.itemName}");
 
         // 例: 所持品に追加する、UI更新など
@@ -467,65 +458,48 @@ public class PlayerAction : MonoBehaviour
     private float attackRange;       // 攻撃できる範囲
     private int enemyLayer;
 
-    
 
 
-    public void SwitchB(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            switchBButton = true;
-            Debug.Log(context.performed);
-        }
-        else
-        {
-            switchBButton = false;
-        }
+
+    public void SwitchB(InputAction.CallbackContext context) {
+        switchBButton = true;
     }
-    public void SwitchY(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            switchYButton = true;
-            switchYButtonImage.color = new Color32(100, 100, 100,255);
-        }
-        else
-        {
-            switchYButton = false;
-            switchYButtonImage.color = new Color32(255, 255, 255, 255);
-        }
+    public void SwitchDontB(InputAction.CallbackContext context) {
+        switchBButton = false;
     }
-    public void SwitchX(InputAction.CallbackContext context)
-    {
-        if (context.performed && specialGauge.fillAmount == 1)
-        {
+    public void SwitchY(InputAction.CallbackContext context) {
+        switchYButton = true;
+        switchYButtonImage.color = new Color32(100, 100, 100, 255);
+    }
+    public void SwitchDontY(InputAction.CallbackContext context) {
+        switchYButton = false;
+        switchYButtonImage.color = new Color32(255, 255, 255, 255);
+    }
+    public void SwitchX(InputAction.CallbackContext context) {
+        if (specialGauge.fillAmount == 1) {
             specialGauge.fillAmount = 0;
             switchXButton = true;
             switchXButtonImage.color = new Color32(100, 100, 100, 255);
             animator.SetTrigger("Special");
         }
-        else
-        {
-            switchXButton = false;
-            switchXButtonImage.color = new Color32(255, 255, 255, 255);
-        }
     }
-    public void SwitchZR(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            switchZRButton = true;
-            switchZRButtonImage.color = new Color32(100, 100, 100, 255);
-        }
-        else
-        {
-            switchZRButton = false;
-            switchZRButtonImage.color = new Color32(255, 255, 255, 255);
-        }
+    public void SwitchDontX(InputAction.CallbackContext context) {
+        switchXButton = false;
+        switchXButtonImage.color = new Color32(255, 255, 255, 255);
     }
-    public void SwitchLStickMove(InputAction.CallbackContext context)
-    {
+    public void SwitchZR(InputAction.CallbackContext context) {
+        switchZRButton = true;
+        switchZRButtonImage.color = new Color32(100, 100, 100, 255);
+    }
+    public void SwitchDontZR(InputAction.CallbackContext context) {
+        switchZRButton = false;
+        switchZRButtonImage.color = new Color32(255, 255, 255, 255);
+    }
+    public void SwitchLStickMove(InputAction.CallbackContext context) {
         switchLStickValue = context.ReadValue<Vector2>();
+    }
+    public void SwitchLStickDontMove(InputAction.CallbackContext context) {
+        switchLStickValue = Vector2.zero;
     }
 
     /// <summary>
@@ -542,25 +516,22 @@ public class PlayerAction : MonoBehaviour
         AudioManager.instance.PlaySE(7);
     }
 
-    public float AddHitPoint(float value)
-    {
+    public float AddHitPoint(float value) {
         return specialGauge.fillAmount += value;
     }
 
-    public void Attack1()
-    {
+    public void Attack1() {
         player.SetRawAttack(currentRawAttack);
-        ParticleSystem effect = Instantiate(attackEfect,transform.position + Vector3.up * 0.4f,Quaternion.identity);
+        ParticleSystem effect = Instantiate(attackEfect, transform.position + Vector3.up * 0.4f, Quaternion.identity);
         effect.transform.SetParent(transform);
         effect.transform.localRotation = Quaternion.Euler(0, 0, 30);
         //効果音を鳴らす
         AudioManager.instance.PlaySE(4);
         Destroy(effect.gameObject, 2);
 
-        CreateHitBox(new Vector3(1f,0.7f,0.8f));
+        CreateHitBox(new Vector3(1f, 0.7f, 0.8f));
     }
-    public void Attack2()
-    {
+    public void Attack2() {
         player.SetRawAttack(currentRawAttack * 1.2f);
         ParticleSystem effect = Instantiate(attackEfect, transform.position + Vector3.up * 0.4f, Quaternion.identity);
         effect.transform.SetParent(transform);
@@ -571,8 +542,7 @@ public class PlayerAction : MonoBehaviour
 
         CreateHitBox(new Vector3(0.5f, 1f, 0.8f));
     }
-    public void Attack3()
-    {
+    public void Attack3() {
         player.SetRawAttack(currentRawAttack * 1.8f);
         ParticleSystem effect = Instantiate(attackEfect, transform.position + Vector3.up * 0.4f + transform.forward * 0.5f, Quaternion.identity);
         effect.transform.SetParent(transform);
@@ -582,38 +552,32 @@ public class PlayerAction : MonoBehaviour
 
         CreateHitBox(new Vector3(1.4f, 1f, 1.4f));
     }
-    public void Attack3Motion()
-    {
+    public void Attack3Motion() {
         rb.velocity = Vector3.up * 5;
     }
-    public void Attack3End_Effect()
-    {
+    public void Attack3End_Effect() {
         ParticleSystem effect = Instantiate(smokeEffect, transform.position + transform.forward * 0.5f + Vector3.up * 0.4f, Quaternion.identity);
         effect.transform.SetParent(transform);
         effect.transform.localScale = Vector3.one;
         Destroy(effect.gameObject, 2);
     }
 
-    public void Attack_Dash1()
-    {
+    public void Attack_Dash1() {
         player.SetRawAttack(currentRawAttack * 1.2f);
         rb.velocity = transform.forward * 3;
         CreateHitBox(new Vector3(0.5f, 0.5f, 1f));
     }
-    public void Attack_Dash2()
-    {
+    public void Attack_Dash2() {
         player.SetRawAttack(currentRawAttack * 1.4f);
         rb.velocity = transform.forward * 3;
         CreateHitBox(new Vector3(0.8f, 0.6f, 0.8f));
     }
-    public void Attack_Special()
-    {
+    public void Attack_Special() {
         animator.SetBool("Attack", false);
         animator.SetBool("Dash", false);
         animator.SetBool("Walk", false);
 
-        foreach (Transform t in special)
-        {
+        foreach (Transform t in special) {
             t.gameObject.SetActive(false);
         }
 
@@ -626,11 +590,9 @@ public class PlayerAction : MonoBehaviour
 
     private GameObject currentHitbox; // 前回生成したHitboxを保持する変数
 
-    private void CreateHitBox(Vector3 boxSize)
-    {
+    private void CreateHitBox(Vector3 boxSize) {
         // もし前回のヒットボックスが残っていたら削除
-        if (currentHitbox != null)
-        {
+        if (currentHitbox != null) {
             Destroy(currentHitbox);
         }
 
@@ -659,6 +621,17 @@ public class PlayerAction : MonoBehaviour
         renderer.material.color = new Color(255f, 0f, 0f, 0.3f);
         renderer.enabled = false;
         currentHitbox = hitbox;
+    }
+
+    public void SwitchActionMap(bool Interact) {
+        if(Interact) {
+            input.Interact.Enable();
+            input.Menu.Disable();
+        }
+        else {
+            input.Interact.Disable();
+            input.Menu.Enable();
+        }
     }
 
 }

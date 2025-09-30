@@ -1,5 +1,5 @@
 {
-    "name": "PlayerInputAction",
+    "name": "PlayerInputActionS",
     "maps": [
         {
             "name": "Interact",
@@ -403,15 +403,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Cancell",
-                    "type": "Button",
-                    "id": "78da6a9f-26c1-4f0d-9d56-fd27306c9230",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Decide",
                     "type": "Button",
                     "id": "daa7a969-b126-4c93-b23b-65e8e1b7ad8f",
@@ -470,39 +461,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Plus",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "574cf706-8b8c-44b6-a6d3-f1958744e3f2",
-                    "path": "<XInputController>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Cancell",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b61ad860-ed4a-4cf7-bff2-e3a9d8ad3b4f",
-                    "path": "<Keyboard>/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Cancell",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "613dfe67-75a2-45b3-a843-b90dbd99648b",
-                    "path": "<NPad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Cancell",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

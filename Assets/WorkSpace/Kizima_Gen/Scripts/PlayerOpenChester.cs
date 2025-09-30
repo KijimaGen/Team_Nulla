@@ -19,10 +19,7 @@ public class PlayerOpenChester : MonoBehaviour {
 
     // Input System‚ÌƒCƒxƒ“ƒg‚ÅŒÄ‚Î‚ê‚é
     public void HandleInteractInput(InputAction.CallbackContext context) {
-        if (context.performed) {
             OnInteract?.Invoke();
-        }
-        
     }
 
 }

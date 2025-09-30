@@ -16,7 +16,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using static ItemUtility;
 
-public class Menu : MonoBehaviour{
+public class Menu : MonoBehaviour {
     //アイテムアイコンのデータ
     private List<Sprite> ItemIcons = new List<Sprite>(5);
 
@@ -33,7 +33,7 @@ public class Menu : MonoBehaviour{
 
     //枠
     [SerializeField]
-    List <Image> ImageList = new List<Image>(5);
+    List<Image> ImageList = new List<Image>(5);
 
     //メニューを開いているかどうか
     public bool isOpenMenu;
@@ -61,29 +61,23 @@ public class Menu : MonoBehaviour{
 
     PlayerInput playerInput;//インプットシステム
 
-    void Start(){
+    void Awake() {
         instance = this;
         menuParent.SetActive(false);
         index = 0;
 
         // プレイヤーを探す
-        player = GameObject.FindWithTag("Player");
-        playerInput = GameObject.FindWithTag("Player").GetComponent<PlayerInput>();
-        decideAction = playerInput.actions["Decide"];
-
         // 最初は Interact を有効化、Menu を無効化しておく
-        playerInput.SwitchCurrentActionMap("Interact");
     }
-
-    void Update(){
+    void Update() {
         //一回全リスト白
-        for(int i = 0; i < ImageList.Count; i++) {
+        for (int i = 0; i < ImageList.Count; i++) {
             ImageList[i].color = Color.white;
         }
-        if(index < ImageList.Count)
+        if (index < ImageList.Count)
             ImageList[index].color = Color.red;
 
-        if(isOpenMenu) {
+        if (isOpenMenu) {
             //プレイヤーを探す
             player = GameObject.FindWithTag("Player");
             //アイテムリストをキャッシュして受け取る
@@ -93,7 +87,7 @@ public class Menu : MonoBehaviour{
             List<ItemBase> itemList = GetPlayerItems();
 
 
-            for(int i = 0;i < itemList.Count;i++) {
+            for (int i = 0; i < itemList.Count; i++) {
                 if (itemList[i] == null) continue;
 
                 //インデックスしているところのアクティブを消す
@@ -118,9 +112,6 @@ public class Menu : MonoBehaviour{
     /// メニューを開く
     /// </summary>
     public void OpenMenu() {
-
-        playerInput.SwitchCurrentActionMap("Menu");
-
         //プレイヤーを探す
         player = GameObject.FindWithTag("Player");
         //アイテムリストをキャッシュして受け取る
@@ -134,6 +125,9 @@ public class Menu : MonoBehaviour{
 
         for (int i = 0; i < itemList.Count; i++) {
             if (itemList[i] == null) {
+                if (itemIcon[i].sprite == null)
+                    continue;
+
                 //一応nullを入れておく
                 itemIcon[i].sprite = null;
                 continue;
@@ -146,13 +140,13 @@ public class Menu : MonoBehaviour{
         }
 
         //テキストを変更
-        int Attack = (int)player.GetComponent<PlayerCharacter>().GetAttack();
-        for(int i =0; i < itemList.Count;i++) {
+        int Attack = (int) player.GetComponent<PlayerCharacter>().GetAttack();
+        for (int i = 0; i < itemList.Count; i++) {
             //このis演算子はpossessItemList[i]がPowerUpItem型かどうかを検知してくれる
             if (itemList[i] is PowerUpItem)
                 Attack += (int) ((PowerUpItem) itemList[i]).GetAttackValue();
         }
-        Attack += (int)player.GetComponent<PlayerCharacter>().GetWeaponAttack();
+        Attack += (int) player.GetComponent<PlayerCharacter>().GetWeaponAttack();
 
         AttackText.text = "Attack : " + Attack.ToString();
 
@@ -185,6 +179,7 @@ public class Menu : MonoBehaviour{
         Time.timeScale = 0f;
 
 
+
     }
 
     /// <summary>
@@ -192,7 +187,7 @@ public class Menu : MonoBehaviour{
     /// </summary>
     /// <param name="context"></param>
     public void CloseMenu() {
-       menuParent.SetActive(false);
+        menuParent.SetActive(false);
 
         //プレイヤーを探す
         player = GameObject.FindWithTag("Player");
@@ -212,7 +207,6 @@ public class Menu : MonoBehaviour{
             itemList[i].SetVisibleStatusBox(false);
         }
 
-        playerInput.SwitchCurrentActionMap("Interact");
         // 時間を動かす
         Time.timeScale = 1f;
         //変数をfalse
@@ -223,42 +217,35 @@ public class Menu : MonoBehaviour{
     /// パークリストのインデックスを増やす
     /// </summary>
     public void IncreaceIndex(InputAction.CallbackContext context) {
-        if (context.performed) {
             if (!isOpenMenu) return;
             index++;
             if (index >= ImageList.Count) {
                 index = 0;
             }
-        }
     }
     /// <summary>
     /// パークリストのインデックスを減らす
     /// </summary>
     public void DecreaseIndex(InputAction.CallbackContext context) {
-        if (context.performed) {
             if (!isOpenMenu) return;
             index--;
             if (index < 0) {
                 index = ImageList.Count - 1;
             }
-        }
     }
 
     /// <summary>
     /// 決定処理
     /// </summary>
-    public void Decide(InputAction.CallbackContext context) {
-        if (context.performed) {
-           
-            if (isOpenMenu) { 
+    public void Decide(InputAction.CallbackContext context) {            if (isOpenMenu) {
                 RemoveItemInMenu();
             }
 
             //インデックスを指定
             selectedIndex = index;
-        }
+       
     }
-    
+
 
     /// <summary>
     /// インデックスを返す
@@ -275,10 +262,10 @@ public class Menu : MonoBehaviour{
 
         //メニューを開く
         OpenMenu();
-        
+
         //決定ボタンまち
         while (selectedIndex == null) {
-            
+
             //1触れ待ち
             await UniTask.DelayFrame(1);
         }
@@ -308,9 +295,15 @@ public class Menu : MonoBehaviour{
     public void Plus(InputAction.CallbackContext context) {
         if (isOpenMenu) {
             CloseMenu();
+            player = GameObject.FindWithTag("Player");
+            player.GetComponent<PlayerAction>().SwitchActionMap(true);
+           
+
         }
         else {
-            OpenMenu();
+            OpenMenu(); player = GameObject.FindWithTag("Player");
+            player.GetComponent<PlayerAction>().SwitchActionMap(false);
+
         }
     }
 
