@@ -43,6 +43,7 @@ public class TeleportPortal : MonoBehaviour
 
                 Generator.instance.RunProgram();
                 await FadeManager.instance.FadeIn(3);
+                Destroy(this);
             }
             else
             {
@@ -55,9 +56,9 @@ public class TeleportPortal : MonoBehaviour
                 await FadeManager.instance.FadeIn(3);
 
                 Instantiate(MiniBoss[0]);
-                //
+                Destroy(this);
             }
-            Destroy(this);
+            
 
             //プレイヤーにアイテムを送らせる
             var player = GameObject.FindWithTag("Player");
