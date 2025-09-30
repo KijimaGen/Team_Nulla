@@ -59,19 +59,20 @@ public class Menu : MonoBehaviour{
     //ぷれいやー
     GameObject player;
 
-    InputActions inputActions;//インプットシステム
+    PlayerInput playerInput;//インプットシステム
 
     void Start(){
         instance = this;
-       menuParent.SetActive(false);
-       index = 0;
+        menuParent.SetActive(false);
+        index = 0;
 
-        //プレイヤーを探す
+        // プレイヤーを探す
         player = GameObject.FindWithTag("Player");
-        var playerInput = player.GetComponent<PlayerInput>();
+        playerInput = GameObject.FindWithTag("Player").GetComponent<PlayerInput>();
         decideAction = playerInput.actions["Decide"];
 
-        inputActions = new InputActions();
+        // 最初は Interact を有効化、Menu を無効化しておく
+        playerInput.SwitchCurrentActionMap("Interact");
     }
 
     void Update(){
@@ -118,7 +119,7 @@ public class Menu : MonoBehaviour{
     /// </summary>
     public void OpenMenu() {
 
-        
+        playerInput.SwitchCurrentActionMap("Menu");
 
         //プレイヤーを探す
         player = GameObject.FindWithTag("Player");
@@ -211,6 +212,7 @@ public class Menu : MonoBehaviour{
             itemList[i].SetVisibleStatusBox(false);
         }
 
+        playerInput.SwitchCurrentActionMap("Interact");
         // 時間を動かす
         Time.timeScale = 1f;
         //変数をfalse

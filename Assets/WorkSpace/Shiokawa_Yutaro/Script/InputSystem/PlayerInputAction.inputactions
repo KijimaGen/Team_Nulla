@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Plus",
+                    "type": "Button",
+                    "id": "44d644c6-7414-4072-9249-e3365d841ae4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "SwitchCameraMove",
                     "type": "Value",
                     "id": "ef2fae67-626d-4e3c-9ab7-5ab6a7084e5d",
@@ -100,6 +109,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "SwitchMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4e0dbc87-66e8-41ae-b36d-4cbb001d62cb",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Plus",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a8fdac8f-60ab-4710-8aaa-1918a0ba7822",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Plus",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0e38f256-3d29-4fef-88ec-4e941e225912",
+                    "path": "<NPad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Plus",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

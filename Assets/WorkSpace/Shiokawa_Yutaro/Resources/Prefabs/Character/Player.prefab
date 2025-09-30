@@ -2591,7 +2591,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1996127187909865300}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: DecreaseIndex
+        m_MethodName: Plus
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2601,8 +2601,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: af6d1bb3-33e5-4fc8-9102-403f3c407953
-    m_ActionName: Interact/RightMove[/XInputControllerWindows/dpad/right,/Keyboard/rightArrow]
+    m_ActionId: 3644449b-c2da-4422-925d-77055feb7b19
+    m_ActionName: Menu/Plus[/Keyboard/c,/XInputControllerWindows/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 78da6a9f-26c1-4f0d-9d56-fd27306c9230
+    m_ActionName: Menu/Cancell[/XInputControllerWindows/buttonSouth,/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1996127187909865300}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+        m_MethodName: Decide
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: daa7a969-b126-4c93-b23b-65e8e1b7ad8f
+    m_ActionName: Menu/Decide[/XInputControllerWindows/buttonEast,/Keyboard/z]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1996127187909865300}
@@ -2617,16 +2637,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: eabb67e5-8161-437b-baa1-bfcfbbdc7523
-    m_ActionName: Interact/LeftMove[/Keyboard/leftArrow,/XInputControllerWindows/dpad/left]
+    m_ActionId: fc0cfd6e-0dd9-4e47-9b80-bcb03a5165c3
+    m_ActionName: Menu/LeftMove[/Keyboard/leftArrow,/XInputControllerWindows/dpad/left]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6157df73-cf2f-4b66-b198-7dff695a8be3
-    m_ActionName: Interact/Decide[/XInputControllerWindows/buttonEast,/Keyboard/z]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 2e444cd7-8cc1-4454-9566-ba655daf1b05
-    m_ActionName: Interact/Cancell[/XInputControllerWindows/buttonSouth,/Keyboard/x]
+      m_Calls:
+      - m_Target: {fileID: 1996127187909865300}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
+        m_MethodName: DecreaseIndex
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2e3f3c6f-c7a9-422c-a4e8-65a739ab736f
+    m_ActionName: Menu/RightMove[/XInputControllerWindows/dpad/right,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1996127187909865300}
@@ -2641,8 +2669,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: c866685b-e2c5-4f2f-9b1a-6420ad5b6c65
-    m_ActionName: Interact/Plus[/Keyboard/c]
+    m_ActionId: 44d644c6-7414-4072-9249-e3365d841ae4
+    m_ActionName: Interact/Plus[/Keyboard/c,/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Interact
