@@ -9,7 +9,7 @@
                     "name": "SwitchMove",
                     "type": "Value",
                     "id": "ae10a443-aa44-45e7-ac9e-f60c074754c6",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Stick",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -18,7 +18,7 @@
                     "name": "SwitchCameraMove",
                     "type": "Value",
                     "id": "ef2fae67-626d-4e3c-9ab7-5ab6a7084e5d",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Stick",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -140,7 +140,7 @@
                 {
                     "name": "",
                     "id": "3f576d30-d2b2-4502-9d61-1f45d645002e",
-                    "path": "<NPad>/leftStickPress",
+                    "path": "<NPad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -173,7 +173,7 @@
                 {
                     "name": "",
                     "id": "5db8548b-1da3-401d-b54e-df782bc7ab7e",
-                    "path": "<NPad>/rightStickPress",
+                    "path": "<NPad>/rightStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
