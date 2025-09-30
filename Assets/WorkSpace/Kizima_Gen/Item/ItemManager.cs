@@ -169,7 +169,7 @@ public class ItemManager : SystemObject{
     public void RemoveItem(int ID,Vector3 removePos) {
 
         //‚±‚±‚ÅYŽ²‰ÁŽZ‚µ‚Ä–„‚Ü‚ç‚È‚¢‚æ‚¤‚É‚·‚é
-        removePos.y += 0.1f;
+        removePos.y += 0.2f;
 
         _useList[ID].gameObject.transform.position = removePos;
         _useList[ID].isPlayerPosses = false;

@@ -9,7 +9,7 @@
                     "name": "SwitchMove",
                     "type": "Value",
                     "id": "ae10a443-aa44-45e7-ac9e-f60c074754c6",
-                    "expectedControlType": "Stick",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -18,7 +18,7 @@
                     "name": "SwitchCameraMove",
                     "type": "Value",
                     "id": "ef2fae67-626d-4e3c-9ab7-5ab6a7084e5d",
-                    "expectedControlType": "Stick",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true

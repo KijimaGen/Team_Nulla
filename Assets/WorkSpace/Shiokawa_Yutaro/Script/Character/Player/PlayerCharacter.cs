@@ -167,27 +167,26 @@ public class PlayerCharacter : CharacterBase
 
             return;
         }
+        else {
 
+            //アイテムだったら…
+            for (int i = 0, max = _POSSESS_ITEM_MAX; i < max; i++) {
+                //アイテム枠にアイテムがあればスルー
+                if (possessItemList[i] != null) continue;
+                //アイテムゲット
+                GetItem(getItem, i);
 
-        //アイテムだったら…
-        //とりあえず先頭に置かせて！
-        for(int i = 0,max = _POSSESS_ITEM_MAX; i < max; i++) {
+                return;
+            }
 
             //アイテムリストがいっぱい
             if (IsFullList(possessItemList)) {
                 await Menu.instance.SwapItemInMenu(getItem);
             }
 
-
-            //アイテム枠にアイテムがあればスルー
-            if (possessItemList[i] != null) continue;
-            //アイテムゲット
-            GetItem(getItem, i);
-
-            return;
         }
-
     }
+
 
     /// <summary>
     /// 持っているアイテムの攻撃力をもらう
