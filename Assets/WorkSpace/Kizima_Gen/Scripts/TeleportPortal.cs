@@ -62,6 +62,8 @@ public class TeleportPortal : MonoBehaviour
             //プレイヤーにアイテムを送らせる
             var player = GameObject.FindWithTag("Player");
             player.GetComponent<PlayerCharacter>().SendItemList();
+
+            ItemManager.instance.ResetUseItem();
             
 
         }
