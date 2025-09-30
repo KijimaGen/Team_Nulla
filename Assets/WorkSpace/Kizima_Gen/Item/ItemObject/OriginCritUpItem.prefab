@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1848914435443722854}
   - component: {fileID: 2546415065573094687}
   - component: {fileID: 7391739602225626767}
-  - component: {fileID: 1504470702257662548}
   m_Layer: 3
   m_Name: OriginCritUpItem
   m_TagString: Weapon
@@ -84,25 +83,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!114 &1504470702257662548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4989651419265164889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 521a70ab155d08147bedb2219a6e498e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGround: 0
-  itemID: -1
-  isPlayerPosses: 0
-  myStatusItem: {fileID: 4234669661675894295}
-  RarityText: {fileID: 6250193083800918291}
-  myIcon: {fileID: 21300000, guid: 3ea3c80ddbe7a7542b2efb5ca1253ab8, type: 3}
-  CritUpStuts: {fileID: 2439357063756332432}
 --- !u!1 &6815552512426542525
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,30 +383,3 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2318236267996776622, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
   m_PrefabInstance: {fileID: 2934723122623588561}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2439357063756332432 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 675660284116047169, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
-  m_PrefabInstance: {fileID: 2934723122623588561}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &4234669661675894295 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1332690278863740614, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
-  m_PrefabInstance: {fileID: 2934723122623588561}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6250193083800918291 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9081260568053297602, guid: cd04f3e3105b45f4d9a2290202a4a1c3, type: 3}
-  m_PrefabInstance: {fileID: 2934723122623588561}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

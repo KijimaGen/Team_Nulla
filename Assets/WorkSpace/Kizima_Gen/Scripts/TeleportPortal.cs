@@ -29,7 +29,7 @@ public class TeleportPortal : MonoBehaviour
 
             await FadeManager.instance.FadeOut();
             /////
-            SceneManager.LoadScene("Main");
+            //SceneManager.LoadScene("Main");
             if (MiniBoss_OZN.MiniBossGame)
             {
                 Destroy(collision.gameObject);
