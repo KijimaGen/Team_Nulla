@@ -59,6 +59,11 @@ public class TeleportPortal : MonoBehaviour
             }
             Destroy(this);
 
+            //プレイヤーにアイテムを送らせる
+            var player = GameObject.FindWithTag("Player");
+            player.GetComponent<PlayerCharacter>().SendItemList();
+            
+
         }
     }
 }
