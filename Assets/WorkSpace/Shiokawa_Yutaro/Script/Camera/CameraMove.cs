@@ -37,8 +37,8 @@ public class CameraMove : MonoBehaviour
     /// </summary>
     private void ViewRoteto(Transform target)
     {
-        float mouseX = 0;
-        float mouseY = 0;
+        float mouseX = Input.GetAxisRaw("Mouse X");
+        float mouseY = Input.GetAxisRaw("Mouse Y");
 
         angleY += (switchRStickValue.x + mouseX) * rotateSpeed;
         angleX -= (switchRStickValue.y + mouseY) * rotateSpeed;
